@@ -1,0 +1,12 @@
+services:
+  postgres:
+    container_name: wine_lover_db
+    image: postgres:17.4
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: sa
+      POSTGRES_DB: wine_lover_api
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
