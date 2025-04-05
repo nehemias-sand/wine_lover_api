@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class Payment_status_table_seeder extends Seeder
+class PaymentSeeder extends Seeder
 {
     /**
      * Run the database seeds.

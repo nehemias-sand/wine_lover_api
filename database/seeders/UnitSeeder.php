@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class Unit_measure_table_seeder extends Seeder
+class UnitSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,16 +14,16 @@ class Unit_measure_table_seeder extends Seeder
     {
         DB::table('unit_measurement')->insert([
             [
-                'name'=>'ml'
+                'name' => 'ml'
             ],
             [
-                'name'=>'l'
+                'name' => 'l'
             ],
             [
-                'name'=>'gal'
+                'name' => 'gal'
             ]
         ]);
-  
+
         DB::statement('ALTER SEQUENCE unit_measurement_id_seq RESTART WITH 4');
     }
 }

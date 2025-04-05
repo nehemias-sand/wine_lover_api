@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class Membership_table_seeder extends Seeder
+class MembershipSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -29,6 +28,5 @@ class Membership_table_seeder extends Seeder
         ]);
 
         DB::statement('ALTER SEQUENCE membership_id_seq RESTART WITH 4');
-
     }
 }

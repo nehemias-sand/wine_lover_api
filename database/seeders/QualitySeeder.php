@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class Quality_product_table_seeder extends Seeder
+class QualitySeeder extends Seeder
 {
     /**
      * Run the database seeds.

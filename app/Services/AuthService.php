@@ -36,7 +36,4 @@ class AuthService
     {
         return $this->authRepositoryInterface->changeState($id);
     }
-
-    
-
 }
