@@ -22,8 +22,8 @@ class CategoryProductSeeder extends Seeder
                 'description' => 'Bebida intensa y sofisticada, ideal para disfrutar sola o en cócteles.'
             ],
             [
-                'name' => 'Mueble',
-                'description' => 'Diseño y funcionalidad en armonía, pensado para aportar confort y estilo a cualquier espacio.'
+                'name' => 'Muebles',
+                'description' => 'Diseño y funcionalidad en armonía, pensado para aportar estilo a cualquier espacio.'
             ]
         ]);
 
