@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             MunicipalitySeeder::class,
             DistrictSeeder::class,
+            PermissionTypeSeeder::class,
+            PermissionSeeder::class,
+            ProfilePermissionSeeder::class,
         ]);
     }
 }
