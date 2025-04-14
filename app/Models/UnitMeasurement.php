@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category_product extends Model
+class UnitMeasurement extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table ='category_product';
+    protected $table ='unit_measurement';
 
     protected $fillable = [
-        'name',
-        'description'
+        'name'
     ];
 }
