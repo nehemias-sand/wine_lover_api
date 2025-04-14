@@ -20,6 +20,4 @@ class Department extends Model
     public function municipalities(): HasMany {
         return $this->hasMany(Municipality::class, 'department_id', 'id');
     }
-
-
 }
