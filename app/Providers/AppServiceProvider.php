@@ -19,7 +19,16 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(AuthService::class, function ($app) {
             return new AuthService($app->make(AuthRepositoryInterface::class));
-            return new ClientService($app->make(ClientRepositoryInterface::class), $app->make(AddressRepositoryInterface::class));
+        });
+
+        $this->app->bind(ClientService::class, function ($app) {
+            return new ClientService(
+                $app->make(ClientRepositoryInterface::class),
+                $app->make(AddressRepositoryInterface::class)
+            );
+        });
+
+        $this->app->bind(AddressService::class, function ($app) {
             return new AddressService($app->make(AddressRepositoryInterface::class));
         });
     }

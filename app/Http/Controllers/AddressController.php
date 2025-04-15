@@ -49,14 +49,9 @@ class AddressController extends Controller
         DB::beginTransaction();
 
         try {
-            $data = [
-                'name'          => $request->name,
-                'neighborhood'  => $request->neighborhood,
-                'street'        => $request->street,
-                'number'        => $request->number,
-                'reference'     => $request->reference,
-                'district_id'   => $request->district_id,
-            ];
+            $data = $request->only(
+                ['name', 'neighborhood', 'street', 'number', 'reference', 'district_id']
+            );
 
             DB::commit();
 

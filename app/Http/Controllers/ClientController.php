@@ -72,18 +72,13 @@ class ClientController extends Controller
         DB::beginTransaction();
 
         try {
-            $dataClient = [
-                'names' => $request->names,
-                'surnames' => $request->surnames,
-                'identity_number' => $request->identity_number,
-                'birthday_date' => $request->birthday_date,
-                'phone' => $request->phone,
-            ];
+            $dataClient = $request->only(
+                ['names', 'surnames', 'identity_number', 'birthday_date', 'phone']
+            );
 
-            $dataUser = [
-                'username' => $request->username,
-                'email' => $request->email,
-            ];
+            $dataUser = $request->only(
+                ['username', 'email']
+            );
 
             $client = $this->clientService->update($id, $dataClient);
 

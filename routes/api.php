@@ -11,7 +11,6 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::post('/register', [AuthController::class, 'register']);
-Route::put('/update-client/{id}', [ClientController::class, 'update']);
 
 Route::prefix('admin')->group(function () {
     Route::middleware(['jwt', 'check.permission:CREATE_PRODUCT'])->post('/products', function () {
@@ -22,6 +21,8 @@ Route::prefix('admin')->group(function () {
 Route::prefix('client')->group(function () {
 
     Route::post('/register', [ClientController::class, 'registerClient']);
+
+    Route::put('/update/{id}', [ClientController::class, 'update']);
 
     Route::middleware(['jwt', 'check.permission:CREATE_ADDRESS'])->group(function () {
         Route::post('/create-address', [AddressController::class, 'store']);
