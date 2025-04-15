@@ -27,8 +27,20 @@ class ProfilePermissionSeeder extends Seeder
                 'profile_id' => 1,
                 'permission_id' => 3
             ],
-        ]);
 
-        DB::statement('ALTER SEQUENCE profile_permission_id_seq RESTART WITH 4');
+            // Client
+            [
+                'profile_id' => 2,
+                'permission_id' => 4
+            ],
+            [
+                'profile_id' => 2,
+                'permission_id' => 5
+            ],
+            [
+                'profile_id' => 2,
+                'permission_id' => 6
+            ],
+        ]);
     }
 }
