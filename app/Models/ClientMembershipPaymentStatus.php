@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ClientMembershipPaymentStatus extends Pivot
 {
+    use HasFactory, SoftDeletes;
+    
     protected $table = 'client_membership_payment_status';
 
     public $incrementing = false;

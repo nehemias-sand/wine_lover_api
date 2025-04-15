@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('membership_id')->constrained('membership');
             $table->foreignId('plan_id')->constrained('plan');
             $table->decimal('price', 8, 2);
+            $table->integer('cashback_percentage');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderItem extends Pivot
 {
+    use HasFactory, SoftDeletes;
+    
     protected $table = 'order_item';
 
     public $incrementing = false;
@@ -15,7 +19,7 @@ class OrderItem extends Pivot
         'order_id',
         'product_id',
         'presentation_id',
-        'cantidad',
+        'amount',
         'unit_price',
         'discount',
         'subtotal_item',

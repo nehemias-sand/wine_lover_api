@@ -14,16 +14,19 @@ class PaymentSeeder extends Seeder
     {
         DB::table('payment_status')->insert([
             [
-                'name'=>'Completado'
+                'name' => 'Pendiente'
             ],
             [
-                'name'=>'Rechazado'
+                'name' => 'Procesando'
             ],
             [
-                'name'=>'Procesando'
-            ]
+                'name' => 'Completado'
+            ],
+            [
+                'name' => 'Rechazado'
+            ],
         ]);
-        
-        DB::statement('ALTER SEQUENCE payment_status_id_seq RESTART WITH 4');
+
+        DB::statement('ALTER SEQUENCE payment_status_id_seq RESTART WITH 5');
     }
 }

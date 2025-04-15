@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductPresentation extends Pivot
 {
+    use HasFactory, SoftDeletes;
+    
     protected $table = 'product_presentation';
 
     public $incrementing = false;

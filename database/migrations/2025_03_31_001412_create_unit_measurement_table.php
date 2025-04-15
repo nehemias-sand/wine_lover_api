@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('unit_measurement', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('abbreviation');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

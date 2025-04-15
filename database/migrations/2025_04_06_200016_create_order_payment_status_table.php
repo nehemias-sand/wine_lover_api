@@ -15,7 +15,8 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained('order');
             $table->foreignId('payment_method_id')->constrained('payment_method');
             $table->foreignId('payment_status_id')->constrained('payment_status');
-            $table->dateTime('details');
+            $table->decimal('amount_paid', 8, 2)->nullable();
+            $table->string('transaction_id')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

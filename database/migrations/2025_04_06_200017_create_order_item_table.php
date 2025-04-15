@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained('order');
             $table->foreignId('product_id')->constrained('product');
             $table->foreignId('presentation_id')->constrained('presentation');
-            $table->integer('cantidad');
+            $table->integer('amount');
             $table->decimal('unit_price', 8, 2);
             $table->decimal('discount', 8, 2);
             $table->decimal('subtotal_item', 8, 2);
