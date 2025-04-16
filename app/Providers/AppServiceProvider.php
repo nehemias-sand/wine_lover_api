@@ -2,13 +2,17 @@
 
 namespace App\Providers;
 
+use App\Repositories\AddressRepositoryInterface;
 use App\Repositories\AuthRepositoryInterface;
 use App\Repositories\ProductImageRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
+use App\Repositories\ClientRepositoryInterface;
 
 use App\Services\AuthService;
 use App\Services\ProductImageService;
 use App\Services\ProductService;
+use App\Services\AddressService;
+use App\Services\ClientService;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -42,6 +46,17 @@ class AppServiceProvider extends ServiceProvider
                 $app->make(ProductRepositoryInterface::class),
                 $app->make(ProductImageRepositoryInterface::class)
             );
+        });
+
+        $this->app->bind(ClientService::class, function ($app) {
+            return new ClientService(
+                $app->make(ClientRepositoryInterface::class),
+                $app->make(AddressRepositoryInterface::class)
+            );
+        });
+
+        $this->app->bind(AddressService::class, function ($app) {
+            return new AddressService($app->make(AddressRepositoryInterface::class));
         });
     }
 

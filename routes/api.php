@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PresentationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
+use App\Http\Controllers\ClientController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -12,6 +14,11 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::prefix('public')->group(function () {
+    
+    Route::prefix('client')->group(function () {
+        Route::post('/register', [ClientController::class, 'registerClient']);
+    });
+
     Route::prefix('product')->group(function () {
         Route::get('/', [ProductController::class, 'index']);
         Route::get('/{id}', [ProductController::class, 'show']);
@@ -23,12 +30,13 @@ Route::prefix('public')->group(function () {
         Route::get('/', [PresentationController::class, 'index']);
         Route::get('/{id}', [PresentationController::class, 'show']);
     });
+
 });
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/register-member', [AuthController::class, 'registerMember']);
 
 Route::middleware('jwt')->prefix('admin')->group(function () {
+    
+    Route::post('/register', [AuthController::class, 'register']);
 
     Route::prefix('product')->group(function () {
         Route::middleware(['check.permission:CREATE_PRODUCT'])
@@ -62,4 +70,16 @@ Route::middleware('jwt')->prefix('admin')->group(function () {
         Route::middleware(['check.permission:DELETE_PRODUCT'])
             ->delete('/{id}', [PresentationController::class, 'delete']);
     });
+});
+
+Route::middleware('jwt')->prefix('client')->group(function () {
+
+    Route::put('/update/{id}', [ClientController::class, 'update']);
+
+    Route::middleware(['check.permission:CREATE_ADDRESS'])
+        ->post('/create-address', [AddressController::class, 'store']);
+
+    Route::middleware(['check.permission:UPDATE_ADDRESS'])
+        ->put('/update-address/{id}', [AddressController::class, 'update']);
+
 });

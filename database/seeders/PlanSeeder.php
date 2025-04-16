@@ -19,6 +19,11 @@ class PlanSeeder extends Seeder
                 'description' => '1 mes'
             ],
             [
+                'name' => 'Trimestral',
+                'months' => 3,
+                'description' => '3 mes'
+            ],
+            [
                 'name' => 'Semestral',
                 'months' => 6,
                 'description' => '6 meses'
@@ -31,6 +36,6 @@ class PlanSeeder extends Seeder
         ]);
 
 
-        DB::statement('ALTER SEQUENCE plan_id_seq RESTART WITH 4');
+        DB::statement('ALTER SEQUENCE plan_id_seq RESTART WITH 5');
     }
 }
