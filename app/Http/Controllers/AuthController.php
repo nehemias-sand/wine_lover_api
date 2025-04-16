@@ -18,10 +18,9 @@ class AuthController extends Controller
 {
     public function __construct(
         private AuthService $authService
-    )
-    { }
+    ) {}
 
-    public function login(LoginRequest $request) 
+    public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
@@ -42,8 +41,7 @@ class AuthController extends Controller
             ];
 
             return ApiResponseClass::sendResponse(compact('user', 'token'));
-            
-        } catch(JWTException $e) {
+        } catch (JWTException $e) {
             return ApiResponseClass::sendResponse(null, 'Could not create token', 500);
         }
     }
@@ -60,31 +58,6 @@ class AuthController extends Controller
             'email' => $email,
             'password' => $password,
             'profile_id' => $profile_id,
-        ];
-
-        DB::beginTransaction();
-
-        try {
-            $user = $this->authService->register($data);
-
-            DB::commit();
-            return ApiResponseClass::sendResponse(new UserResource($user), null, 201);
-        } catch (\Exception $ex) {
-            return ApiResponseClass::rollback($ex);
-        }
-    }
-
-    public function registerMember(RegisterMemberRequest $request)
-    {
-        $username = $request->username;
-        $email = $request->email;
-        $password = $request->password;
-
-        $data = [
-            'username' => $username,
-            'email' => $email,
-            'password' => $password,
-            'profile_id' => 2,
         ];
 
         DB::beginTransaction();

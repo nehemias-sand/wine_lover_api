@@ -49,12 +49,13 @@ class ReviewService
             if (Storage::disk('public')->exists($review->cover_image)) {
                 Storage::disk('public')->delete($review->cover_image);
             }
-
-            $review->update($data);
+            
         } else {
             unset($data['cover_image']);
         }
 
+        $review->update($data);
+        
         return $review;
     }
 

@@ -14,23 +14,28 @@ class PlanSeeder extends Seeder
     {
         DB::table('plan')->insert([
             [
-                'name'=>'Mensual',
-                'months'=>1,
-                'description'=>'1 mes'
+                'name' => 'Mensual',
+                'months' => 1,
+                'description' => '1 mes'
             ],
             [
-                'name'=>'Semestral',
-                'months'=>6,
-                'description'=>'6 meses'
+                'name' => 'Trimestral',
+                'months' => 3,
+                'description' => '3 mes'
             ],
             [
-                'name'=>'Anual',
-                'months'=>12,
-                'description'=>'12 meses'
+                'name' => 'Semestral',
+                'months' => 6,
+                'description' => '6 meses'
+            ],
+            [
+                'name' => 'Anual',
+                'months' => 12,
+                'description' => '12 meses'
             ]
         ]);
 
-        
-        DB::statement('ALTER SEQUENCE plan_id_seq RESTART WITH 4');
+
+        DB::statement('ALTER SEQUENCE plan_id_seq RESTART WITH 5');
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Product;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegisterMemberRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,23 +24,24 @@ class RegisterMemberRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string|unique:users,username',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
+            'name' => 'string',
+            'description' => 'string',
+            'state' => 'boolean',
+            'category_product_id' => 'integer|exists:category_product,id',
+            'quality_product_id' => 'integer|exists:quality_product,id',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'username.required' => 'El campo :attribute es obligatorio',
-            'username.string' => 'El campo :attribute debe ser una cadena',
-            'username.unique' => 'El campo :attribute debe ser unico',
-            'email.required' => 'El campo :attribute es obligatorio',
-            'email.email' => 'El campo :attribute debe ser un correo',
-            'email.unique' => 'El campo :attribute debe ser unico',
-            'password.required' => 'El campo :attribute es obligatorio',
-            'password.string' => 'El campo :attribute debe ser una cadena',
+            'name.string' => 'El campo :attribute debe ser una cadena',
+            'description.string' => 'El campo :attribute debe ser una cadena',
+            'state.boolean' => 'El campo :attribute debe ser un booleano',
+            'category_product_id.integer' => 'El campo :attribute debe ser un entero',
+            'category_product_id.exists' => 'El campo :attribute debe ser un id valido',
+            'quality_product_id.integer' => 'El campo :attribute debe ser un entero',
+            'quality_product_id.exists' => 'El campo :attribute debe ser un id valido',
         ];
     }
 

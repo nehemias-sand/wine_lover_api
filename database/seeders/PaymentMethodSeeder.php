@@ -5,25 +5,25 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class UnitSeeder extends Seeder
+class PaymentMethodSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('unit_measurement')->insert([
+        DB::table('payment_method')->insert([
             [
-                'name' => 'ml'
+                'name' => 'Efectivo'
             ],
             [
-                'name' => 'l'
+                'name' => 'Wompi'
             ],
             [
-                'name' => 'gal'
+                'name' => 'Stripe'
             ]
         ]);
 
-        DB::statement('ALTER SEQUENCE unit_measurement_id_seq RESTART WITH 4');
+        DB::statement('ALTER SEQUENCE payment_status_id_seq RESTART WITH 4');
     }
 }

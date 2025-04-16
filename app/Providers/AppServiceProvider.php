@@ -2,12 +2,22 @@
 
 namespace App\Providers;
 
+use App\Repositories\AddressRepositoryInterface;
 use App\Repositories\AuthRepositoryInterface;
 use App\Repositories\CommentRepositoryInterface;
 use App\Repositories\ReviewRepositoryInterface;
+use App\Repositories\ProductImageRepositoryInterface;
+use App\Repositories\ProductRepositoryInterface;
+use App\Repositories\ClientRepositoryInterface;
+
 use App\Services\AuthService;
 use App\Services\CommentService;
 use App\Services\ReviewService;
+use App\Services\ProductImageService;
+use App\Services\ProductService;
+use App\Services\AddressService;
+use App\Services\ClientService;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,6 +37,38 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(CommentService::class, function($app){
             return new CommentService($app->make(CommentRepositoryInterface::class));
+        });
+        
+        $this->app->bind(ProductService::class, function ($app) {
+            return new ProductService(
+                $app->make(ProductRepositoryInterface::class),
+                $app->make(ProductImageRepositoryInterface::class)
+            );
+        });
+
+        $this->app->bind(ProductImageService::class, function ($app) {
+            return new ProductImageService(
+                $app->make(ProductRepositoryInterface::class),
+                $app->make(ProductImageRepositoryInterface::class)
+            );
+        });
+        
+        $this->app->bind(ProductImageService::class, function ($app) {
+            return new ProductImageService(
+                $app->make(ProductRepositoryInterface::class),
+                $app->make(ProductImageRepositoryInterface::class)
+            );
+        });
+
+        $this->app->bind(ClientService::class, function ($app) {
+            return new ClientService(
+                $app->make(ClientRepositoryInterface::class),
+                $app->make(AddressRepositoryInterface::class)
+            );
+        });
+
+        $this->app->bind(AddressService::class, function ($app) {
+            return new AddressService($app->make(AddressRepositoryInterface::class));
         });
     }
 

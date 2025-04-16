@@ -18,10 +18,16 @@ class DatabaseSeeder extends Seeder
             PlanSeeder::class,
             QualitySeeder::class,
             ProfileSeeder::class,
-            UnitSeeder::class,
+            UnitMeasurementSeeder::class,
             DepartmentSeeder::class,
             MunicipalitySeeder::class,
             DistrictSeeder::class,
+            PermissionTypeSeeder::class,
+            PermissionSeeder::class,
+            ProfilePermissionSeeder::class,
+            PaymentMethodSeeder::class,
+            MembershipPlanSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

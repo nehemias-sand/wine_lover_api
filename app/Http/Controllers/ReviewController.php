@@ -30,16 +30,17 @@ class ReviewController extends Controller
 
     public function store(CreateReviewRequest $request)
     {
+        $user = auth()->user();
+
         $title = $request->title;
         $content = $request->content;
         $cover_image = $request->file('cover_image');
-        $user_id = $request->user_id;
 
         $data = [
             'title' => $title,
             'content' => $content,
             'cover_image' => $cover_image,
-            'user_id' => $user_id,
+            'user_id' => $user->id,
         ];
 
         DB::beginTransaction();
@@ -56,12 +57,10 @@ class ReviewController extends Controller
 
     public function update($id, UpdateReviewRequest $request)
     {
-
         $data = $request->only([
             'title',
             'content',
             'cover_image',
-            'user_id'
         ]);
 
         $review = $this->reviewService->update($id, $data);

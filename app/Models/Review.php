@@ -27,7 +27,7 @@ class Review extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function coments(): HasMany{
+    public function comments(): HasMany{
         return $this->hasMany(Comment::class, 'review_id', 'id');
     }
 }

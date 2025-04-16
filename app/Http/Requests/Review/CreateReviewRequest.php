@@ -27,7 +27,6 @@ class CreateReviewRequest extends FormRequest
             'title' => 'required|string',
             'content' => 'required|string',
             'cover_image' => 'required|image|mimes:jpeg,png,jpg|max:5120',
-            'user_id' => 'required|integer|exists:users,id',
         ];
     }
 
@@ -40,8 +39,6 @@ class CreateReviewRequest extends FormRequest
             'content.string' => 'El campo :attribute debe ser una cadena',
             'cover_image.required' => 'El campo :attribute es obligatorio',
             'cover_image.string' => 'El campo :attribute debe ser una cadena',
-            'user_id.required' => 'El campo :attribute es obligatorio',
-            'user_id.integer' => 'El campo :attribute debe ser un entero',
         ];
     }
 

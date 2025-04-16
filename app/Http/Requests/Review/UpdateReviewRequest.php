@@ -27,7 +27,6 @@ class UpdateReviewRequest extends FormRequest
             'title' => 'string',
             'content' => 'string',
             'cover_image' => 'image|mimes:jpeg,png,jpg|max:5120',
-            'user_id' => 'integer|exists:users,id',
         ];
     }
 
@@ -37,7 +36,6 @@ class UpdateReviewRequest extends FormRequest
             'title.string' => 'El campo :attribute debe ser una cadena',
             'content.string' => 'El campo :attribute debe ser una cadena',
             'cover_image.string' => 'El campo :attribute debe ser una cadena',
-            'user_id.integer' => 'El campo :attribute debe ser un entero',
         ];
     }
 

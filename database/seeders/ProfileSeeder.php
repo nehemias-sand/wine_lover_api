@@ -20,19 +20,15 @@ class ProfileSeeder extends Seeder
             ],
             [
                 'name' => 'Member',
-                'description'
-                => 'Usuario registrado que tiene acceso a productos, ofertas y beneficios exclusivos según su nivel de suscripción.',
+                'description' => 'Usuario registrado que tiene acceso a productos, ofertas y beneficios exclusivos según su nivel de suscripción.',
             ],
             [
                 'name' => 'Social',
-                'description'
-                => 'Encargado de promocionar ofertas, eventos y contenido relacionado con la tienda en redes sociales 
-                    y otros canales de comunicación.',
+                'description' => 'Encargado de promocionar ofertas, eventos y contenido relacionado con la tienda en redes sociales y otros canales de comunicación.',
             ],
             [
                 'name' => 'Logistic',
-                'description'
-                => 'Responsable de la gestión, envío y coordinación de la entrega de productos.',
+                'description' => 'Responsable de la gestión, envío y coordinación de la entrega de productos.',
             ],
         ]);
 

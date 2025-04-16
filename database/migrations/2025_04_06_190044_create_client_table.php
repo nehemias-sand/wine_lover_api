@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit_measurement', function (Blueprint $table) {
+        Schema::create('client', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('names');
+            $table->string('surnames');
+            $table->string('identity_number');
+            $table->date('birthday_date');
+            $table->string('phone');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();
@@ -25,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('unit_measurement');
+        Schema::dropIfExists('client');
     }
 };
