@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Presentation extends Model
 {
+    use HasFactory, SoftDeletes;
+    
     protected $table = 'presentation';
 
     protected $fillable = [
-        'cantidad',
+        'amount',
         'unit_measurement_id',
     ];
 
