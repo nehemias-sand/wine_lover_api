@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PresentationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
@@ -14,7 +16,7 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::prefix('public')->group(function () {
-    
+
     Route::prefix('client')->group(function () {
         Route::post('/register', [ClientController::class, 'registerClient']);
     });
@@ -30,12 +32,11 @@ Route::prefix('public')->group(function () {
         Route::get('/', [PresentationController::class, 'index']);
         Route::get('/{id}', [PresentationController::class, 'show']);
     });
-
 });
 
 
 Route::middleware('jwt')->prefix('admin')->group(function () {
-    
+
     Route::post('/register', [AuthController::class, 'register']);
 
     Route::prefix('product')->group(function () {
@@ -82,4 +83,13 @@ Route::middleware('jwt')->prefix('client')->group(function () {
     Route::middleware(['check.permission:UPDATE_ADDRESS'])
         ->put('/update-address/{id}', [AddressController::class, 'update']);
 
+    Route::get('/review', [ReviewController::class, 'index']);
+    Route::post('/review', [ReviewController::class, 'store']);
+    Route::post('/review/{id}', [ReviewController::class, 'update']);
+    Route::delete('/review/{id}', [ReviewController::class, 'delete']);
+
+    Route::get('/comment', [CommentController::class, 'index']);
+    Route::post('/comment', [CommentController::class, 'store']);
+    Route::post('/comment/{id}', [CommentController::class, 'update']);
+    Route::delete('/comment/{id}', [CommentController::class, 'delete']);
 });
