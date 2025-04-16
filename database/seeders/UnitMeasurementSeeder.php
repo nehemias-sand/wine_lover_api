@@ -14,13 +14,16 @@ class UnitMeasurementSeeder extends Seeder
     {
         DB::table('unit_measurement')->insert([
             [
-                'name' => 'ml'
+                'name' => 'mililitro',
+                'abbreviation' => 'ml'
             ],
             [
-                'name' => 'l'
+                'name' => 'litro',
+                'abbreviation' => 'l'
             ],
             [
-                'name' => 'gal'
+                'name' => 'galon',
+                'abbreviation' => 'gal'
             ]
         ]);
 

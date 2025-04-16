@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
             PermissionTypeSeeder::class,
             PermissionSeeder::class,
             ProfilePermissionSeeder::class,
+            PaymentMethodSeeder::class,
+            MembershipPlanSeeder::class,
+            UserSeeder::class,
             OrderStatusSeeder::class,
         ]);
     }

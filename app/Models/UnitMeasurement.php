@@ -14,7 +14,8 @@ class UnitMeasurement extends Model
     protected $table ='unit_measurement';
 
     protected $fillable = [
-        'name'
+        'name',
+        'abbreviation'
     ];
 
     public function presentations(): HasMany
