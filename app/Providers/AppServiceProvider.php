@@ -7,6 +7,7 @@ use App\Repositories\AuthRepositoryInterface;
 use App\Repositories\CommentRepositoryInterface;
 use App\Repositories\ReviewRepositoryInterface;
 use App\Repositories\ProductImageRepositoryInterface;
+use App\Repositories\ProductPresentationRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\ClientRepositoryInterface;
 
@@ -14,10 +15,10 @@ use App\Services\AuthService;
 use App\Services\CommentService;
 use App\Services\ReviewService;
 use App\Services\ProductImageService;
+use App\Services\ProductPresentationService;
 use App\Services\ProductService;
 use App\Services\AddressService;
 use App\Services\ClientService;
-
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -50,6 +51,12 @@ class AppServiceProvider extends ServiceProvider
             return new ProductImageService(
                 $app->make(ProductRepositoryInterface::class),
                 $app->make(ProductImageRepositoryInterface::class)
+            );
+        });
+
+        $this->app->bind(ProductPresentationService::class, function ($app) {
+            return new ProductPresentationService(
+                $app->make(ProductPresentationRepositoryInterface::class)
             );
         });
         
