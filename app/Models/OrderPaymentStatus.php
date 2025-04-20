@@ -20,6 +20,7 @@ class OrderPaymentStatus extends Pivot
         'payment_method_id',
         'payment_status_id',
         'amount_paid',
+        'isProd',
         'transaction_id',
     ];
 

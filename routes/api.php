@@ -88,19 +88,37 @@ Route::middleware('jwt')->prefix('client')->group(function () {
 
     Route::put('/update/{id}', [ClientController::class, 'update']);
 
-    Route::middleware(['check.permission:CREATE_ADDRESS'])
-        ->post('/create-address', [AddressController::class, 'store']);
+    Route::prefix('address')->group(function () {
+        Route::middleware(['check.permission:CREATE_ADDRESS'])
+            ->post('/', [AddressController::class, 'store']);
 
-    Route::middleware(['check.permission:UPDATE_ADDRESS'])
-        ->put('/update-address/{id}', [AddressController::class, 'update']);
+        Route::middleware(['check.permission:UPDATE_ADDRESS'])
+            ->put('/{id}', [AddressController::class, 'update']);
+    });
 
-    Route::get('/review', [ReviewController::class, 'index']);
-    Route::post('/review', [ReviewController::class, 'store']);
-    Route::post('/review/{id}', [ReviewController::class, 'update']);
-    Route::delete('/review/{id}', [ReviewController::class, 'delete']);
+    Route::prefix('review')->group(function () {
+        Route::middleware(['check.permission:GET_REVIEWS'])
+            ->get('/', [ReviewController::class, 'index']);
 
-    Route::get('/comment', [CommentController::class, 'index']);
-    Route::post('/comment', [CommentController::class, 'store']);
-    Route::post('/comment/{id}', [CommentController::class, 'update']);
-    Route::delete('/comment/{id}', [CommentController::class, 'delete']);
+        Route::middleware(['check.permission:CREATE_REVIEW'])
+            ->post('/', [ReviewController::class, 'store']);
+
+        Route::middleware(['check.permission:UPDATE_REVIEW'])
+            ->post('/{id}', [ReviewController::class, 'update']);
+
+        Route::middleware(['check.permission:DELETE_REVIEW'])
+            ->delete('/{id}', [ReviewController::class, 'delete']);
+
+        Route::middleware(['check.permission:GET_REVIEW_COMMETS'])
+            ->get('/{reviewId}/comment', [CommentController::class, 'index']);
+
+        Route::middleware([])
+            ->post('/comment', [CommentController::class, 'store']);
+
+        Route::middleware([])
+            ->put('/comment/{id}', [CommentController::class, 'update']);
+
+        Route::middleware([])
+            ->delete('/comment/{id}', [CommentController::class, 'delete']);
+    });
 });

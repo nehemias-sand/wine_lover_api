@@ -10,8 +10,8 @@ class ReviewPostgresRepository implements ReviewRepositoryInterface
     public function index(array $pagination, array $filter)
     {
         $reviews = Review::query();
-        if (isset($filter['id'])) {
-            $reviews->where('id', 'like', '%' . $filter['id'] . '%');
+        if (isset($filter['comments_available'])) {
+            $reviews->where('comments_available', '=', $filter['comments_available']);
         }
 
         if ($pagination['paginate'] === 'true') {

@@ -11,8 +11,9 @@ class CommentPostgresRepository implements CommentRepositoryInterface
     public function index(array $pagination, array $filter)
     {
         $comments = Comment::query();
-        if (isset($filter['id'])) {
-            $comments->where('id', 'like', '%' . $filter['id'] . '%');
+        
+        if (isset($filter['review_id'])) {
+            $comments->where('review_id', '=', $filter['review_id']);
         }
 
         if ($pagination['paginate'] === 'true') {

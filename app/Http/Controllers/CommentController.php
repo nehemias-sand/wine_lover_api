@@ -14,14 +14,14 @@ class CommentController extends Controller
 {
     public function __construct(private CommentService $commentService) {}
 
-    public function index(Request $request)
+    public function index(Request $request, int $reviewId)
     {
         $pagination = array_merge([
             'paginate' => 'true',
             'per_page' => 10
         ], $request->only(['paginate', 'per_page']));
 
-        $filter = $request->only(['id']);
+        $filter = ['review_id' => $reviewId];
 
         $data = $this->commentService->index($pagination, $filter);
 

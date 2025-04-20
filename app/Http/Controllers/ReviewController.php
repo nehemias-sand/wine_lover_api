@@ -21,7 +21,7 @@ class ReviewController extends Controller
             'per_page' => 10
         ], $request->only(['paginate', 'per_page']));
 
-        $filter = $request->only(['id']);
+        $filter = $request->only(['comments_available']);
 
         $data = $this->reviewService->index($pagination, $filter);
 
