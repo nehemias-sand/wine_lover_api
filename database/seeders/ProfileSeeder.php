@@ -15,8 +15,7 @@ class ProfileSeeder extends Seeder
         DB::table('profile')->insert([
             [
                 'name' => 'Admin',
-                'description'
-                => 'Administrador del sistema.',
+                'description' => 'Administrador del sistema.',
             ],
             [
                 'name' => 'Member',

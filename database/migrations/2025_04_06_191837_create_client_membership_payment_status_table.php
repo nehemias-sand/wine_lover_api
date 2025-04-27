@@ -15,7 +15,9 @@ return new class extends Migration
             $table->foreignId('client_membership_plan_id');
             $table->foreignId('payment_method_id');
             $table->foreignId('payment_status_id');
-            $table->dateTime('details');
+            $table->decimal('amount_paid', 8, 2)->nullable();
+            $table->boolean('isProd')->default(true);
+            $table->string('transaction_id')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

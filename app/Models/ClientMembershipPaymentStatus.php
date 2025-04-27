@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ClientMembershipPaymentStatus extends Pivot
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $table = 'client_membership_payment_status';
 
     public $incrementing = false;
@@ -19,7 +19,9 @@ class ClientMembershipPaymentStatus extends Pivot
         'client_membership_plan_id',
         'payment_method_id',
         'payment_status_id',
-        'details',
+        'amount_paid',
+        'isProd',
+        'transaction_id',
     ];
 
     public function clientPlan(): BelongsTo
