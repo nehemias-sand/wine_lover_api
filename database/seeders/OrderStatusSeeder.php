@@ -17,7 +17,7 @@ class OrderStatusSeeder extends Seeder
                 'name' => 'Procesando'
             ],
             [
-                'name' => 'Completado'
+                'name' => 'Listo para entregar'
             ],
             [
                 'name' => 'En ruta'
