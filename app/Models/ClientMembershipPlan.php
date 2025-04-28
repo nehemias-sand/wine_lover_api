@@ -12,7 +12,7 @@ class ClientMembershipPlan extends Model
 {
     use HasFactory, SoftDeletes;
     
-    protected $table = 'membership_plan';
+    protected $table = 'client_membership_plan';
 
     public $incrementing = false;
 

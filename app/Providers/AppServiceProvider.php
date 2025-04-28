@@ -6,11 +6,13 @@ use App\Repositories\AddressRepositoryInterface;
 use App\Repositories\AuthRepositoryInterface;
 use App\Repositories\CommentRepositoryInterface;
 use App\Repositories\ReviewRepositoryInterface;
+use App\Repositories\ClientMembershipPlanRepositoryInterface;
 use App\Repositories\ProductImageRepositoryInterface;
 use App\Repositories\ProductPresentationRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\ClientRepositoryInterface;
-
+use App\Repositories\OrderItemRepositoryInterface;
+use App\Repositories\OrderRepositoryInterface;
 use App\Services\AuthService;
 use App\Services\CommentService;
 use App\Services\ReviewService;
@@ -19,6 +21,7 @@ use App\Services\ProductPresentationService;
 use App\Services\ProductService;
 use App\Services\AddressService;
 use App\Services\ClientService;
+use App\Services\OrderService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -76,6 +79,14 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(AddressService::class, function ($app) {
             return new AddressService($app->make(AddressRepositoryInterface::class));
+        });
+
+        $this->app->bind(OrderService::class, function ($app) {
+            return new OrderService(
+                $app->make(OrderRepositoryInterface::class),
+                $app->make(OrderItemRepositoryInterface::class),
+                $app->make(ClientMembershipPlanRepositoryInterface::class),
+            );
         });
     }
 
