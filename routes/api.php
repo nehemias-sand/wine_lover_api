@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductPresentationController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -21,6 +22,7 @@ Route::prefix('public')->group(function () {
 
     Route::prefix('client')->group(function () {
         Route::post('/register', [ClientController::class, 'registerClient']);
+        Route::post('/create-order', [OrderController::class, 'createOrder']);
     });
 
     Route::prefix('catalogs')->group(function () {

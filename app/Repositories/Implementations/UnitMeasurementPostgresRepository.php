@@ -5,7 +5,7 @@ namespace App\Repositories\Implementations;
 use App\Models\UnitMeasurement;
 use App\Repositories\UnitMeasurementRepositoryInterface;
 
-class unitMeasurementPostgresRepository implements UnitMeasurementRepositoryInterface
+class UnitMeasurementPostgresRepository implements UnitMeasurementRepositoryInterface
 {
     public function index()
     {

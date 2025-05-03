@@ -5,7 +5,7 @@ namespace App\Repositories\Implementations;
 use App\Models\Client;
 use App\Repositories\ClientRepositoryInterface;
 
-class ClientPostgreRepository implements ClientRepositoryInterface
+class ClientPostgresRepository implements ClientRepositoryInterface
 {
 
     public function index(array $pagination, array $filter)
