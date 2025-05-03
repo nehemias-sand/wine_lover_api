@@ -6,6 +6,7 @@ use App\Classes\ApiResponseClass;
 use App\Http\Requests\Review\CreateReviewRequest;
 use App\Http\Requests\Review\UpdateReviewRequest;
 use App\Http\Resources\ReviewResource;
+use App\Models\Review;
 use App\Services\ReviewService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +28,22 @@ class ReviewController extends Controller
 
         return ApiResponseClass::sendResponse(ReviewResource::collection($data));
     }
+
+    public function changeState($id)
+    {
+        $review = $this->reviewService->show($id);
+        if (!$review) return ApiResponseClass::sendResponse(null, "review con ID: $id no encontrada", 404);
+
+        $data = [
+            'comments_available' => !$review->comments_available
+        ];
+
+        $updatedReviewComment = $this->reviewService->update($id, $data);
+        if (!$review) return ApiResponseClass::sendResponse(null, "review con ID: $id no encontrada", 404);
+
+        return ApiResponseClass::sendResponse(new ReviewResource($updatedReviewComment));
+    }
+
 
     public function store(CreateReviewRequest $request)
     {
@@ -55,7 +72,7 @@ class ReviewController extends Controller
         }
     }
 
-    public function update($id, UpdateReviewRequest $request)
+    public function update(int $id, UpdateReviewRequest $request)
     {
         $data = $request->only([
             'title',

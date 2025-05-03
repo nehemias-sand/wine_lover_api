@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PresentationController;
@@ -20,6 +21,15 @@ Route::prefix('public')->group(function () {
 
     Route::prefix('client')->group(function () {
         Route::post('/register', [ClientController::class, 'registerClient']);
+    });
+
+    Route::prefix('catalogs')->group(function () {
+        Route::get('/quality-product', [CatalogController::class, 'indexQualityProduct']);
+        Route::get('/category-product', [CatalogController::class, 'indexCategoryProduct']);
+        Route::get('/unit-measurement', [CatalogController::class, 'indexUnitMeasurement']);
+        Route::get('/payment-status', [CatalogController::class, 'indexPayentStatus']);
+        Route::get('/membership', [CatalogController::class, 'indexMembership']);
+        Route::get('/plan', [CatalogController::class, 'indexPlan']);
     });
 
     Route::prefix('product')->group(function () {
@@ -82,6 +92,15 @@ Route::middleware('jwt')->prefix('admin')->group(function () {
         Route::middleware(['check.permission:DELETE_PRODUCT'])
             ->delete('/{id}', [PresentationController::class, 'delete']);
     });
+
+    Route::prefix('review')->group(function () {
+        Route::middleware([])
+            ->patch('/{id}', [ReviewController::class, 'changeState']);
+
+        Route::middleware([])
+            ->patch('/comment/{id}', [CommentController::class, 'changeState']);
+    });
+
 });
 
 Route::middleware('jwt')->prefix('client')->group(function () {
@@ -113,7 +132,7 @@ Route::middleware('jwt')->prefix('client')->group(function () {
             ->get('/{reviewId}/comment', [CommentController::class, 'index']);
 
         Route::middleware([])
-            ->post('/comment', [CommentController::class, 'store']);
+            ->post('/{reviewId}/comment', [CommentController::class, 'store']);
 
         Route::middleware([])
             ->put('/comment/{id}', [CommentController::class, 'update']);

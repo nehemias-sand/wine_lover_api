@@ -8,12 +8,16 @@ use Illuminate\Support\Facades\Storage;
 
 class ReviewService
 {
-
     public function __construct(private ReviewRepositoryInterface $reviewRepositoryInterface) {}
 
     public function index(array $pagination, array $filter)
     {
         return $this->reviewRepositoryInterface->index($pagination, $filter);
+    }
+
+    public function show($id)
+    {
+        return $this->reviewRepositoryInterface->show($id);
     }
 
     public function store(array $data)
@@ -49,13 +53,12 @@ class ReviewService
             if (Storage::disk('public')->exists($review->cover_image)) {
                 Storage::disk('public')->delete($review->cover_image);
             }
-            
         } else {
             unset($data['cover_image']);
         }
 
         $review->update($data);
-        
+
         return $review;
     }
 

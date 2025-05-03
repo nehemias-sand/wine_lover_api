@@ -14,17 +14,23 @@ class CommentService
         return $this->commentRepositoryInterface->index($pagination, $filter);
     }
 
+    public function show($id)
+    {
+        return $this->commentRepositoryInterface->show($id);
+    }
+
     public function store(array $data)
     {
         return $this->commentRepositoryInterface->store($data);
     }
 
-    public function update(int $id, array $data) 
+    public function update(int $id, array $data)
     {
         return $this->commentRepositoryInterface->update($id, $data);
     }
 
-    public function delete(int $id){
+    public function delete(int $id)
+    {
         return $this->commentRepositoryInterface->delete($id);
     }
 }
