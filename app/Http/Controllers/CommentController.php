@@ -28,13 +28,13 @@ class CommentController extends Controller
         return ApiResponseClass::sendResponse(CommentResource::collection($data));
     }
 
-    public function store(CreateCommentRequest $request)
+    public function store(int $reviewId, CreateCommentRequest $request)
     {
         $user = auth()->user();
 
         $content = $request->content;
         $parent_id = $request->parent_id;
-        $review_id = $request->review_id;
+        $review_id = $reviewId;
 
         $data = [
             'content' => $content,
@@ -53,6 +53,21 @@ class CommentController extends Controller
         } catch (\Exception $ex) {
             return ApiResponseClass::rollback($ex);
         }
+    }
+
+
+    public function changeState($id){
+        $comment = $this -> commentService->show($id);
+        if(!$comment) return ApiResponseClass::sendResponse(null, "comentario con id: $id no encontrado", 404);
+
+        $data = [
+            'banned' => !$comment->banned
+        ];
+
+        $updatedComment=$this->commentService->update($id, $data);
+        if(!$comment) return ApiResponseClass::sendResponse(null, "comentario con id: $id no encontrado", 404);
+
+        return ApiResponseClass::sendResponse(new CommentResource($updatedComment));
     }
 
     public function update($id, UpdateCommentRequest $request)

@@ -26,7 +26,6 @@ class CreateCommentRequest extends FormRequest
         return [
             'content' => 'required|string',
             'parent_id' => 'nullable|integer',
-            'review_id' => 'required|integer|exists:review,id',
         ];
     }
 
@@ -36,8 +35,6 @@ class CreateCommentRequest extends FormRequest
             'content.required' => 'El campo :attribute es obligatorio',
             'content.string' => 'El campo :attribute debe ser una cadena',
             'parent_id.integer' => 'El campo :attribute debe ser un entero',
-            'review_id.required' => 'El campo :attribute es obligatorio',
-            'review_id.integer' => 'El campo :attribute debe ser un entero'
         ];
     }
 
