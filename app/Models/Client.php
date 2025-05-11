@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Client extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $table = 'client';
 
     protected $fillable = [
@@ -23,6 +23,11 @@ class Client extends Model
         'user_id',
     ];
 
+    public function getFullNameAttribute(): string
+    {
+        return "{$this->names} {$this->surnames}";
+    }
+    
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
