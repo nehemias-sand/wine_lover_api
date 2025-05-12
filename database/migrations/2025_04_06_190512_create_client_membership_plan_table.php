@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('client_membership_plan', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('end_date');
+            $table->string('code')->nullable();
+            $table->date('end_date')->nullable();
+            $table->boolean('active')->default(false);
+            $table->decimal('refund_amount', 8, 2)->nullable();
             $table->decimal('price', 8, 2);
-            $table->boolean('automatic_renewal');
+            $table->integer('cashback_percentage');
+            $table->boolean('automatic_renewal')->default(false);
             $table->foreignId('client_id')->constrained('client');
             $table->foreignId('membership_id')->constrained('membership');
             $table->foreignId('plan_id')->constrained('plan');

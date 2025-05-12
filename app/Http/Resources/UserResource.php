@@ -9,25 +9,55 @@ class UserResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        return [
+        $userPermissions = $this->permissions ?? collect();
+        $profilePermissions = $this->profile?->permissions ?? collect();
+
+        $allPermissions = $userPermissions
+            ->merge($profilePermissions)
+            ->map(fn($perm) => strtoupper($perm->name))
+            ->unique();
+        
+        $data = [
             'id' => $this->id,
             'username' => $this->username,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,
             'profile' => $this->profile->name,
-            'state' => $this->state
+            'state' => $this->state,
+            'permissions' => $allPermissions
         ];
+
+        if ($this->profile->id === 2) {
+            $data['client'] = new ClientResource($this->client);
+        }
+
+        return $data;
     }
 
     public function toJson($options = 0)
     {
-        return [
+        $userPermissions = $this->permissions ?? collect();
+        $profilePermissions = $this->profile?->permissions ?? collect();
+
+        $allPermissions = $userPermissions
+            ->merge($profilePermissions)
+            ->map(fn($perm) => strtoupper($perm->name))
+            ->unique();
+
+        $data = [
             'id' => $this->id,
             'username' => $this->username,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,
             'profile' => $this->profile->name,
-            'state' => $this->state
+            'state' => $this->state,
+            'permissions' => $allPermissions
         ];
+
+        if ($this->profile->id === 2) {
+            $data['client'] = new ClientResource($this->client);
+        }
+
+        return $data;
     }
 }

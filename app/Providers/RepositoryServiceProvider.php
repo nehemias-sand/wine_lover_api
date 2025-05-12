@@ -4,18 +4,22 @@ namespace App\Providers;
 
 use App\Repositories\AddressRepositoryInterface;
 use App\Repositories\AuthRepositoryInterface;
+use App\Repositories\CardTokenRepositoryInterface;
+use App\Repositories\CashbackHistoryRepositoryInterface;
 use App\Repositories\CategoryProductRepositoryInterface;
+use App\Repositories\ClientRepositoryInterface;
+use App\Repositories\ClientMembershipPaymentStatusRepositoryInterface;
+use App\Repositories\ClientMembershipPlanRepositoryInterface;
+use App\Repositories\MembershipPlanRepositoryInterface;
 use App\Repositories\CommentRepositoryInterface;
 use App\Repositories\ReviewRepositoryInterface;
 use App\Repositories\ProductImageRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\ProductPresentationRepositoryInterface;
 use App\Repositories\PresentationRepositoryInterface;
-use App\Repositories\ClientRepositoryInterface;
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\OrderItemRepositoryInterface;
 use App\Repositories\OrderPaymentStatusRepositoryInterface;
-use App\Repositories\ClientMembershipPlanRepositoryInterface;
 use App\Repositories\MembershipRepositoryInterface;
 use App\Repositories\PaymentStatusRepositoryInterface;
 use App\Repositories\PlanRepositoryInterface;
@@ -30,17 +34,21 @@ use App\Repositories\Implementations\ProductImagePostgresRepository;
 use App\Repositories\Implementations\ProductPostgresRepository;
 use App\Repositories\Implementations\ProductPresentationPostgresRepository;
 use App\Repositories\Implementations\AddressPostgresRepository;
+use App\Repositories\Implementations\CardTokenPostgresRepository;
+use App\Repositories\Implementations\CashbackHistoryPostgresRepository;
 use App\Repositories\Implementations\CategoryProductPostgresRepository;
 use App\Repositories\Implementations\MembershipPostgresRepository;
 use App\Repositories\Implementations\PaymentStatusPostgresRepository;
 use App\Repositories\Implementations\PlanPostgresRepository;
 use App\Repositories\Implementations\QualityProductPostgresRepository;
 use App\Repositories\Implementations\UnitMeasurementPostgresRepository;
-use App\Repositories\Implementations\ClientPostgresRepository;
 use App\Repositories\Implementations\OrderPostgresRepository;
 use App\Repositories\Implementations\OrderItemPostgresRepository;
 use App\Repositories\Implementations\OrderPaymentStatusPostgresRepository;
 use App\Repositories\Implementations\ClientMembershipPlanPostgresRepository;
+use App\Repositories\Implementations\ClientMembershipPaymentStatusPostgreRepository;
+use App\Repositories\Implementations\ClientPostgresRepository;
+use App\Repositories\Implementations\MembershipPlanPostgresRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -58,6 +66,7 @@ class RepositoryServiceProvider extends ServiceProvider
                 $this->app->bind(ProductPresentationRepositoryInterface::class, ProductPresentationPostgresRepository::class);
                 $this->app->bind(PresentationRepositoryInterface::class, PresentationPostgresRepository::class);
                 $this->app->bind(ClientRepositoryInterface::class, ClientPostgresRepository::class);
+                $this->app->bind(CardTokenRepositoryInterface::class, CardTokenPostgresRepository::class);
                 $this->app->bind(AddressRepositoryInterface::class, AddressPostgresRepository::class);
                 $this->app->bind(QualityProductRepositoryInterface::class, QualityProductPostgresRepository::class);
                 $this->app->bind(CategoryProductRepositoryInterface::class, CategoryProductPostgresRepository::class);
@@ -69,6 +78,9 @@ class RepositoryServiceProvider extends ServiceProvider
                 $this->app->bind(OrderItemRepositoryInterface::class, OrderItemPostgresRepository::class);
                 $this->app->bind(OrderPaymentStatusRepositoryInterface::class, OrderPaymentStatusPostgresRepository::class);
                 $this->app->bind(ClientMembershipPlanRepositoryInterface::class, ClientMembershipPlanPostgresRepository::class);
+                $this->app->bind(MembershipPlanRepositoryInterface::class, MembershipPlanPostgresRepository::class);
+                $this->app->bind(ClientMembershipPaymentStatusRepositoryInterface::class, ClientMembershipPaymentStatusPostgreRepository::class);
+                $this->app->bind(CashbackHistoryRepositoryInterface::class, CashbackHistoryPostgresRepository::class);
         }
 
         /**

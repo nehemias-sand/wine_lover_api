@@ -87,15 +87,8 @@ class AuthController extends Controller
 
     public function getUser()
     {
-        try {
-            if (! $user = JWTAuth::parseToken()->authenticate()) {
-                return ApiResponseClass::sendResponse(null, 'User not found', 404);
-            }
-        } catch (JWTException $e) {
-            return ApiResponseClass::sendResponse(null, 'Invalid token', 400);
-        }
-
-        return ApiResponseClass::sendResponse(compact('user'));
+        $user = auth()->user();
+        return ApiResponseClass::sendResponse(new UserResource($user));
     }
 
     public function update($id, UpdateUserRequest $request)

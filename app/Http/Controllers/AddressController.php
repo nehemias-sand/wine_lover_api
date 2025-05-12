@@ -20,9 +20,7 @@ class AddressController extends Controller
         DB::beginTransaction();
 
         try {
-            $user = auth()->user();
-
-            $client = $user->client;
+            $client = auth()->user()->client;
 
             $data = [
                 'name'          => $request->name,

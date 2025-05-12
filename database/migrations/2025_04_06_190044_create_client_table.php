@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('identity_number');
             $table->date('birthday_date');
             $table->string('phone');
+            $table->decimal('current_cashback', 8, 2)->default(0.00);
             $table->foreignId('user_id')->constrained('users');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

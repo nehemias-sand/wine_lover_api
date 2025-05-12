@@ -50,6 +50,7 @@ class ClientMembershipPlanPostgresRepository implements ClientMembershipPlanRepo
     {
         $clientMembershipPlan = ClientMembershipPlan::where('client_id', $clientId)
             ->whereNull('deleted_at')
+            ->where('active', '=', true)
             ->orderBy('end_date', 'desc')
             ->first();
 

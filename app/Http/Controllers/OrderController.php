@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Classes\ApiResponseClass;
 use App\Http\Requests\Order\CreateOrderRequest;
 use App\Services\OrderService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -20,12 +19,9 @@ class OrderController extends Controller
 
         try {
             $order = $this->orderService->store($request->validated());
-
             DB::commit();
 
-            return ApiResponseClass::sendResponse([
-                'order' => $order,
-            ], 'Order created successfully.', 201);
+            return ApiResponseClass::sendResponse(['order' => $order,], null, 201);
         } catch (\Exception $ex) {
             return ApiResponseClass::rollback($ex);
         }

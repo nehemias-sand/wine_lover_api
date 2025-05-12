@@ -6,7 +6,6 @@ use App\Classes\ApiResponseClass;
 use App\Http\Resources\CategoryProductResource;
 use App\Http\Resources\MembershipResource;
 use App\Http\Resources\PaymentStatusResource;
-use App\Http\Resources\PlanResource;
 use App\Http\Resources\QualityProductResource;
 use App\Http\Resources\UnitMeasurementResource;
 use App\Services\CatalogService;
@@ -48,12 +47,5 @@ class CatalogController extends Controller
         $data = $this->catalogService->indexMembership();
 
         return ApiResponseClass::sendResponse(MembershipResource::collection($data));
-    }
-
-    public function indexPlan()
-    {
-        $data = $this->catalogService->indexPlan();
-
-        return ApiResponseClass::sendResponse(PlanResource::collection($data));
     }
 }

@@ -39,7 +39,6 @@ class ReviewController extends Controller
         ];
 
         $updatedReviewComment = $this->reviewService->update($id, $data);
-        if (!$review) return ApiResponseClass::sendResponse(null, "review con ID: $id no encontrada", 404);
 
         return ApiResponseClass::sendResponse(new ReviewResource($updatedReviewComment));
     }

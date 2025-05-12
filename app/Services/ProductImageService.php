@@ -32,7 +32,7 @@ class ProductImageService
             $extension = $image->extension();
             $fileName = 'product_' . $product->id . $index . time() . '.' . $extension;
 
-            $path = $image->storeAs("products/$product->id", $fileName, 'public');
+            $path = $image->storeAs("images/products/$product->id", $fileName, 'public');
 
             $productImage = $this->productImageRepositoryInterface->store([
                 'url_image' => $path,

@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategoryProductSeeder::class,
             MembershipSeeder::class,
-            PaymentSeeder::class,
+            PaymentStatusSeeder::class,
             PlanSeeder::class,
             QualitySeeder::class,
             ProfileSeeder::class,
@@ -29,6 +29,11 @@ class DatabaseSeeder extends Seeder
             MembershipPlanSeeder::class,
             UserSeeder::class,
             OrderStatusSeeder::class,
+            ClientSeeder::class,
+            ProductSeeder::class,
+            PresentationSeeder::class,
+            ProductPresentationSeeder::class,
+            ProductImageSeeder::class,
         ]);
     }
 }

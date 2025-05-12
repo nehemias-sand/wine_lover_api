@@ -16,7 +16,8 @@ class ClientResource extends JsonResource
             'identity_number' => $this->identity_number,
             'birthday_date' => $this->birthday_date,
             'phone' => $this->phone,
-            'user_id' => $this->user_id,
+            'membership' => $this->currentMembershipPlan()?->membership->name,
+            'current_cashback' => $this->current_cashback,
         ];
     }
 
@@ -29,7 +30,8 @@ class ClientResource extends JsonResource
             'identity_number' => $this->identity_number,
             'birthday_date' => $this->birthday_date,
             'phone' => $this->phone,
-            'user_id' => $this->user_id,
+            'membership' => $this->currentMembershipPlan()?->membership->name,
+            'current_cashback' => $this->current_cashback,
         ];
     }
 }

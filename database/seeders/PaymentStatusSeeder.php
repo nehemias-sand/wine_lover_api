@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PaymentSeeder extends Seeder
+class PaymentStatusSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -25,8 +25,11 @@ class PaymentSeeder extends Seeder
             [
                 'name' => 'Rechazado'
             ],
+            [
+                'name' => 'Transacción fallida'
+            ],
         ]);
 
-        DB::statement('ALTER SEQUENCE payment_status_id_seq RESTART WITH 5');
+        DB::statement('ALTER SEQUENCE payment_status_id_seq RESTART WITH 6');
     }
 }

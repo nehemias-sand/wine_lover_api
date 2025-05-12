@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\JWTMiddleware;
 use App\Http\Middleware\ValidatePermissionMiddleware;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -19,6 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'jwt' => JWTMiddleware::class,
             'check.permission' => ValidatePermissionMiddleware::class
         ]);
+    })
+    ->withSchedule(function (Schedule $schedule) {
+        $schedule->command('renew:membership')->dailyAt('00:00');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

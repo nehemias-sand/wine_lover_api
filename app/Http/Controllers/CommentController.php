@@ -65,7 +65,6 @@ class CommentController extends Controller
         ];
 
         $updatedComment=$this->commentService->update($id, $data);
-        if(!$comment) return ApiResponseClass::sendResponse(null, "comentario con id: $id no encontrado", 404);
 
         return ApiResponseClass::sendResponse(new CommentResource($updatedComment));
     }

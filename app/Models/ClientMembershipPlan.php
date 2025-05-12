@@ -14,11 +14,13 @@ class ClientMembershipPlan extends Model
     
     protected $table = 'client_membership_plan';
 
-    public $incrementing = false;
-
     protected $fillable = [
+        'code',
         'end_date',
+        'active',
+        'refund_amount',
         'price',
+        'cashback_percentage',
         'automatic_renewal',
         'client_id',
         'membership_id',

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('presentation', function (Blueprint $table) {
             $table->id();
-            $table->integer('amount');
+            $table->decimal('amount', 8, 2);
             $table->foreignId('unit_measurement_id')->constrained('unit_measurement');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('neighborhood');
             $table->string('street');
             $table->string('number');
-            $table->string('reference');
+            $table->string('reference')->nullable();
             $table->foreignId('client_id')->constrained('client');
             $table->foreignId('district_id')->constrained('district');
             $table->timestamp('created_at')->useCurrent();

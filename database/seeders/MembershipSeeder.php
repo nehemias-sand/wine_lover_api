@@ -14,17 +14,17 @@ class MembershipSeeder extends Seeder
     {
         DB::table('membership')->insert([
             [
-                'name' => 'Platinum',
-                'description' => 'Exclusividad total con beneficios premium, acceso VIP y recompensas máximas.'
+                'name' => 'Silver',
+                'description' => 'Beneficios esenciales, acceso anticipado y promociones destacadas.'
             ],
             [
                 'name' => 'Gold',
                 'description' => 'Ventajas especiales, descuentos exclusivos y un trato preferencial.'
             ],
             [
-                'name' => 'Silver',
-                'description' => 'Beneficios esenciales, acceso anticipado y promociones destacadas.'
-            ]
+                'name' => 'Platinum',
+                'description' => 'Exclusividad total con beneficios premium, acceso VIP y recompensas máximas.'
+            ],
         ]);
 
         DB::statement('ALTER SEQUENCE membership_id_seq RESTART WITH 4');

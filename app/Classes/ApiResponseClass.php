@@ -9,6 +9,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class ApiResponseClass
 {
@@ -21,9 +22,18 @@ class ApiResponseClass
     public static function throwException($e, $message = "Something went wrong! Process not completed")
     {
         self::logError($e);
-
+    
+        $status = Response::HTTP_INTERNAL_SERVER_ERROR;
+    
+        if ($e instanceof HttpExceptionInterface) {
+            $status = $e->getStatusCode();
+            $message = $e->getMessage();
+        }
+    
         throw new HttpResponseException(
-            response()->json(['message' => $message], Response::HTTP_INTERNAL_SERVER_ERROR)
+            response()->json([
+                'message' => $message,
+            ], $status)
         );
     }
 

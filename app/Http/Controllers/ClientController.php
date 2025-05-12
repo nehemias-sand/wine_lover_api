@@ -19,7 +19,7 @@ class ClientController extends Controller
         private AuthService $authService
     ) {}
 
-    public function registerClient(RegisterClientRequest $request)
+    public function register(RegisterClientRequest $request)
     {
         DB::beginTransaction();
 

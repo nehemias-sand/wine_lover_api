@@ -21,10 +21,6 @@ class CategoryProductSeeder extends Seeder
                 'name' => 'Licor',
                 'description' => 'Bebida intensa y sofisticada, ideal para disfrutar sola o en cócteles.'
             ],
-            [
-                'name' => 'Muebles',
-                'description' => 'Diseño y funcionalidad en armonía, pensado para aportar estilo a cualquier espacio.'
-            ]
         ]);
 
         DB::statement('ALTER SEQUENCE category_product_id_seq RESTART WITH 4');
