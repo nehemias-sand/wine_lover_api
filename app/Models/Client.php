@@ -25,6 +25,11 @@ class Client extends Model
         'user_id',
     ];
 
+    public function getFullNameAttribute(): string
+    {
+        return "{$this->names} {$this->surnames}";
+    }
+    
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

@@ -27,7 +27,8 @@ class CreateOrderRequest extends FormRequest
             'products' => 'required|array|min:1',
             'products.*.product_id' => 'required|integer',
             'products.*.presentation_id' => 'required|integer',
-            'products.*.amount' => 'required|integer|min:1'
+            'products.*.amount' => 'required|integer|min:1',
+            'address_id' => 'required|integer'
         ];
     }
 
@@ -47,6 +48,9 @@ class CreateOrderRequest extends FormRequest
             'products.*.amount.required' => 'El campo :attribute es obligatorio para cada producto',
             'products.*.amount.integer' => 'El campo :attribute debe ser un número entero',
             'products.*.amount.min' => 'El campo :attribute debe ser al menos 1',
+
+            'address_id.required' => 'El campo :attribute es obligatorio',
+            'address_id.integer' => 'El campo :attribute debe ser un número entero',
         ];
     }
 
