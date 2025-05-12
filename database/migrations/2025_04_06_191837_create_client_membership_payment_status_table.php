@@ -12,9 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('client_membership_payment_status', function (Blueprint $table) {
-            $table->foreignId('client_membership_plan_id');
-            $table->foreignId('payment_method_id');
-            $table->foreignId('payment_status_id');
+            $table->foreignId('client_membership_plan_id')->constrained('client_membership_plan');
+            $table->foreignId('payment_method_id')->constrained('payment_method');
+            $table->foreignId('payment_status_id')->constrained('payment_status');
+            $table->foreignId('card_token_id')->constrained('card_token');
+            $table->foreignId('billing_address_id')->constrained('address');
             $table->decimal('amount_paid', 8, 2)->nullable();
             $table->boolean('isProd')->default(true);
             $table->string('transaction_id')->nullable();

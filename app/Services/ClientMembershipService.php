@@ -51,6 +51,8 @@ class ClientMembershipService
                 'payment_method_id' => $payment['payment_method_id'],
                 'payment_status_id' => 1, // Pendiente
                 'amount_paid' => $clientMembershipPlan->price,
+                'card_token_id' => $data['card_token_id'],
+                'billing_address_id' => $data['address_id'],
                 'isProd' => env('APP_ENV') === 'prod',
             ]);
 

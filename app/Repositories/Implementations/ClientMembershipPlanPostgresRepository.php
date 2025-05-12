@@ -8,7 +8,21 @@ use App\Repositories\ClientMembershipPlanRepositoryInterface;
 
 class ClientMembershipPlanPostgresRepository implements ClientMembershipPlanRepositoryInterface
 {
-    public function index(array $pagination, array $filter) {}
+    public function index(array $pagination, array $filter)
+    {
+        $clientMembershipPlans = ClientMembershipPlan::query()
+            ->where('active', '=', true);
+
+        if (isset($filter['end_date'])) {
+            $clientMembershipPlans->where('end_date', '=', $filter['end_date']);
+        }
+
+        if ($pagination['paginate'] === 'true') {
+            return $clientMembershipPlans->paginate($pagination['per_page']);
+        }
+
+        return $clientMembershipPlans->get();
+    }
 
     public function show($id)
     {
@@ -35,7 +49,7 @@ class ClientMembershipPlanPostgresRepository implements ClientMembershipPlanRepo
         return $clientMembership;
     }
 
-    public function delete($id) 
+    public function delete($id)
     {
         $clientMembership = $this->show($id);
 

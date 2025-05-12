@@ -19,6 +19,8 @@ class ClientMembershipPaymentStatus extends Pivot
         'client_membership_plan_id',
         'payment_method_id',
         'payment_status_id',
+        'card_token_id',
+        'billing_address_id',
         'amount_paid',
         'isProd',
         'transaction_id',
@@ -37,5 +39,15 @@ class ClientMembershipPaymentStatus extends Pivot
     public function paymentStatus(): BelongsTo
     {
         return $this->belongsTo(PaymentStatus::class, 'payment_status_id', 'id');
+    }
+
+    public function cardToken(): BelongsTo
+    {
+        return $this->belongsTo(CardToken::class, 'card_token_id', 'id');
+    }
+
+    public function billingAddress(): BelongsTo
+    {
+        return $this->belongsTo(Address::class, 'billing_address_id', 'id');
     }
 }
