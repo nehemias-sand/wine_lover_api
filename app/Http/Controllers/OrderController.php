@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes\ApiResponseClass;
 use App\Http\Requests\Order\CreateOrderRequest;
 use App\Mail\OrderDetailMail;
+use App\Mail\OrderStatusMail;
 use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Support\Facades\DB;
@@ -63,6 +64,18 @@ class OrderController extends Controller
             Mail::to($userEmail)
                 ->send(new OrderDetailMail(
                     $dataEmail
+                ));
+
+            $dataOrderStatusEmail = [
+                'order_date' => $fullOrder->created_at,
+                'code' => $fullOrder->code,
+                'client_name' => $clientFullName,
+                'order_status' => $fullOrder->orderStatus->name,
+            ];
+
+            Mail::to($userEmail)
+                ->send(new OrderStatusMail(
+                    $dataOrderStatusEmail
                 ));
 
             DB::commit();

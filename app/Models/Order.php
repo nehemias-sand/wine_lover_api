@@ -15,6 +15,7 @@ class Order extends Model
     protected $table = 'order';
 
     protected $fillable = [
+        'code',
         'subtotal',
         'total_discount',
         'total',
