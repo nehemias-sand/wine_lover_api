@@ -48,4 +48,12 @@ class CatalogController extends Controller
 
         return ApiResponseClass::sendResponse(MembershipResource::collection($data));
     }
+
+    public function showMembership($id)
+    {
+        $membership = $this->catalogService->showMembership($id);
+        if (!$membership) return ApiResponseClass::sendResponse(null, "Membresia con ID $id no encontrada", 404);
+
+        return ApiResponseClass::sendResponse(new MembershipResource($membership));
+    }
 }

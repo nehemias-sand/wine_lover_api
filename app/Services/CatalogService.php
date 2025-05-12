@@ -45,6 +45,11 @@ class CatalogService
         return $this->membershipRepositoryInterface->index();
     }
 
+    public function showMembership($id)
+    {
+        return $this->membershipRepositoryInterface->show($id);
+    }
+
     public function indexPlan()
     {
         return $this->planRepositoryInterface->index();

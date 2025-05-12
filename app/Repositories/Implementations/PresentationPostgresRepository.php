@@ -10,6 +10,14 @@ class PresentationPostgresRepository implements PresentationRepositoryInterface
     public function index(array $pagination, array $filter) {
         $presentations = Presentation::query();
 
+        if (isset($filter['stock_less_than'])) {
+            $presentations->where('stock', '<', $filter['stock_less_than']);
+        }
+
+        if (isset($filter['stock_greater_than'])) {
+            $presentations->where('stock', '>', $filter['stock_greater_than']);
+        }
+
         if (isset($filter['unit_measurement_id'])) {
             $presentations->where('unit_measurement_id', '=', $filter['unit_measurement_id']);
         }
@@ -37,7 +45,7 @@ class PresentationPostgresRepository implements PresentationRepositoryInterface
         if (!$presentation) return null;
 
         $presentation->update($data);
-        return $presentation; 
+        return $presentation;
     }
 
     public function delete($id) {

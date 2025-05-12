@@ -22,7 +22,13 @@ class ProductController extends Controller
             'per_page' => 10
         ], $request->only(['paginate', 'per_page']));
 
-        $filter = $request->only(['name', 'category_product_id', 'quality_product_id']);
+        $filter = $request->only([
+            'name',
+            'min_price',
+            'max_price',
+            'category_product_id',
+            'quality_product_id',
+        ]);
 
         $data = $this->productService->index($pagination, $filter);
         return ApiResponseClass::sendResponse(ProductResource::collection($data));

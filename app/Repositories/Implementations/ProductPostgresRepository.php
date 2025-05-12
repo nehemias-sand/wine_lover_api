@@ -7,11 +7,21 @@ use App\Repositories\ProductRepositoryInterface;
 
 class ProductPostgresRepository implements ProductRepositoryInterface
 {
-    public function index(array $pagination, array $filter) {
-        $products = Product::query();
+    public function index(array $pagination, array $filter)
+    {
+        $products = Product::query()
+            ->whereHas('presentations', function ($query) {
+                $query->where('stock', '>', 0);
+            });
 
         if (isset($filter['name'])) {
             $products->where('name', 'ilike', '%' . $filter['name'] . '%');
+        }
+
+        if (isset($filter['min_price']) && isset($filter['max_price'])) {
+            $products->whereHas('presentations', function($query) {
+                $query->whereBetween('price', [$filter['min_price'], $filter['max_price']]);
+            });
         }
 
         if (isset($filter['category_product_id'])) {
@@ -29,26 +39,30 @@ class ProductPostgresRepository implements ProductRepositoryInterface
         return $products->get();
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $product = Product::find($id);
         if (!$product) return null;
 
         return $product;
     }
 
-    public function store(array $data) {
+    public function store(array $data)
+    {
         return Product::create($data);
     }
 
-    public function update($id, $data) {
+    public function update($id, $data)
+    {
         $product = $this->show($id);
         if (!$product) return null;
 
         $product->update($data);
-        return $product; 
+        return $product;
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $product = $this->show($id);
         if (!$product) return null;
 

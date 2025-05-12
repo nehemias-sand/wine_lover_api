@@ -39,6 +39,7 @@ Route::prefix('public')->group(function () {
         Route::get('/unit-measurement', [CatalogController::class, 'indexUnitMeasurement']);
         Route::get('/payment-status', [CatalogController::class, 'indexPayentStatus']);
         Route::get('/membership', [CatalogController::class, 'indexMembership']);
+        Route::get('/membership/{id}', [CatalogController::class, 'showMembership']);
     });
 
     Route::prefix('product')->group(function () {
@@ -147,7 +148,7 @@ Route::middleware('jwt')->prefix('client')->group(function () {
     Route::prefix('order')->group(function () {
         Route::post('/', [OrderController::class, 'createOrder']);
     });
-    
+
     Route::prefix('membership')->group(function () {
         Route::get('/', [MembershipController::class, 'current']);
         Route::post('/acquire', [MembershipController::class, 'acquire']);

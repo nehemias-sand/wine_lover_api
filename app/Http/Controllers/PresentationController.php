@@ -23,7 +23,11 @@ class PresentationController extends Controller
             'per_page' => 10
         ], $request->only(['paginate', 'per_page']));
 
-        $filter = $request->only(['unit_measurement_id']);
+        $filter = $request->only([
+            'unit_measurement_id',
+            'stock_less_than',
+            'stock_greater_than',
+        ]);
 
         $data = $this->presentationService->index($pagination, $filter);
         return ApiResponseClass::sendResponse(PresentationResource::collection($data));
