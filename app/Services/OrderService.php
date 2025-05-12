@@ -6,6 +6,7 @@ use App\Models\ProductPresentation;
 use App\Repositories\ClientMembershipPlanRepositoryInterface;
 use App\Repositories\OrderItemRepositoryInterface;
 use App\Repositories\OrderRepositoryInterface;
+use Illuminate\Support\Str;
 
 class OrderService
 {
@@ -21,12 +22,16 @@ class OrderService
 
         $clientId = $user->client->id;
 
+        $address_id = $data['address_id'];
+
         $order = $this->orderRepositoryInterface->store([
+            'code' => (string) Str::uuid(),
             'subtotal' => 0,
             'total_discount' => 0,
             'total' => 0,
             'cashback_generated' => 0,
             'client_id' => $clientId,
+            'address_id' => $address_id,
             'order_status_id' => 1,
         ]);
 

@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('order', function (Blueprint $table) {
             $table->id();
+            $table->string('code');
             $table->decimal('subtotal', 8, 2);
             $table->decimal('total_discount', 8, 2);
             $table->decimal('total', 8, 2);
             $table->decimal('cashback_generated', 8, 2);
             $table->foreignId('client_id')->constrained('client');
+            $table->foreignId('address_id')->constrained('address');
             $table->foreignId('order_status_id')->constrained('order_status');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
