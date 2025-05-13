@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained('order');
             $table->foreignId('payment_method_id')->constrained('payment_method');
             $table->foreignId('payment_status_id')->constrained('payment_status');
+            $table->foreignId('card_token_id')->constrained('card_token');
             $table->decimal('amount_paid', 8, 2)->nullable();
             $table->boolean('isProd')->default(true);
             $table->string('transaction_id')->nullable();

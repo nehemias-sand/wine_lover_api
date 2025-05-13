@@ -15,9 +15,12 @@ class PaymentMethodSeeder extends Seeder
         DB::table('payment_method')->insert([
             [
                 'name' => 'Tarjeta'
-            ]
+            ],
+            [
+                'name' => 'Cashback'
+            ],
         ]);
 
-        DB::statement('ALTER SEQUENCE payment_status_id_seq RESTART WITH 2');
+        DB::statement('ALTER SEQUENCE payment_status_id_seq RESTART WITH 3');
     }
 }

@@ -45,11 +45,6 @@ class Order extends Model
         return $this->hasMany(OrderItem::class, 'order_id', 'id');
     }
 
-    public function orderItems(): HasMany
-    {
-        return $this->hasMany(OrderItem::class, 'order_id');
-    }
-
     public function paymentStatuses(): HasMany
     {
         return $this->hasMany(OrderPaymentStatus::class, 'order_id', 'id');

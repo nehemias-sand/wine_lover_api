@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class OrderPaymentStatus extends Pivot
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $table = 'order_payment_status';
 
     public $incrementing = false;
@@ -19,6 +19,7 @@ class OrderPaymentStatus extends Pivot
         'order_id',
         'payment_method_id',
         'payment_status_id',
+        'card_token_id',
         'amount_paid',
         'isProd',
         'transaction_id',
@@ -38,4 +39,10 @@ class OrderPaymentStatus extends Pivot
     {
         return $this->belongsTo(PaymentStatus::class, 'payment_status_id', 'id');
     }
+
+    public function cardToken(): BelongsTo
+    {
+        return $this->belongsTo(CardToken::class, 'card_token_id', 'id');
+    }
+
 }

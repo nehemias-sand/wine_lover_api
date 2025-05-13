@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ProductPresentation extends Pivot
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $table = 'product_presentation';
 
     public $incrementing = false;
@@ -30,5 +30,13 @@ class ProductPresentation extends Pivot
     public function presentation(): BelongsTo
     {
         return $this->belongsTo(Presentation::class, 'presentation_id', 'id');
+    }
+
+    protected function setKeysForSaveQuery($query)
+    {
+        $query->where('product_id', $this->getAttribute('product_id'));
+        $query->where('presentation_id', $this->getAttribute('presentation_id'));
+
+        return $query;
     }
 }

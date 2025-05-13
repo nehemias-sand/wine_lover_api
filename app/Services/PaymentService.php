@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use App\Jobs\ProcessPaymentWebhook;
+use App\Jobs\SendOrderDetailMail;
+use App\Jobs\SendOrderStatusMail;
 use App\Repositories\ClientMembershipPaymentStatusRepositoryInterface;
+use App\Repositories\OrderPaymentStatusRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
@@ -14,6 +17,7 @@ class PaymentService
 {
     public function __construct(
         private ClientMembershipPaymentStatusRepositoryInterface $clientMembershipPaymentStatusRepository,
+        private OrderPaymentStatusRepositoryInterface $orderPaymentStatusRepository,
     ) {}
 
     public function executeMembershipTansaction(array $payload)
@@ -33,22 +37,14 @@ class PaymentService
         $newClientMembershipPaymentStatus = $clientMembershipPaymentStatus->replicate()->toArray();
         $newClientMembershipPaymentStatus['transaction_id'] = $transactionId;
         $newClientMembershipPaymentStatus['payment_status_id'] = 2; // Procesando
-        
+
         $payload['datosAdicionales']['paymentStatusId'] = 2; // Procesando
 
         $this->clientMembershipPaymentStatusRepository->store($newClientMembershipPaymentStatus);
-
-        $jsonBody = json_encode($payload);
-        $secret = Config::get('services.webhook_payment.secret');
-
-        // Firma tipo HMAC-SHA256
-        $signature = hash_hmac('sha256', $jsonBody, $secret);
-
-        // Webhook firmado
-        ProcessPaymentWebhook::dispatch($payload, $signature);
+        $this->processPaymentWebhook($payload);
 
         return [
-            'idTransaccion' => $transactionId,
+            'transaction_id' => $transactionId,
             'monto' => $payload['monto'],
         ];
     }
@@ -57,8 +53,28 @@ class PaymentService
     {
         $transactionId = (string) Str::uuid();
 
+        $paymentStatusIds = Arr::only(
+            $payload['datosAdicionales'],
+            ['orderId', 'paymentMethodId', 'paymentStatusId']
+        );
+
+        $orderPaymentStatus = $this->orderPaymentStatusRepository
+            ->show($paymentStatusIds);
+
+        if (!$orderPaymentStatus) return null;
+
+        $newOrderPaymentStatus = $orderPaymentStatus->replicate()->toArray();
+        $newOrderPaymentStatus['transaction_id'] = $transactionId;
+        $newOrderPaymentStatus['payment_status_id'] = 2; // Procesando
+
+        $payload['datosAdicionales']['paymentStatusId'] = 2; // Procesando
+
+        $this->orderPaymentStatusRepository->store($newOrderPaymentStatus);
+        $this->notifyOrderStatus($payload);
+        $this->processPaymentWebhook($payload);
+
         return [
-            'idTransaccion' => $transactionId,
+            'transaction_id' => $transactionId,
             'monto' => $payload['monto'],
         ];
     }
@@ -68,6 +84,7 @@ class PaymentService
         $transactionType = $data['datosAdicionales']['transactionType'];
 
         if ($transactionType === 'MEMBERSHIP') {
+
             $paymentStatusIds = Arr::only(
                 $data['datosAdicionales'],
                 ['clientMembershipPlanId', 'paymentMethodId', 'paymentStatusId']
@@ -90,9 +107,65 @@ class PaymentService
             $newClientMembershipPaymentStatus['payment_status_id'] = 3; // Completado
 
             $this->clientMembershipPaymentStatusRepository->store($newClientMembershipPaymentStatus);
+
         } else if ($transactionType === 'ORDER') {
+
+            $paymentStatusIds = Arr::only(
+                $data['datosAdicionales'],
+                ['orderId', 'paymentMethodId', 'paymentStatusId']
+            );
+
+            $orderPaymentStatus = $this->orderPaymentStatusRepository
+                ->show($paymentStatusIds);
+
+            if (!$orderPaymentStatus) return null;
+
+            $newOrderPaymentStatus = $orderPaymentStatus->replicate()->toArray();
+            $newOrderPaymentStatus['payment_status_id'] = 3; // Completado
+
+            $this->orderPaymentStatusRepository->store($newOrderPaymentStatus);
+            $this->confirmSuccessfulPaymentOrder($data);
+
         } else {
             Log::warning('Transaction type not valid', $data);
         }
+    }
+
+    private function processPaymentWebhook(array $payload)
+    {
+        $jsonBody = json_encode($payload);
+        $secret = Config::get('services.webhook_payment.secret');
+
+        // Firma tipo HMAC-SHA256
+        $signature = hash_hmac('sha256', $jsonBody, $secret);
+
+        // Webhook firmado
+        ProcessPaymentWebhook::dispatch($payload, $signature);
+    }
+
+    private function confirmSuccessfulPaymentOrder(array $payload)
+    {
+        $dataEmail = [
+            'client_name' => $payload['nombre'] . ' ' . $payload['apellido'],
+            'client_phone' => $payload['telefono'],
+            'subtotal' => $payload['datosAdicionales']['subtotal'],
+            'total' => $payload['monto'],
+            'address' => $payload['direccion'],
+            'products' => $payload['datosAdicionales']['products'],
+        ];
+
+        SendOrderDetailMail::dispatch($payload['email'], $dataEmail);
+    }
+
+    private function notifyOrderStatus(array $payload)
+    {
+        $dataOrderStatusEmail = [
+            'order_date' => $payload['datosAdicionales']['orderDate'],
+            'code' => $payload['datosAdicionales']['orderCode'],
+            'client_name' => $payload['nombre'] . ' ' . $payload['apellido'],
+            'order_status' => $payload['datosAdicionales']['orderStatus'],
+        ];
+
+        SendOrderStatusMail::dispatch($payload['email'], $dataOrderStatusEmail);
     }
 }

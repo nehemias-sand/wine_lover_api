@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -18,7 +17,7 @@ class OrderDetailMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(array $dataEmail) 
+    public function __construct(array $dataEmail)
     {
         $this->dataEmail = $dataEmail;
     }
@@ -29,7 +28,7 @@ class OrderDetailMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Detalle de la Orden',
+            subject: 'Detalle de tú Orden',
         );
     }
 

@@ -44,6 +44,14 @@ class AcquireMembershipRequest extends FormRequest
             'automatic_renewal.required' => 'Debe indicar si desea la renovación automática.',
             'automatic_renewal.boolean' => 'El campo renovación automática debe ser verdadero o falso.',
 
+            'card_token_id.required' => 'Debe seleccionar una tarjeta.',
+            'card_token_id.integer' => 'El ID de tarjeta debe ser un número.',
+            'card_token_id.exists' => 'La tarjeta seleccionada no es válida.',
+
+            'address_id.required' => 'Debe seleccionar una dirección.',
+            'address_id.integer' => 'El ID de dirección debe ser un número.',
+            'address_id.exists' => 'La dirección seleccionada no es válida.',
+
             'membership_id.required' => 'Debe seleccionar una membresía.',
             'membership_id.integer' => 'El ID de membresía debe ser un número.',
             'membership_id.exists' => 'La membresía seleccionada no es válida.',

@@ -28,7 +28,9 @@ class CreateOrderRequest extends FormRequest
             'products.*.product_id' => 'required|integer',
             'products.*.presentation_id' => 'required|integer',
             'products.*.amount' => 'required|integer|min:1',
-            'address_id' => 'required|integer'
+            'address_id' => 'required|integer|exists:address,id',
+            'card_token_id' => 'required|boolean|exists:card_token,id',
+            'payment_method_id' => 'required|integer|exists:payment_method,id',
         ];
     }
 
@@ -51,6 +53,15 @@ class CreateOrderRequest extends FormRequest
 
             'address_id.required' => 'El campo :attribute es obligatorio',
             'address_id.integer' => 'El campo :attribute debe ser un número entero',
+            'address_id.exists' => 'La dirección seleccionada no es válida.',
+
+            'card_token_id.required' => 'Debe seleccionar una tarjeta.',
+            'card_token_id.integer' => 'El ID de tarjeta debe ser un número.',
+            'card_token_id.exists' => 'La tarjeta seleccionada no es válida.',
+
+            'payment_method_id.required' => 'Debe seleccionar un método de pago.',
+            'payment_method_id.integer' => 'El ID del método de pago debe ser un número.',
+            'payment_method_id.exists' => 'El método de pago seleccionado no es válido.',
         ];
     }
 

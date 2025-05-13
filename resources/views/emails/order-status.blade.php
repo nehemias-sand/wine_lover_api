@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualización de Estado de Orden</title>
+    <title>Estado de tú Orden</title>
     <style>
         /* Estilos base */
         body {
@@ -146,7 +146,7 @@
         <div class="header">
             <h1>Tracking de orden</h1>
             <p>Hola {{ $dataOrderStatusEmail['client_name'] }},</p>
-            <p>Te compartimos el tracking de orden y producto</p>
+            <p>Te compartimos el tracking de tú orden</p>
         </div>
 
         @php
@@ -178,7 +178,7 @@
 
         <!-- Caja de estado principal -->
         <div class="status-box">
-            <h2>Número de código: {{ $dataOrderStatusEmail['code'] }}</h2>
+            <h2>Código de orden: {{ $dataOrderStatusEmail['code'] }}</h2>
             <p>Pedido realizado: {{ $dataOrderStatusEmail['order_date']->format('d/m/Y') }}</p>
 
             <div class="order-status">

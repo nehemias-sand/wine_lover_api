@@ -9,9 +9,13 @@ class OrderPaymentStatusPostgresRepository implements OrderPaymentStatusReposito
 {
     public function index(array $pagination, array $filter) {}
 
-    public function show($id)
+    public function show($ids)
     {
-        $orderPayment = OrderPaymentStatus::find($id);
+        $orderPayment = OrderPaymentStatus::query()
+            ->where('order_id', '=', $ids['orderId'])
+            ->where('payment_method_id', '=', $ids['paymentMethodId'])
+            ->where('payment_status_id', '=', $ids['paymentStatusId'])
+            ->first();
 
         if (!$orderPayment) return null;
 
@@ -23,9 +27,9 @@ class OrderPaymentStatusPostgresRepository implements OrderPaymentStatusReposito
         return OrderPaymentStatus::create($data);
     }
 
-    public function update($id, $data)
+    public function update($ids, $data)
     {
-        $orderPayment = OrderPaymentStatus::find($id);
+        $orderPayment = $this->show($ids);
 
         if (!$orderPayment) return null;
 
@@ -34,9 +38,9 @@ class OrderPaymentStatusPostgresRepository implements OrderPaymentStatusReposito
         return $orderPayment;
     }
 
-    public function delete($id)
+    public function delete($ids)
     {
-        $orderPayment = $this->show($id);
+        $orderPayment = $this->show($ids);
 
         if (!$orderPayment) return null;
 

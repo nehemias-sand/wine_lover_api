@@ -16,8 +16,7 @@ class AddressResource extends JsonResource
             'street' => $this->street,
             'number' => $this->number,
             'reference' => $this->reference,
-            'district_id' => $this->district_id,
-            'client_id' => $this->client_id,
+            'district' => $this->district->name,
         ];
     }
 
@@ -30,8 +29,7 @@ class AddressResource extends JsonResource
             'street' => $this->street,
             'number' => $this->number,
             'reference' => $this->reference,
-            'district_id' => $this->district_id,
-            'client_id' => $this->client_id,
+            'district' => $this->district->name,
         ];
     }
 }

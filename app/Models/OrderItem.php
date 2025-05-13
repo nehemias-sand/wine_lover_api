@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class OrderItem extends Pivot
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $table = 'order_item';
 
     public $incrementing = false;
@@ -23,6 +23,7 @@ class OrderItem extends Pivot
         'unit_price',
         'discount',
         'subtotal_item',
+        'subtotal_cashback',
     ];
 
     public function order(): BelongsTo

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('unit_price', 8, 2);
             $table->decimal('discount', 8, 2);
             $table->decimal('subtotal_item', 8, 2);
+            $table->decimal('subtotal_cashback', 8, 2);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes();

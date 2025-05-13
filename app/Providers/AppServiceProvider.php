@@ -23,6 +23,7 @@ use App\Repositories\UnitMeasurementRepositoryInterface;
 use App\Repositories\OrderItemRepositoryInterface;
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\MembershipPlanRepositoryInterface;
+use App\Repositories\OrderPaymentStatusRepositoryInterface;
 
 use App\Services\AuthService;
 use App\Services\CommentService;
@@ -122,6 +123,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(PaymentService::class, function ($app) {
             return new PaymentService(
                 $app->make(ClientMembershipPaymentStatusRepositoryInterface::class),
+                $app->make(OrderPaymentStatusRepositoryInterface::class),
             );
         });
 
@@ -139,9 +141,14 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(OrderService::class, function ($app) {
             return new OrderService(
+                $app->make(PaymentService::class),
                 $app->make(OrderRepositoryInterface::class),
                 $app->make(OrderItemRepositoryInterface::class),
+                $app->make(OrderPaymentStatusRepositoryInterface::class),
+                $app->make(ProductPresentationRepositoryInterface::class),
                 $app->make(ClientMembershipPlanRepositoryInterface::class),
+                $app->make(CashbackHistoryRepositoryInterface::class),
+                $app->make(CardTokenRepositoryInterface::class),
             );
         });
     }
