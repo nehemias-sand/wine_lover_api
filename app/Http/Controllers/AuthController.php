@@ -30,17 +30,9 @@ class AuthController extends Controller
             }
 
             $sessionUser = auth()->user();
+            $sessionUser->token = $token;
 
-            $user = [
-                'id' => $sessionUser->id,
-                'username' => $sessionUser->username,
-                'email' => $sessionUser->email,
-                'email_verified_at' => $sessionUser->email_verified_at,
-                'profile' => $sessionUser->profile->name,
-                'state' => $sessionUser->state,
-            ];
-
-            return ApiResponseClass::sendResponse(compact('user', 'token'));
+            return ApiResponseClass::sendResponse(new UserResource($sessionUser));
         } catch (JWTException $e) {
             return ApiResponseClass::sendResponse(null, 'Could not create token', 500);
         }

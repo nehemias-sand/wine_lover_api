@@ -16,7 +16,7 @@ class UserResource extends JsonResource
             ->merge($profilePermissions)
             ->map(fn($perm) => strtoupper($perm->name))
             ->unique();
-        
+
         $data = [
             'id' => $this->id,
             'username' => $this->username,
@@ -29,6 +29,10 @@ class UserResource extends JsonResource
 
         if ($this->profile->id === 2) {
             $data['client'] = new ClientResource($this->client);
+        }
+
+        if (isset($this->token)) {
+            $data['token'] = $this->token;
         }
 
         return $data;
