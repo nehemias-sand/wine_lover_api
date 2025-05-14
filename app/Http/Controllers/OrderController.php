@@ -5,18 +5,20 @@ namespace App\Http\Controllers;
 use App\Classes\ApiResponseClass;
 use App\Http\Requests\Order\CreateOrderRequest;
 use App\Http\Resources\OrderResource;
-use App\Mail\OrderDetailMail;
-use App\Mail\OrderStatusMail;
-use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
     public function __construct(
         private OrderService $orderService
     ) {}
+
+    public function index(Request $request) {}
+
+    public function indexClient(Request $request) {}
+
+    public function show($id) {}
 
     public function createOrder(CreateOrderRequest $request)
     {
@@ -31,4 +33,6 @@ class OrderController extends Controller
             return ApiResponseClass::rollback($ex);
         }
     }
+
+    public function updateState(Request $request) {}
 }

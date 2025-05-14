@@ -9,7 +9,9 @@ class ClientResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        return [
+        $profileId = auth()->user()->profile_id;
+
+        $data = [
             'id' => $this->id,
             'names' => $this->names,
             'surnames' => $this->surnames,
@@ -19,6 +21,18 @@ class ClientResource extends JsonResource
             'membership' => $this->currentMembershipPlan()?->membership->name,
             'current_cashback' => $this->current_cashback,
         ];
+
+        if ($profileId !== 2) {
+            $data['orders'] = $this->orders
+                ->map(fn($order) => new OrderResource($order));
+
+            $data['cashback_history'] = $this->cashbackHistory
+                ->map(fn($cashback) => new CashbackHistoryResource($cashback));
+
+            return $data;
+        } else {
+            return $data;
+        }
     }
 
     public function toJson($options = 0)

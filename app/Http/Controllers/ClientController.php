@@ -9,6 +9,7 @@ use App\Http\Resources\ClientResource;
 use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use App\Services\ClientService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -18,6 +19,8 @@ class ClientController extends Controller
         private ClientService $clientService,
         private AuthService $authService
     ) {}
+
+    public function indexAdmin(Request $request) {}
 
     public function register(RegisterClientRequest $request)
     {
