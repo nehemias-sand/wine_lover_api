@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ClientMembershipService
 {
@@ -63,6 +64,13 @@ class ClientMembershipService
 
         $address = $this->addressRepositoryInterface->show($data['address_id']);
         $cardToken = $this->cardTokenRepository->show($data['card_token_id']);
+
+        if (
+            $address->client_id !== $data['client_id'] ||
+            $cardToken->client_id !== $data['client_id']
+        ) {
+            throw new HttpException(403);
+        }
 
         $payload  = [
             'cardToken' => $cardToken->token,

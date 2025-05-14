@@ -6,10 +6,10 @@ use App\Classes\ApiResponseClass;
 use App\Http\Requests\Review\CreateReviewRequest;
 use App\Http\Requests\Review\UpdateReviewRequest;
 use App\Http\Resources\ReviewResource;
-use App\Models\Review;
 use App\Services\ReviewService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ReviewController extends Controller
 {
@@ -17,6 +17,11 @@ class ReviewController extends Controller
 
     public function index(Request $request)
     {
+        $user = auth()->user();
+        if ($user->client && $user->client->currentMembershipPlan === null) {
+            throw new HttpException(403);
+        }
+
         $pagination = array_merge([
             'paginate' => 'true',
             'per_page' => 10
@@ -84,7 +89,6 @@ class ReviewController extends Controller
 
         return ApiResponseClass::sendResponse(new ReviewResource($review));
     }
-
 
     public function delete($id)
     {

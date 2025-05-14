@@ -9,6 +9,7 @@ use App\Http\Resources\CommentResource;
 use App\Services\CommentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CommentController extends Controller
 {
@@ -16,6 +17,11 @@ class CommentController extends Controller
 
     public function index(Request $request, int $reviewId)
     {
+        $user = auth()->user();
+        if ($user->client && $user->client->currentMembershipPlan === null) {
+            throw new HttpException(403);
+        }
+
         $pagination = array_merge([
             'paginate' => 'true',
             'per_page' => 10
@@ -31,6 +37,9 @@ class CommentController extends Controller
     public function store(int $reviewId, CreateCommentRequest $request)
     {
         $user = auth()->user();
+        if ($user->client && $user->client->currentMembershipPlan === null) {
+            throw new HttpException(403);
+        }
 
         $content = $request->content;
         $parent_id = $request->parent_id;
@@ -56,21 +65,27 @@ class CommentController extends Controller
     }
 
 
-    public function changeState($id){
-        $comment = $this -> commentService->show($id);
-        if(!$comment) return ApiResponseClass::sendResponse(null, "comentario con id: $id no encontrado", 404);
+    public function changeState($id)
+    {
+        $comment = $this->commentService->show($id);
+        if (!$comment) return ApiResponseClass::sendResponse(null, "comentario con id: $id no encontrado", 404);
 
         $data = [
             'banned' => !$comment->banned
         ];
 
-        $updatedComment=$this->commentService->update($id, $data);
+        $updatedComment = $this->commentService->update($id, $data);
 
         return ApiResponseClass::sendResponse(new CommentResource($updatedComment));
     }
 
     public function update($id, UpdateCommentRequest $request)
     {
+        $user = auth()->user();
+        if ($user->client && $user->client->currentMembershipPlan === null) {
+            throw new HttpException(403);
+        }
+
         $data = $request->only([
             'content',
             'parent_id',
@@ -85,6 +100,11 @@ class CommentController extends Controller
 
     public function delete($id)
     {
+        $user = auth()->user();
+        if ($user->client && $user->client->currentMembershipPlan === null) {
+            throw new HttpException(403);
+        }
+
         $comment = $this->commentService->delete($id);
         if (!$comment) return ApiResponseClass::sendResponse(null, "ID no encontrada", 404);
 

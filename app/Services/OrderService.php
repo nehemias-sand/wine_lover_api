@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repositories\AddressRepositoryInterface;
 use App\Repositories\CardTokenRepositoryInterface;
 use App\Repositories\CashbackHistoryRepositoryInterface;
 use App\Repositories\ClientMembershipPlanRepositoryInterface;
@@ -11,11 +12,13 @@ use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\ProductPresentationRepositoryInterface;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class OrderService
 {
     public function __construct(
         private PaymentService $paymentService,
+        private AddressRepositoryInterface $addressRepositoryInterface,
         private OrderRepositoryInterface $orderRepositoryInterface,
         private OrderItemRepositoryInterface $orderItemRepositoryInterface,
         private OrderPaymentStatusRepositoryInterface $orderPaymentStatusRepository,
@@ -27,8 +30,20 @@ class OrderService
 
     public function store(array $data)
     {
-        $clientId = auth()->user()->client->id;
-        $address_id = $data['address_id'];
+        $client = auth()->user()->client;
+        $clientId = $client->id;
+        $addressId = $data['address_id'];
+
+        $address = $this->addressRepositoryInterface->show($addressId);
+        $cardToken = $this->cardTokenRepository->show($data['card_token_id']);
+
+        if (
+            $address->client_id !== $clientId ||
+            $cardToken->client_id !== $clientId ||
+            $client->currentMembershipPlan() === null
+        ) {
+            throw new HttpException(403);
+        }
 
         $order = $this->orderRepositoryInterface->store([
             'code' => (string) Str::uuid(),
@@ -37,7 +52,7 @@ class OrderService
             'total' => 0,
             'cashback_generated' => 0,
             'client_id' => $clientId,
-            'address_id' => $address_id,
+            'address_id' => $addressId,
             'order_status_id' => 1, // Procesando Orden
         ]);
 
@@ -81,7 +96,6 @@ class OrderService
 
         $total = $subtotal - $totalDiscount;
         $cashbackGenerated = $this->clientMembershipPlanRepositoryInterface->calculateCashback($clientId, $total);
-        $cardToken = $this->cardTokenRepository->show($data['card_token_id']);
 
         $order->update([
             'subtotal' => $subtotal,
@@ -91,26 +105,6 @@ class OrderService
         ]);
 
         $fullOrder = $order->fresh('items');
-
-        $orderPaymentStatus = $this->orderPaymentStatusRepository->store([
-            'order_id' => $fullOrder->id,
-            'payment_method_id' => $data['payment_method_id'],
-            'payment_status_id' => 1, // Pendiente
-            'card_token_id' => $data['card_token_id'],
-            'amount_paid' => $total,
-            'isProd' => env('APP_ENV') === 'prod',
-        ]);
-
-        $this->cashbackHistoryRepositoryInterface->store([
-            'amount' => $fullOrder->cashback_generated,
-            'transaction_code' => $fullOrder->code,
-            'type' => 'Order',
-            'client_id' => $fullOrder->client_id,
-        ]);
-
-        $client = $fullOrder->client;
-        $client->current_cashback += $fullOrder->cashback_generated;
-        $client->save();
 
         $products = $fullOrder->items
             ->map(function ($item) {
@@ -127,40 +121,111 @@ class OrderService
             })
             ->toArray();
 
-        $payload  = [
-            'cardToken' => $cardToken->token,
-            'monto' => $fullOrder->total,
-            'configuracion' => [
-                'urlWebhook' => env('WEBHOOK_URL'),
-                'notificarTransaccionCliente' => true
-            ],
-            'nombre' => $fullOrder->client->names,
-            'apellido' => $fullOrder->client->surnames,
-            'email' => $fullOrder->client->user->email,
-            'ciudad' =>  $fullOrder->address->district->name,
-            'direccion' => [
-                'street' => $fullOrder->address->street,
-                'number' => $fullOrder->address->number,
-                'neighborhood' => $fullOrder->address->neighborhood,
-                'reference' => $fullOrder->address->reference,
-                'district' => $fullOrder->address->district->name ?? null,
-            ],
-            'telefono' => $fullOrder->client->phone,
-            'datosAdicionales' => [
-                'transactionType' => 'ORDER',
-                'orderId' => $orderPaymentStatus->order_id,
-                'paymentMethodId' => $orderPaymentStatus->payment_method_id,
-                'paymentStatusId' => $orderPaymentStatus->payment_status_id,
-                'orderCode' => $fullOrder->code,
-                'orderStatus' => $fullOrder->orderStatus->name,
-                'orderDate' => $fullOrder->created_at,
-                'products' => $products,
-                'subtotal' => $fullOrder->subtotal,
-            ],
-        ];
+        if ($data['payment_method_id'] === 1) { // Tarjeta
 
-        $paymentResponse = $this->paymentService->executePurchaseTransaction($payload);
-        $fullOrder->transaction_id = $paymentResponse['transaction_id'];
+            $orderPaymentStatus = $this->orderPaymentStatusRepository->store([
+                'order_id' => $fullOrder->id,
+                'payment_method_id' => $data['payment_method_id'],
+                'payment_status_id' => 1, // Pendiente
+                'card_token_id' => $data['card_token_id'],
+                'amount_paid' => $total,
+                'isProd' => env('APP_ENV') === 'prod',
+            ]);
+
+            $this->cashbackHistoryRepositoryInterface->store([
+                'amount' => $fullOrder->cashback_generated,
+                'transaction_code' => $fullOrder->code,
+                'type' => 'Order',
+                'client_id' => $fullOrder->client_id,
+            ]);
+
+            $client = $fullOrder->client;
+            $client->current_cashback += $fullOrder->cashback_generated;
+            $client->save();
+
+            $payload  = [
+                'cardToken' => $cardToken->token,
+                'monto' => $fullOrder->total,
+                'configuracion' => [
+                    'urlWebhook' => env('WEBHOOK_URL'),
+                    'notificarTransaccionCliente' => true
+                ],
+                'nombre' => $fullOrder->client->names,
+                'apellido' => $fullOrder->client->surnames,
+                'email' => $fullOrder->client->user->email,
+                'ciudad' =>  $fullOrder->address->district->name,
+                'direccion' => [
+                    'street' => $fullOrder->address->street,
+                    'number' => $fullOrder->address->number,
+                    'neighborhood' => $fullOrder->address->neighborhood,
+                    'reference' => $fullOrder->address->reference,
+                    'district' => $fullOrder->address->district->name ?? null,
+                ],
+                'telefono' => $fullOrder->client->phone,
+                'datosAdicionales' => [
+                    'transactionType' => 'ORDER',
+                    'orderId' => $orderPaymentStatus->order_id,
+                    'paymentMethodId' => $orderPaymentStatus->payment_method_id,
+                    'paymentStatusId' => $orderPaymentStatus->payment_status_id,
+                    'orderCode' => $fullOrder->code,
+                    'orderStatus' => $fullOrder->orderStatus->name,
+                    'orderDate' => $fullOrder->created_at,
+                    'products' => $products,
+                    'subtotal' => $fullOrder->subtotal,
+                ],
+            ];
+
+            $paymentResponse = $this->paymentService->executePurchaseTransaction($payload);
+            $fullOrder->transaction_id = $paymentResponse['transaction_id'];
+
+        } else if ($data['payment_method_id'] === 2) { // Cashback
+
+            $currentCashback = $client->current_cashback;
+
+            if ($currentCashback < $fullOrder->total) {
+                throw new BadRequestHttpException('Cashback insuficiente');
+            }
+
+            $client = $fullOrder->client;
+            $client->current_cashback -= $fullOrder->total;
+            $client->save();
+
+            $fullOrder->update([
+                'cashback_generated' => 0.00,
+            ]);
+
+            $orderPaymentStatus = $this->orderPaymentStatusRepository->store([
+                'order_id' => $fullOrder->id,
+                'payment_method_id' => $data['payment_method_id'],
+                'payment_status_id' => 3, // Completado
+                'amount_paid' => $total,
+                'isProd' => env('APP_ENV') === 'prod',
+            ]);
+
+            $payload = [
+                'nombre' => $fullOrder->client->names,
+                'apellido' => $fullOrder->client->surnames,
+                'email' => $fullOrder->client->user->email,
+                'telefono' => $fullOrder->client->phone,
+                'monto' => $fullOrder->total,
+                'direccion' => [
+                    'street' => $fullOrder->address->street,
+                    'number' => $fullOrder->address->number,
+                    'neighborhood' => $fullOrder->address->neighborhood,
+                    'reference' => $fullOrder->address->reference,
+                    'district' => $fullOrder->address->district->name ?? null,
+                ],
+                'datosAdicionales' => [
+                    'products' => $products,
+                    'subtotal' => $fullOrder->subtotal,
+                ],
+            ];
+
+            $this->paymentService->handleCashbackPayment($payload);
+
+        } else {
+            throw new BadRequestHttpException('Metodo de pago invalido');
+        }
 
         return $fullOrder;
     }

@@ -107,7 +107,6 @@ class PaymentService
             $newClientMembershipPaymentStatus['payment_status_id'] = 3; // Completado
 
             $this->clientMembershipPaymentStatusRepository->store($newClientMembershipPaymentStatus);
-
         } else if ($transactionType === 'ORDER') {
 
             $paymentStatusIds = Arr::only(
@@ -125,10 +124,14 @@ class PaymentService
 
             $this->orderPaymentStatusRepository->store($newOrderPaymentStatus);
             $this->confirmSuccessfulPaymentOrder($data);
-
         } else {
             Log::warning('Transaction type not valid', $data);
         }
+    }
+
+    public function handleCashbackPayment(array $payload)
+    {
+        $this->confirmSuccessfulPaymentOrder($payload);
     }
 
     private function processPaymentWebhook(array $payload)

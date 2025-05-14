@@ -142,6 +142,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderService::class, function ($app) {
             return new OrderService(
                 $app->make(PaymentService::class),
+                $app->make(AddressRepositoryInterface::class),
                 $app->make(OrderRepositoryInterface::class),
                 $app->make(OrderItemRepositoryInterface::class),
                 $app->make(OrderPaymentStatusRepositoryInterface::class),

@@ -43,6 +43,10 @@ class MembershipController extends Controller
 
         $data['client_id'] = $client->id;
 
+        if ($data['payment_method_id'] !== 1) {
+            return ApiResponseClass::sendResponse(null, "Solo se permiten pagos con tarjeta", 400);
+        }
+
         DB::beginTransaction();
 
         try {
