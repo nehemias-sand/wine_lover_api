@@ -115,6 +115,11 @@ Route::middleware('jwt')->prefix('admin')->group(function () {
             ->patch('/comment/{id}', [CommentController::class, 'changeState']);
     });
 
+    Route::prefix('order')->group(function () {
+        Route::get('/', [OrderController::class, 'index']);
+        Route::get('/{id}', [OrderController::class, 'show']);
+        Route::put('/{id}', [OrderController::class, 'updateStatus']);
+    });
 });
 
 Route::middleware('jwt')->prefix('client')->group(function () {
@@ -146,6 +151,8 @@ Route::middleware('jwt')->prefix('client')->group(function () {
     });
 
     Route::prefix('order')->group(function () {
+        Route::get('/', [OrderController::class, 'indexClient']);
+        Route::get('/{id}', [OrderController::class, 'show']);
         Route::post('/', [OrderController::class, 'createOrder']);
     });
 

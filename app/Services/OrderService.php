@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\SendOrderStatusMail;
 use App\Repositories\AddressRepositoryInterface;
 use App\Repositories\CardTokenRepositoryInterface;
 use App\Repositories\CashbackHistoryRepositoryInterface;
@@ -27,6 +28,16 @@ class OrderService
         private CashbackHistoryRepositoryInterface $cashbackHistoryRepositoryInterface,
         private CardTokenRepositoryInterface $cardTokenRepository,
     ) {}
+
+    public function index(array $pagination, array $filter)
+    {
+        return $this->orderRepositoryInterface->index($pagination, $filter);
+    }
+
+    public function show($id)
+    {
+        return $this->orderRepositoryInterface->show($id);
+    }
 
     public function store(array $data)
     {
@@ -228,5 +239,25 @@ class OrderService
         }
 
         return $fullOrder;
+    }
+
+    public function updateStatus($id, $orderStatusId)
+    {
+        $order = $this->orderRepositoryInterface->update($id, [
+            'order_status_id' => $orderStatusId,
+        ]);
+        if (!$order) return null;
+
+        $client = $order->client;
+
+        $receiver = $client->user->email;
+        $dataOrderStatusEmail = [
+            'client_name' => $client->getFullNameAttribute(),
+            'order_status' => $order->orderStatus->name,
+            'code' => $order->code,
+            'order_date' => $order->created_at,
+        ];
+
+        SendOrderStatusMail::dispatch($receiver, $dataOrderStatusEmail);
     }
 }

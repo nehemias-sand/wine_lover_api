@@ -35,6 +35,7 @@ class CreateProductRequest extends FormRequest
             'images.*' => 'required|image|mimes:jpeg,png,jpg|max:5120',
             'category_product_id' => 'required|integer|exists:category_product,id',
             'quality_product_id' => 'required|integer|exists:quality_product,id',
+            'manufacturer_id' => 'required|integer|exists:manufacturer,id',
         ];
     }
 
@@ -78,6 +79,10 @@ class CreateProductRequest extends FormRequest
             'quality_product_id.required' => 'El campo :attribute es obligatorio',
             'quality_product_id.integer' => 'El campo :attribute debe ser un entero',
             'quality_product_id.exists' => 'El campo :attribute debe ser un id valido',
+
+            'manufacturer_id.required' => 'El campo :attribute es obligatorio',
+            'manufacturer_id.integer' => 'El campo :attribute debe ser un entero',
+            'manufacturer_id.exists' => 'El campo :attribute debe ser un id valido',
         ];
     }
 

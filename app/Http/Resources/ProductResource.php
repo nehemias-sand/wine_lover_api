@@ -19,16 +19,8 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'state' => $this->state,
-            'category_product' => [
-                'id' => $this->category->id,
-                'name' => $this->category->name,
-                'description' => $this->category->description,
-            ],
-            'quality_product' => [
-                'id' => $this->quality->id,
-                'name' => $this->quality->name,
-                'description' => $this->quality->description,
-            ],
+            'category_product' => new CategoryProductResource($this->category),
+            'quality_product' => new QualityProductResource($this->quality),
             'presentations' => $this->presentations->map(fn($productPresentation) => [
                 'id' => $productPresentation->presentation_id,
                 'amount' => $productPresentation->presentation->amount,
@@ -36,11 +28,8 @@ class ProductResource extends JsonResource
                 'stock' => $productPresentation->stock,
                 'unit_price' => $productPresentation->unit_price
             ]),
-            'images' => $this->images->map(fn($image) => [
-                'id' => $image->id,
-                'url_image' => $image->url_image,
-                'state' => $image->state
-            ]),
+            'images' => $this->images->map(fn($image) => new ProductImageResource($image)),
+            'manufacturer' => new ManufacturerResource($this->manufacturer),
         ];
     }
 
@@ -51,16 +40,8 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'state' => $this->state,
-            'category_product' => [
-                'id' => $this->category->id,
-                'name' => $this->category->name,
-                'description' => $this->category->description,
-            ],
-            'quality_product' => [
-                'id' => $this->quality->id,
-                'name' => $this->quality->name,
-                'description' => $this->quality->description,
-            ],
+            'category_product' => new CategoryProductResource($this->category),
+            'quality_product' => new QualityProductResource($this->quality),
             'presentations' => $this->presentations->map(fn($productPresentation) => [
                 'id' => $productPresentation->presentation_id,
                 'amount' => $productPresentation->presentation->amount,
@@ -68,11 +49,8 @@ class ProductResource extends JsonResource
                 'stock' => $productPresentation->stock,
                 'unit_price' => $productPresentation->unit_price
             ]),
-            'images' => $this->images->map(fn($image) => [
-                'id' => $image->id,
-                'url_image' => $image->url_image,
-                'state' => $image->state
-            ]),
+            'images' => $this->images->map(fn($image) => new ProductImageResource($image)),
+            'manufacturer' => new ManufacturerResource($this->manufacturer),
         ];
     }
 }

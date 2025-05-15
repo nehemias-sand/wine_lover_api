@@ -20,7 +20,18 @@ class ClientController extends Controller
         private AuthService $authService
     ) {}
 
-    public function indexAdmin(Request $request) {}
+    public function indexAdmin(Request $request)
+    {
+        $pagination = array_merge([
+            'paginate' => 'true',
+            'per_page' => 10
+        ], $request->only(['paginate', 'per_page']));
+
+        $filter = $request->only(['identity_number', 'names']);
+
+        $data = $this->clientService->index($pagination, $filter);
+        return ApiResponseClass::sendResponse(ClientResource::collection($data));
+    }
 
     public function register(RegisterClientRequest $request)
     {

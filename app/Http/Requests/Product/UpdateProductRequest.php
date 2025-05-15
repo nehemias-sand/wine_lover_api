@@ -29,6 +29,7 @@ class UpdateProductRequest extends FormRequest
             'state' => 'boolean',
             'category_product_id' => 'integer|exists:category_product,id',
             'quality_product_id' => 'integer|exists:quality_product,id',
+            'manufacturer_id' => 'integer|exists:manufacturer,id',
         ];
     }
 
@@ -42,6 +43,8 @@ class UpdateProductRequest extends FormRequest
             'category_product_id.exists' => 'El campo :attribute debe ser un id valido',
             'quality_product_id.integer' => 'El campo :attribute debe ser un entero',
             'quality_product_id.exists' => 'El campo :attribute debe ser un id valido',
+            'manufacturer_id.integer' => 'El campo :attribute debe ser un entero',
+            'manufacturer_id.exists' => 'El campo :attribute debe ser un id valido',
         ];
     }
 

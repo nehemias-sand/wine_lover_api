@@ -49,6 +49,7 @@ class ProductController extends Controller
             'state',
             'category_product_id',
             'quality_product_id',
+            'manufacturer_id',
         ]);
 
         $presentations = $request->presentations;
@@ -73,6 +74,7 @@ class ProductController extends Controller
             'state',
             'category_product_id',
             'quality_product_id',
+            'manufacturer_id',
         ]);
 
         $product = $this->productService->update($id, $data);

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     protected $table = 'product';
 
     protected $fillable = [
@@ -20,6 +20,7 @@ class Product extends Model
         'state',
         'category_product_id',
         'quality_product_id',
+        'manufacturer_id',
     ];
 
     public function category(): BelongsTo
@@ -30,6 +31,11 @@ class Product extends Model
     public function quality(): BelongsTo
     {
         return $this->belongsTo(QualityProduct::class, 'quality_product_id', 'id');
+    }
+
+    public function manufacturer(): BelongsTo
+    {
+        return $this->belongsTo(Manufacturer::class, 'manufacturer_id', 'id');
     }
 
     public function orderItems(): HasMany
