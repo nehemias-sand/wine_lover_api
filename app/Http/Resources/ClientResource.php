@@ -9,7 +9,8 @@ class ClientResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $profileId = auth()->user()->profile_id;
+        $user = auth()->user();
+        $profileId = $user?->profile_id ?? null;
 
         $data = [
             'id' => $this->id,
