@@ -7,6 +7,7 @@ use App\Jobs\SendImprovementMembershipMail;
 use App\Jobs\SendNewMembershipMail;
 use App\Jobs\SendOrderDetailMail;
 use App\Jobs\SendOrderStatusMail;
+use App\Jobs\SendRenewalMembershipMail;
 use App\Repositories\ClientMembershipPaymentStatusRepositoryInterface;
 use App\Repositories\OrderPaymentStatusRepositoryInterface;
 use Carbon\Carbon;
@@ -132,6 +133,31 @@ class PaymentService
 
             $this->orderPaymentStatusRepository->store($newOrderPaymentStatus);
             $this->confirmSuccessfulPaymentOrder($data);
+        } else if ($transactionType === 'RENEWAL-MEMBERSHIP') {
+            $paymentStatusIds = Arr::only(
+                $data['datosAdicionales'],
+                ['clientMembershipPlanId', 'paymentMethodId', 'paymentStatusId']
+            );
+
+            $clientMembershipPaymentStatus = $this->clientMembershipPaymentStatusRepository
+                ->show($paymentStatusIds);
+
+            if (!$clientMembershipPaymentStatus) return null;
+
+            $now = Carbon::now()->startOfDay();
+            $months = $clientMembershipPaymentStatus->clientPlan->plan->months;
+
+            $clientPlan = $clientMembershipPaymentStatus->clientPlan;
+            $clientPlan->end_date = $now->addMonths($months);
+            $clientPlan->active = true;
+            $clientPlan->save();
+
+            $newClientMembershipPaymentStatus = $clientMembershipPaymentStatus->replicate()->toArray();
+            $newClientMembershipPaymentStatus['payment_status_id'] = 3; // Completado
+
+            $this->clientMembershipPaymentStatusRepository->store($newClientMembershipPaymentStatus);
+
+            $this->confirmRenewalMembershipPlan($data);
         } else {
             Log::warning('Transaction type not valid', $data);
         }
@@ -207,5 +233,19 @@ class PaymentService
         ];
 
         SendImprovementMembershipMail::dispatch($payload['email'], $dataImprovementMembershipEmail);
+    }
+
+    private function confirmRenewalMembershipPlan(array $payload)
+    {
+        $dataRenewalMembershipEmail = [
+            'client_name' => $payload['nombre'] . ' ' . $payload['apellido'],
+            'direccion' => $payload['direccion'],
+            'ciudad' => $payload['ciudad'],
+            'membershipName' => $payload['datosAdicionales']['clientMembershipPlanName'],
+            'membershipPercentage' => $payload['datosAdicionales']['clientMembershipPlanPercentage'],
+            'card' => $payload['datosAdicionales']['card']
+        ];
+
+        SendRenewalMembershipMail::dispatch($payload['email'], $dataRenewalMembershipEmail);
     }
 }

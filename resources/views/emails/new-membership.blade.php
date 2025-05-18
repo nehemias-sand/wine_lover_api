@@ -334,7 +334,7 @@
                 </div>
             </div>
 
-            <!-- Información de pago (corregida) -->
+            <!-- Información de pago -->
             <div class="payment-info">
                 <h3>Método de Pago</h3>
                 <div class="card-details">

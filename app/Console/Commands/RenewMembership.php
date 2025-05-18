@@ -82,10 +82,16 @@ class RenewMembership extends Command
                     'direccion' => $billingAddress->neighborhood . ' ' . $billingAddress->street . ' #' . $billingAddress->number,
                     'telefono' => $newClientMembreshipPlan->client->phone,
                     'datosAdicionales' => [
-                        'transactionType' => 'MEMBERSHIP',
+                        'transactionType' => 'RENEWAL-MEMBERSHIP',
                         'clientMembershipPlanId' => $newClientMembershipPaymentStatus->client_membership_plan_id,
                         'paymentMethodId' => $newClientMembershipPaymentStatus->payment_method_id,
                         'paymentStatusId' => $newClientMembershipPaymentStatus->payment_status_id,
+                        'clientMembershipPlanName' => $newClientMembreshipPlan->membership->name . '/' . $newClientMembreshipPlan->plan->description,
+                        'clientMembershipPlanPercentage' => $newClientMembreshipPlan->cashback_percentage,
+                        'card' => [
+                            'maskedNumber' => $cardToken->masked_number,
+                            'brand' => $cardToken->brand,
+                        ],
                     ],
                 ];
 

@@ -197,6 +197,29 @@
             margin-bottom: 15px;
         }
 
+        /* Dirección de facturación */
+        .billing-address {
+            background-color: #F3F2F8;
+            /* Tono muy claro de morado */
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .billing-address h3 {
+            color: #5C2D91;
+            /* Color principal de Visual Studio */
+            margin-top: 0;
+            font-size: 18px;
+            border-bottom: 1px solid #E5E1F2;
+            padding-bottom: 10px;
+        }
+
+        .address-details {
+            color: #333;
+            line-height: 1.6;
+        }
+
         .card-details {
             display: flex;
             flex-direction: column;
@@ -376,7 +399,7 @@
         <div class="content">
             <!-- Mensaje de renovación -->
             <div class="renewal-message">
-                <h2>¡Hola {{ $renewalData['client_name'] }}!</h2>
+                <h2>¡Hola {{ $dataRenewalMembershipEmail['client_name'] }}!</h2>
                 <p>Te informamos que tu membresía ha sido renovada automáticamente. Seguirás disfrutando de todos los
                     beneficios exclusivos de nuestro club.</p>
             </div>
@@ -386,89 +409,22 @@
                 <h3>Detalles de tu Membresía</h3>
 
                 <div class="membership-info">
-                    <div class="info-label">Plan:</div>
-                    <div class="info-value">{{ $renewalData['plan_name'] }}</div>
-                </div>
-
-                <div class="membership-info">
-                    <div class="info-label">Fecha de Renovación:</div>
-                    <div class="info-value">{{ $renewalData['renewal_date'] }}</div>
-                </div>
-
-                <div class="membership-info">
-                    <div class="info-label">Período:</div>
-                    <div class="info-value">{{ $renewalData['period_start'] }} - {{ $renewalData['period_end'] }}</div>
+                    <div class="info-label">Tipo de Membresía:</div>
+                    <div class="info-value">{{ $dataRenewalMembershipEmail['membershipName'] }}</div>
                 </div>
 
                 <div class="membership-info">
                     <div class="info-label">Estado:</div>
-                    <div class="info-value" style="color: #107C10; font-weight: bold;">Activo</div>
+                    <div class="info-value" style="color: #107C10; font-weight: bold;">Renovada</div>
                 </div>
             </div>
 
-            <!-- Detalles de pago -->
-            <div class="payment-details">
-                <h3>Detalles del Pago</h3>
-                <div class="payment-amount">${{ number_format($renewalData['amount'], 2) }}</div>
-
-                <div class="receipt">
-                    <div class="receipt-row">
-                        <div class="receipt-label">Membresía {{ $renewalData['plan_name'] }}</div>
-                        <div class="receipt-value">${{ number_format($renewalData['base_amount'], 2) }}</div>
-                    </div>
-                    @if ($renewalData['discount'] > 0)
-                        <div class="receipt-row">
-                            <div class="receipt-label">Descuento</div>
-                            <div class="receipt-value">-${{ number_format($renewalData['discount'], 2) }}</div>
-                        </div>
-                    @endif
-                    @if ($renewalData['tax'] > 0)
-                        <div class="receipt-row">
-                            <div class="receipt-label">Impuestos</div>
-                            <div class="receipt-value">${{ number_format($renewalData['tax'], 2) }}</div>
-                        </div>
-                    @endif
-                    <div class="receipt-row">
-                        <div class="receipt-label">Total</div>
-                        <div class="receipt-value">${{ number_format($renewalData['amount'], 2) }}</div>
-                    </div>
-                </div>
-
-                <div class="next-renewal">
-                    <p>Tu próxima renovación automática será el:</p>
-                    <p class="date">{{ $renewalData['next_renewal_date'] }}</p>
-                </div>
-            </div>
-
-            <!-- Beneficios -->
-            <div class="benefits">
-                <h3>Beneficios que Seguirás Disfrutando</h3>
-
-                <div class="benefit-item">
-                    <div class="benefit-icon"><span>✓</span></div>
-                    <div class="benefit-text">Descuentos exclusivos de hasta {{ $renewalData['discount_percentage'] }}%
-                        en todas tus compras</div>
-                </div>
-
-                <div class="benefit-item">
-                    <div class="benefit-icon"><span>✓</span></div>
-                    <div class="benefit-text">Invitaciones a eventos privados y catas especiales</div>
-                </div>
-
-                <div class="benefit-item">
-                    <div class="benefit-icon"><span>✓</span></div>
-                    <div class="benefit-text">{{ $renewalData['shipping_benefit'] }}</div>
-                </div>
-
-                <div class="benefit-item">
-                    <div class="benefit-icon"><span>✓</span></div>
-                    <div class="benefit-text">Cashback del {{ $renewalData['cashback_percentage'] }}% en todas tus
-                        compras</div>
-                </div>
-
-                <div class="benefit-item">
-                    <div class="benefit-icon"><span>✓</span></div>
-                    <div class="benefit-text">Acceso prioritario a productos de edición limitada</div>
+            <!-- Dirección de facturación -->
+            <div class="billing-address">
+                <h3>Dirección de Facturación</h3>
+                <div class="address-details">
+                    <p><strong>Dirección:</strong> {{ $dataRenewalMembershipEmail['direccion'] }}</p>
+                    <p><strong>Ciudad:</strong> {{ $dataRenewalMembershipEmail['ciudad'] }}</p>
                 </div>
             </div>
 
@@ -477,10 +433,10 @@
                 <h3>Método de Pago Utilizado</h3>
                 <div class="card-details">
                     <div class="card-brand">
-                        {{ strtoupper($renewalData['card']['brand']) }}
+                        {{ strtoupper($dataRenewalMembershipEmail['card']['brand']) }}
                     </div>
                     <div class="card-number">
-                        Tarjeta terminada en {{ substr($renewalData['card']['maskedNumber'], -4) }}
+                        Tarjeta terminada en {{ substr($dataRenewalMembershipEmail['card']['maskedNumber'], -4) }}
                     </div>
                 </div>
                 <p class="payment-note">

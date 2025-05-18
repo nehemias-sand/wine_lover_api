@@ -38,7 +38,7 @@ class NewMembershipMail extends Mailable
      */
     public function content(): Content
     {
-         return new Content(
+        return new Content(
             view: 'emails.new-membership',
             with: [
                 'dataNewMembershipEmail' => $this->dataNewMembershipEmail,

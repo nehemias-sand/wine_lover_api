@@ -13,12 +13,14 @@ class RenewalMembershipMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    private array $dataRenewalMembershipEmail;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(array $dataRenewalMembershipEmail)
     {
-        //
+        $this->dataRenewalMembershipEmail = $dataRenewalMembershipEmail;
     }
 
     /**
@@ -36,8 +38,11 @@ class RenewalMembershipMail extends Mailable
      */
     public function content(): Content
     {
-        return new Content(
-            view: 'view.name',
+       return new Content(
+            view: 'emails.renewal-membership',
+            with: [
+                'dataRenewalMembershipEmail' => $this->dataRenewalMembershipEmail,
+            ]
         );
     }
 
