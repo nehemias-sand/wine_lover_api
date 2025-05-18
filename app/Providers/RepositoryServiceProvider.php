@@ -48,7 +48,9 @@ use App\Repositories\Implementations\OrderPaymentStatusPostgresRepository;
 use App\Repositories\Implementations\ClientMembershipPlanPostgresRepository;
 use App\Repositories\Implementations\ClientMembershipPaymentStatusPostgreRepository;
 use App\Repositories\Implementations\ClientPostgresRepository;
+use App\Repositories\Implementations\ManufacturerPostgresRepository;
 use App\Repositories\Implementations\MembershipPlanPostgresRepository;
+use App\Repositories\ManufacturerRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -81,6 +83,7 @@ class RepositoryServiceProvider extends ServiceProvider
                 $this->app->bind(MembershipPlanRepositoryInterface::class, MembershipPlanPostgresRepository::class);
                 $this->app->bind(ClientMembershipPaymentStatusRepositoryInterface::class, ClientMembershipPaymentStatusPostgreRepository::class);
                 $this->app->bind(CashbackHistoryRepositoryInterface::class, CashbackHistoryPostgresRepository::class);
+                $this->app->bind(ManufacturerRepositoryInterface::class, ManufacturerPostgresRepository::class);
         }
 
         /**
