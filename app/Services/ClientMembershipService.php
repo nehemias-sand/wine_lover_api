@@ -12,6 +12,7 @@ use App\Repositories\MembershipPlanRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use PhpParser\Node\Expr\Cast\Double;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -57,7 +58,7 @@ class ClientMembershipService
                 'isProd' => env('APP_ENV') === 'prod',
             ]);
 
-        $this->handleCurrentMembershipPlan(
+        $refundAmount = $this->handleCurrentMembershipPlan(
             $currentMembershipPlan,
             $clientMembershipPlan
         );
@@ -90,6 +91,13 @@ class ClientMembershipService
                 'clientMembershipPlanId' => $clientMembershipPaymentStatus->client_membership_plan_id,
                 'paymentMethodId' => $clientMembershipPaymentStatus->payment_method_id,
                 'paymentStatusId' => $clientMembershipPaymentStatus->payment_status_id,
+                'clientMembershipPlanName' => $clientMembershipPlan->membership->name . '/' . $clientMembershipPlan->plan->description,
+                'clientMembershipPlanPercentage' => $clientMembershipPlan->cashback_percentage,
+                'card' => [
+                    'maskedNumber' => $cardToken->masked_number,
+                    'brand' => $cardToken->brand,
+                ],
+                'refundAmount' => $refundAmount,
             ],
         ];
 
@@ -101,7 +109,10 @@ class ClientMembershipService
     private function handleCurrentMembershipPlan(
         ?ClientMembershipPlan $currentClientMembershipPlan,
         ClientMembershipPlan $newClientMembershipPlan,
-    ): void {
+    ): float {
+
+        $refundAmount = 0.0;
+
         if ($currentClientMembershipPlan) {
             if (
                 !($newClientMembershipPlan->membership_id > $currentClientMembershipPlan->membership_id)
@@ -138,5 +149,7 @@ class ClientMembershipService
             $currentClientMembershipPlan->active = false;
             $currentClientMembershipPlan->save();
         }
+
+        return $refundAmount;
     }
 }
