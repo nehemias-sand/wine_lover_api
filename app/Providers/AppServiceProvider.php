@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Manufacturer;
 use App\Repositories\AddressRepositoryInterface;
 use App\Repositories\AuthRepositoryInterface;
 use App\Repositories\CardTokenRepositoryInterface;
@@ -15,6 +16,7 @@ use App\Repositories\ProductImageRepositoryInterface;
 use App\Repositories\ProductPresentationRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\ClientRepositoryInterface;
+use App\Repositories\ManufacturerRepositoryInterface;
 use App\Repositories\MembershipRepositoryInterface;
 use App\Repositories\PaymentStatusRepositoryInterface;
 use App\Repositories\PlanRepositoryInterface;
@@ -36,6 +38,7 @@ use App\Services\CardTokenService;
 use App\Services\ClientMembershipService;
 use App\Services\ClientService;
 use App\Services\CatalogService;
+use App\Services\ManufacturerService;
 use App\Services\OrderService;
 use App\Services\PaymentService;
 use App\Services\RsaEncryptionService;
@@ -152,6 +155,10 @@ class AppServiceProvider extends ServiceProvider
                 $app->make(CashbackHistoryRepositoryInterface::class),
                 $app->make(CardTokenRepositoryInterface::class),
             );
+        });
+
+        $this->app->bind(ManufacturerService::class, function($app){
+            return new ManufacturerService($app->make(ManufacturerRepositoryInterface::class));
         });
     }
 

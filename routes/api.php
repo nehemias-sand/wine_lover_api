@@ -11,6 +11,7 @@ use App\Http\Controllers\PresentationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\ProductPresentationController;
 use App\Http\Controllers\OrderController;
@@ -49,6 +50,11 @@ Route::prefix('public')->group(function () {
         Route::get('/{productId}/images', [ProductImageController::class, 'index']);
         Route::get('/image/{id}', [ProductImageController::class, 'show']);
         Route::get('/{productId}/presentation/{presentationId}', [ProductPresentationController::class, 'show']);
+        
+    });
+
+    Route::prefix('manufacturer')->group(function (){
+        Route::get('/', [ManufacturerController::class, 'index']);
     });
 
     Route::prefix('presentation')->group(function () {
@@ -102,6 +108,18 @@ Route::middleware('jwt')->prefix('admin')->group(function () {
             Route::middleware(['check.permission:DELETE_PRODUCT'])
                 ->delete('/{id}', [ProductImageController::class, 'delete']);
         });
+
+        Route::prefix('manufacturer')->group(function (){
+            Route::middleware(['check.permission:CREATE_PRODUCT'])
+            ->post('/', [ManufacturerController::class, 'store']);
+            
+        Route::middleware(['check.permission:UPDATE_PRODUCT'])
+            ->put('/{id}', [ManufacturerController::class, 'update']);
+
+        Route::middleware(['check.permission:DELETE_PRODUCT'])
+            ->delete('/{id}', [ManufacturerController::class, 'delete']);
+        });
+
     });
 
     Route::prefix('presentation')->group(function () {
