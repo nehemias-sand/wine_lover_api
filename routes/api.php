@@ -50,11 +50,6 @@ Route::prefix('public')->group(function () {
         Route::get('/{productId}/images', [ProductImageController::class, 'index']);
         Route::get('/image/{id}', [ProductImageController::class, 'show']);
         Route::get('/{productId}/presentation/{presentationId}', [ProductPresentationController::class, 'show']);
-        
-    });
-
-    Route::prefix('manufacturer')->group(function (){
-        Route::get('/', [ManufacturerController::class, 'index']);
     });
 
     Route::prefix('presentation')->group(function () {
@@ -75,6 +70,10 @@ Route::middleware('jwt')->prefix('admin')->group(function () {
         Route::post('/register', [AuthController::class, 'register']);
         Route::put('/{id}', [AuthController::class, 'update']);
         Route::put('/change-estado/{id}', [AuthController::class, 'changeState']);
+    });
+
+    Route::prefix('client')->group(function () {
+        Route::get('/', [ClientController::class, 'indexAdmin']);
     });
 
     Route::post('/register', [AuthController::class, 'register']);
@@ -109,17 +108,18 @@ Route::middleware('jwt')->prefix('admin')->group(function () {
                 ->delete('/{id}', [ProductImageController::class, 'delete']);
         });
 
-        Route::prefix('manufacturer')->group(function (){
-            Route::middleware(['check.permission:CREATE_PRODUCT'])
-            ->post('/', [ManufacturerController::class, 'store']);
+        Route::prefix('manufacturer')->group(function () {
+            Route::get('/', [ManufacturerController::class, 'index']);
             
-        Route::middleware(['check.permission:UPDATE_PRODUCT'])
-            ->put('/{id}', [ManufacturerController::class, 'update']);
+            Route::middleware(['check.permission:CREATE_PRODUCT'])
+                ->post('/', [ManufacturerController::class, 'store']);
 
-        Route::middleware(['check.permission:DELETE_PRODUCT'])
-            ->delete('/{id}', [ManufacturerController::class, 'delete']);
+            Route::middleware(['check.permission:UPDATE_PRODUCT'])
+                ->put('/{id}', [ManufacturerController::class, 'update']);
+
+            Route::middleware(['check.permission:DELETE_PRODUCT'])
+                ->delete('/{id}', [ManufacturerController::class, 'delete']);
         });
-
     });
 
     Route::prefix('presentation')->group(function () {
@@ -133,18 +133,36 @@ Route::middleware('jwt')->prefix('admin')->group(function () {
             ->delete('/{id}', [PresentationController::class, 'delete']);
     });
 
-    Route::prefix('review')->group(function () {
-        Route::middleware([])
-            ->patch('/{id}', [ReviewController::class, 'changeState']);
-
-        Route::middleware([])
-            ->patch('/comment/{id}', [CommentController::class, 'changeState']);
-    });
-
     Route::prefix('order')->group(function () {
         Route::get('/', [OrderController::class, 'index']);
         Route::get('/{id}', [OrderController::class, 'show']);
         Route::put('/{id}', [OrderController::class, 'updateStatus']);
+    });
+});
+
+Route::middleware('jwt')->prefix('social')->group(function () {
+
+    Route::prefix('review')->group(function () {
+        Route::middleware(['check.permission:GET_REVIEWS'])
+            ->get('/', [ReviewController::class, 'index']);
+        
+        Route::middleware(['check.permission:CREATE_REVIEW'])
+            ->post('/', [ReviewController::class, 'store']);
+
+        Route::middleware(['check.permission:UPDATE_REVIEW'])
+            ->post('/{id}', [ReviewController::class, 'update']);
+
+        Route::middleware([])
+            ->patch('/{id}', [ReviewController::class, 'changeState']);
+
+        Route::middleware(['check.permission:DELETE_REVIEW'])
+            ->delete('/{id}', [ReviewController::class, 'delete']);
+
+        Route::middleware(['check.permission:GET_REVIEW_COMMETS'])
+            ->get('/{reviewId}/comment', [CommentController::class, 'index']);
+
+        Route::middleware([])
+            ->patch('/comment/{id}', [CommentController::class, 'changeState']);
     });
 });
 
@@ -191,15 +209,6 @@ Route::middleware('jwt')->prefix('client')->group(function () {
     Route::prefix('review')->group(function () {
         Route::middleware(['check.permission:GET_REVIEWS'])
             ->get('/', [ReviewController::class, 'index']);
-
-        Route::middleware(['check.permission:CREATE_REVIEW'])
-            ->post('/', [ReviewController::class, 'store']);
-
-        Route::middleware(['check.permission:UPDATE_REVIEW'])
-            ->post('/{id}', [ReviewController::class, 'update']);
-
-        Route::middleware(['check.permission:DELETE_REVIEW'])
-            ->delete('/{id}', [ReviewController::class, 'delete']);
 
         Route::middleware(['check.permission:GET_REVIEW_COMMETS'])
             ->get('/{reviewId}/comment', [CommentController::class, 'index']);

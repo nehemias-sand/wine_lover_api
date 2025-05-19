@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\SendWelcomeMail;
 use App\Repositories\AuthRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,8 +20,18 @@ class AuthService
 
     public function register(array $data)
     {
+        $email = $data['email'];
+        $dataEmail = [
+            'username' => $data['username'],
+            'password' => $data['password'],
+        ];
+
         $data['password'] = Hash::make($data['password']);
-        return $this->authRepositoryInterface->register($data);
+        $user = $this->authRepositoryInterface->register($data);
+
+        SendWelcomeMail::dispatch($email, $dataEmail);
+
+        return $user;
     }
 
     public function update(int $id, array $data)

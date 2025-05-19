@@ -41,7 +41,6 @@ class AuthController extends Controller
     {
         $username = $request->username;
         $email = $request->email;
-        $password = $request->password;
         $profile_id = $request->profile_id;
 
         $data = [
