@@ -14,7 +14,7 @@ class Comment extends Model
 
     protected $table = 'comment';
 
-    protected $fillable= [
+    protected $fillable = [
         'content',
         'banned',
         'parent_id',
@@ -22,16 +22,18 @@ class Comment extends Model
         'user_id'
     ];
 
-    public function review(): BelongsTo{
+    public function review(): BelongsTo
+    {
         return $this->belongsTo(Review::class, 'review_id', 'id');
     }
 
-    public function user(): BelongsTo{
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-    
-    public function coments(): HasMany{
-        return $this->hasMany(Comment::class, 'parent_id', 'id');
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Comment::class, 'parent_id', 'id');
     }
-    
 }

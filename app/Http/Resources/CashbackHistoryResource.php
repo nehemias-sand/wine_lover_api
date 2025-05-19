@@ -15,6 +15,7 @@ class CashbackHistoryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'amount' => $this->amount,
             'transaction_code' => $this->transaction_code,
             'type' => $this->type,
@@ -25,6 +26,7 @@ class CashbackHistoryResource extends JsonResource
     public function toJson($options = 0)
     {
         return [
+            'id' => $this->id,
             'amount' => $this->amount,
             'transaction_code' => $this->transaction_code,
             'type' => $this->type,

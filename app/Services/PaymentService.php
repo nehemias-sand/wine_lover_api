@@ -116,6 +116,7 @@ class PaymentService
             } else {
                 $this->confirmNewMembershipPlan($data);
             }
+
         } else if ($transactionType === 'ORDER') {
 
             $paymentStatusIds = Arr::only(
@@ -133,6 +134,7 @@ class PaymentService
 
             $this->orderPaymentStatusRepository->store($newOrderPaymentStatus);
             $this->confirmSuccessfulPaymentOrder($data);
+
         } else if ($transactionType === 'RENEWAL-MEMBERSHIP') {
             $paymentStatusIds = Arr::only(
                 $data['datosAdicionales'],
@@ -158,6 +160,7 @@ class PaymentService
             $this->clientMembershipPaymentStatusRepository->store($newClientMembershipPaymentStatus);
 
             $this->confirmRenewalMembershipPlan($data);
+            
         } else {
             Log::warning('Transaction type not valid', $data);
         }

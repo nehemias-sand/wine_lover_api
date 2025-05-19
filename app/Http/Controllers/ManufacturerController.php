@@ -16,7 +16,7 @@ class ManufacturerController extends Controller
 
     public function __construct(private ManufacturerService $manufacturerService)
     {
-        
+
     }
 
     public function index(Request $request)
@@ -26,7 +26,7 @@ class ManufacturerController extends Controller
             'per_page' => 10
         ], $request->only(['paginate', 'per_page']));
 
-        $filter = $request->only(['manufacturer_id']);
+        $filter = $request->only(['name']);
 
         $data = $this->manufacturerService->index($pagination, $filter);
         return ApiResponseClass::sendResponse(ManufacturerResource::collection($data));

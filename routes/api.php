@@ -66,17 +66,23 @@ Route::prefix('public')->group(function () {
 Route::middleware('jwt')->prefix('admin')->group(function () {
 
     Route::prefix('user')->group(function () {
-        Route::get('/', [AuthController::class, 'index']);
-        Route::post('/register', [AuthController::class, 'register']);
-        Route::put('/{id}', [AuthController::class, 'update']);
-        Route::put('/change-estado/{id}', [AuthController::class, 'changeState']);
+        Route::middleware(['check.permission:GET_USERS'])
+            ->get('/', [AuthController::class, 'index']);
+
+        Route::middleware(['check.permission:CREATE_USER'])
+            ->post('/register', [AuthController::class, 'register']);
+
+        Route::middleware(['check.permission:UPDATE_USER'])
+            ->put('/{id}', [AuthController::class, 'update']);
+
+        Route::middleware(['check.permission:UPDATE_USER'])
+            ->put('/change-estado/{id}', [AuthController::class, 'changeState']);
     });
 
     Route::prefix('client')->group(function () {
-        Route::get('/', [ClientController::class, 'indexAdmin']);
+        Route::middleware(['check.permission:GET_CLIENTS'])
+            ->get('/', [ClientController::class, 'indexAdmin']);
     });
-
-    Route::post('/register', [AuthController::class, 'register']);
 
     Route::prefix('product')->group(function () {
         Route::middleware(['check.permission:CREATE_PRODUCT'])
@@ -109,8 +115,9 @@ Route::middleware('jwt')->prefix('admin')->group(function () {
         });
 
         Route::prefix('manufacturer')->group(function () {
-            Route::get('/', [ManufacturerController::class, 'index']);
-            
+            Route::middleware(['check.permission:CREATE_PRODUCT'])
+                ->get('/', [ManufacturerController::class, 'index']);
+
             Route::middleware(['check.permission:CREATE_PRODUCT'])
                 ->post('/', [ManufacturerController::class, 'store']);
 
@@ -134,9 +141,14 @@ Route::middleware('jwt')->prefix('admin')->group(function () {
     });
 
     Route::prefix('order')->group(function () {
-        Route::get('/', [OrderController::class, 'index']);
-        Route::get('/{id}', [OrderController::class, 'show']);
-        Route::put('/{id}', [OrderController::class, 'updateStatus']);
+        Route::middleware(['check.permission:GET_ORDERS'])
+            ->get('/', [OrderController::class, 'index']);
+
+        Route::middleware(['check.permission:GET_ORDERS'])
+            ->get('/{id}', [OrderController::class, 'show']);
+
+        Route::middleware(['check.permission:UPDATE_ORDER_STATUS'])
+            ->put('/{id}', [OrderController::class, 'updateStatus']);
     });
 });
 
@@ -145,81 +157,77 @@ Route::middleware('jwt')->prefix('social')->group(function () {
     Route::prefix('review')->group(function () {
         Route::middleware(['check.permission:GET_REVIEWS'])
             ->get('/', [ReviewController::class, 'index']);
-        
+
         Route::middleware(['check.permission:CREATE_REVIEW'])
             ->post('/', [ReviewController::class, 'store']);
 
         Route::middleware(['check.permission:UPDATE_REVIEW'])
             ->post('/{id}', [ReviewController::class, 'update']);
 
-        Route::middleware([])
+        Route::middleware(['check.permission:UPDATE_REVIEW'])
             ->patch('/{id}', [ReviewController::class, 'changeState']);
 
         Route::middleware(['check.permission:DELETE_REVIEW'])
             ->delete('/{id}', [ReviewController::class, 'delete']);
 
-        Route::middleware(['check.permission:GET_REVIEW_COMMETS'])
+        Route::middleware(['check.permission:GET_REVIEWS'])
             ->get('/{reviewId}/comment', [CommentController::class, 'index']);
 
-        Route::middleware([])
+        Route::middleware(['check.permission:BAN_REVIEW_COMMENT'])
             ->patch('/comment/{id}', [CommentController::class, 'changeState']);
     });
 });
 
 Route::middleware('jwt')->prefix('client')->group(function () {
 
-    Route::put('/update/{id}', [ClientController::class, 'update']);
+    Route::middleware(['check.permission:MANAGE_OWN_CLIENT_INFO'])
+        ->put('/update/{id}', [ClientController::class, 'update']);
 
-    Route::get('/cashback', [CashbackHistoryController::class, 'indexClient']);
+    Route::middleware(['check.permission:MANAGE_OWN_CLIENT_INFO'])
+        ->get('/cashback', [CashbackHistoryController::class, 'indexClient']);
 
-    Route::prefix('address')->group(function () {
-        Route::middleware(['check.permission:CREATE_ADDRESS'])
-            ->post('/', [AddressController::class, 'store']);
+    Route::prefix('address')->middleware(['check.permission:MANAGE_OWN_ADDRESSES'])
+        ->group(function () {
+            Route::post('/', [AddressController::class, 'store']);
+            Route::put('/{id}', [AddressController::class, 'update']);
+        });
 
-        Route::middleware(['check.permission:UPDATE_ADDRESS'])
-            ->put('/{id}', [AddressController::class, 'update']);
-    });
+    Route::prefix('card')->middleware(['check.permission:MANAGE_OWN_CARDS'])
+        ->group(function () {
+            Route::get('/token', [CardTokenController::class, 'indexClient']);
+            Route::post('/token', [CardTokenController::class, 'tokenizeCard']);
+            Route::put('/token/{id}', [CardTokenController::class, 'updateTokenizedCard']);
+            Route::delete('/token/{id}', [CardTokenController::class, 'deleteTokenizedCard']);
+        });
 
-    Route::prefix('card')->group(function () {
-        Route::middleware([])
-            ->get('/token', [CardTokenController::class, 'indexClient']);
+    Route::prefix('order')->middleware(['check.permission:MANAGE_OWN_ORDERS'])
+        ->group(function () {
+            Route::get('/', [OrderController::class, 'indexClient']);
+            Route::get('/{id}', [OrderController::class, 'show']);
+            Route::post('/', [OrderController::class, 'createOrder']);
+        });
 
-        Route::middleware([])
-            ->post('/token', [CardTokenController::class, 'tokenizeCard']);
-
-        Route::middleware([])
-            ->put('/token/{id}', [CardTokenController::class, 'updateTokenizedCard']);
-
-        Route::middleware([])
-            ->delete('/token/{id}', [CardTokenController::class, 'deleteTokenizedCard']);
-    });
-
-    Route::prefix('order')->group(function () {
-        Route::get('/', [OrderController::class, 'indexClient']);
-        Route::get('/{id}', [OrderController::class, 'show']);
-        Route::post('/', [OrderController::class, 'createOrder']);
-    });
-
-    Route::prefix('membership')->group(function () {
-        Route::get('/', [MembershipController::class, 'current']);
-        Route::post('/acquire', [MembershipController::class, 'acquire']);
-        Route::post('/change/automatic-renewal', [MembershipController::class, 'changeAutomaticRenewal']);
-    });
+    Route::prefix('membership')->middleware(['check.permission:MANAGE_OWN_MEMBERSHIP'])
+        ->group(function () {
+            Route::get('/', [MembershipController::class, 'current']);
+            Route::post('/acquire', [MembershipController::class, 'acquire']);
+            Route::post('/change/automatic-renewal', [MembershipController::class, 'changeAutomaticRenewal']);
+        });
 
     Route::prefix('review')->group(function () {
         Route::middleware(['check.permission:GET_REVIEWS'])
             ->get('/', [ReviewController::class, 'index']);
 
-        Route::middleware(['check.permission:GET_REVIEW_COMMETS'])
+        Route::middleware(['check.permission:MANAGE_OWN_COMMENTS'])
             ->get('/{reviewId}/comment', [CommentController::class, 'index']);
 
-        Route::middleware([])
+        Route::middleware(['check.permission:MANAGE_OWN_COMMENTS'])
             ->post('/{reviewId}/comment', [CommentController::class, 'store']);
 
-        Route::middleware([])
+        Route::middleware(['check.permission:MANAGE_OWN_COMMENTS'])
             ->put('/comment/{id}', [CommentController::class, 'update']);
 
-        Route::middleware([])
+        Route::middleware(['check.permission:MANAGE_OWN_COMMENTS'])
             ->delete('/comment/{id}', [CommentController::class, 'delete']);
     });
 });

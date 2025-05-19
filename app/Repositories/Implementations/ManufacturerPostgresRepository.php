@@ -10,8 +10,8 @@ class ManufacturerPostgresRepository implements ManufacturerRepositoryInterface
     public function index(array $pagination, array $filter){
 
         $manufaturers = Manufacturer::query();
-        if(isset($filter['id'])){
-            $manufaturers->where('id', '=', $filter['id']);
+        if(isset($filter['name'])){
+            $manufaturers->where('name', '=', $filter['name']);
         }
 
         if($pagination['paginate']==='true'){
@@ -19,7 +19,7 @@ class ManufacturerPostgresRepository implements ManufacturerRepositoryInterface
         }
     }
 
-    
+
     public function show($id)
     {
         return Manufacturer::find($id);

@@ -21,11 +21,7 @@ class ReviewResource extends JsonResource
             'cover_image' => $this->cover_image,
             'comments_available' => $this->comments_available,
             'username' => $this->user->username,
-            'comments' => $this->comments->map(fn($comment) => [
-                'id' => $comment->id,
-                'content' => $comment->content,
-                'by' => $comment->user->username
-            ])
+            'comments' => $this->comments->map(fn($comment) => new CommentResource($comment))
         ];
     }
 
@@ -37,7 +33,8 @@ class ReviewResource extends JsonResource
             'content' => $this->content,
             'cover_image' => $this->cover_image,
             'comments_available' => $this->comments_available,
-            'username' => $this->user->username
+            'username' => $this->user->username,
+            'comments' => $this->comments->map(fn($comment) => new CommentResource($comment))
         ];
     }
 }

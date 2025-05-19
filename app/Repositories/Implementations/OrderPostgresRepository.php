@@ -11,8 +11,8 @@ class OrderPostgresRepository implements OrderRepositoryInterface
     {
         $orders = Order::query();
 
-        if (isset($filter['client_id'])) {
-            $orders->where('client_id', '=', $filter['client_id']);
+        if (isset($filter['order_status_id'])) {
+            $orders->where('order_status_id', '=', $filter['order_status_id']);
         }
 
         if ($pagination['paginate']  === 'true') {

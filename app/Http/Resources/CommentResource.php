@@ -17,9 +17,10 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'content' => $this->content,
-            'banned'=>$this->banned,
-            'parent_id'=>$this->parent_id,
-            'review_id'=>$this->review->title
+            'banned' => $this->banned,
+            'parent' => $this->parent->content,
+            'review' => $this->review->title,
+            'by' => $this->user->username,
         ];
     }
 
@@ -29,8 +30,9 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'content' => $this->content,
             'banned' => $this->comments_available,
-            'parent_id'=>$this->comment->parent_id,
-            'review_id'=>$this->review->title
+            'parent' => $this->parent->content,
+            'review' => $this->review->title,
+            'by' => $this->user->username,
         ];
     }
 }

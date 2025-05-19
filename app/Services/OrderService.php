@@ -201,6 +201,13 @@ class OrderService
             $client->current_cashback -= $fullOrder->total;
             $client->save();
 
+            $this->cashbackHistoryRepositoryInterface->store([
+                'amount' => $fullOrder->total * -1,
+                'transaction_code' => $fullOrder->code,
+                'type' => 'Order',
+                'client_id' => $fullOrder->client_id,
+            ]);
+
             $fullOrder->update([
                 'cashback_generated' => 0.00,
             ]);
