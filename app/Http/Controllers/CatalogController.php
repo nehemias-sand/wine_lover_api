@@ -6,6 +6,7 @@ use App\Classes\ApiResponseClass;
 use App\Http\Resources\CategoryProductResource;
 use App\Http\Resources\MembershipResource;
 use App\Http\Resources\PaymentStatusResource;
+use App\Http\Resources\ProfileResource;
 use App\Http\Resources\QualityProductResource;
 use App\Http\Resources\UnitMeasurementResource;
 use App\Services\CatalogService;
@@ -55,5 +56,12 @@ class CatalogController extends Controller
         if (!$membership) return ApiResponseClass::sendResponse(null, "Membresia con ID $id no encontrada", 404);
 
         return ApiResponseClass::sendResponse(new MembershipResource($membership));
+    }
+
+    public function indexProfile()
+    {
+        $data = $this->catalogService->indexProfile();
+
+        return ApiResponseClass::sendResponse(ProfileResource::collection($data));
     }
 }

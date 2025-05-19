@@ -2,4 +2,6 @@
 
 namespace App\Repositories;
 
-interface ProfileRepositoryInterface extends RepositoryInterface { }
+interface ProfileRepositoryInterface {
+    public function index();
+ }

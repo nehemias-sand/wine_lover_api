@@ -26,8 +26,7 @@ class RegisterRequest extends FormRequest
         return [
             'username' => 'required|string|unique:users,username',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
-            'profile_id' => 'integer|required',
+            'profile_id' => 'integer|required|exists:profile,id',
         ];
     }
 
@@ -40,10 +39,9 @@ class RegisterRequest extends FormRequest
             'email.required' => 'El campo :attribute es obligatorio',
             'email.email' => 'El campo :attribute debe ser un correo',
             'email.unique' => 'El campo :attribute debe ser unico',
-            'password.required' => 'El campo :attribute es obligatorio',
-            'password.string' => 'El campo :attribute debe ser una cadena',
             'profile_id.required' => 'El campo :attribute es obligatorio',
             'profile_id.integer' => 'El campo :attribute debe ser un entero',
+            'profile_id.exists' => 'El perfil seleccionado no es válido',
         ];
     }
 

@@ -24,7 +24,7 @@ use App\Repositories\OrderItemRepositoryInterface;
 use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\MembershipPlanRepositoryInterface;
 use App\Repositories\OrderPaymentStatusRepositoryInterface;
-
+use App\Repositories\ProfileRepositoryInterface;
 use App\Services\AuthService;
 use App\Services\CommentService;
 use App\Services\ReviewService;
@@ -116,7 +116,8 @@ class AppServiceProvider extends ServiceProvider
                 $app->make(UnitMeasurementRepositoryInterface::class),
                 $app->make(PaymentStatusRepositoryInterface::class),
                 $app->make(MembershipRepositoryInterface::class),
-                $app->make(PlanRepositoryInterface::class)
+                $app->make(PlanRepositoryInterface::class),
+                $app->make(ProfileRepositoryInterface::class),
             );
         });
 

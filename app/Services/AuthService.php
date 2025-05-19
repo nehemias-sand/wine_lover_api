@@ -36,4 +36,17 @@ class AuthService
     {
         return $this->authRepositoryInterface->changeState($id);
     }
+
+    public static function generatePassword()
+    {
+        $longitud = 10;
+        $caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+        $password = '';
+
+        for ($i = 0; $i < $longitud; $i++) {
+            $password .= $caracteres[rand(0, strlen($caracteres) - 1)];
+        }
+
+        return $password;
+    }
 }

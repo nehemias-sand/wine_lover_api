@@ -40,6 +40,7 @@ Route::prefix('public')->group(function () {
         Route::get('/payment-status', [CatalogController::class, 'indexPayentStatus']);
         Route::get('/membership', [CatalogController::class, 'indexMembership']);
         Route::get('/membership/{id}', [CatalogController::class, 'showMembership']);
+        Route::get('/profile', [CatalogController::class, 'indexProfile']);
     });
 
     Route::prefix('product')->group(function () {
@@ -62,6 +63,13 @@ Route::prefix('public')->group(function () {
 
 
 Route::middleware('jwt')->prefix('admin')->group(function () {
+
+    Route::prefix('user')->group(function () {
+        Route::get('/', [AuthController::class, 'index']);
+        Route::post('/register', [AuthController::class, 'register']);
+        Route::put('/{id}', [AuthController::class, 'update']);
+        Route::put('/change-estado/{id}', [AuthController::class, 'changeState']);
+    });
 
     Route::post('/register', [AuthController::class, 'register']);
 

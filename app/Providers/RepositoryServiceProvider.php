@@ -25,6 +25,7 @@ use App\Repositories\PaymentStatusRepositoryInterface;
 use App\Repositories\PlanRepositoryInterface;
 use App\Repositories\QualityProductRepositoryInterface;
 use App\Repositories\UnitMeasurementRepositoryInterface;
+use App\Repositories\ProfileRepositoryInterface;
 
 use App\Repositories\Implementations\AuthPostgresRepository;
 use App\Repositories\Implementations\CommentPostgresRepository;
@@ -49,6 +50,7 @@ use App\Repositories\Implementations\ClientMembershipPlanPostgresRepository;
 use App\Repositories\Implementations\ClientMembershipPaymentStatusPostgreRepository;
 use App\Repositories\Implementations\ClientPostgresRepository;
 use App\Repositories\Implementations\MembershipPlanPostgresRepository;
+use App\Repositories\Implementations\ProfilePostgresRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -59,6 +61,7 @@ class RepositoryServiceProvider extends ServiceProvider
         public function register(): void
         {
                 $this->app->bind(AuthRepositoryInterface::class, AuthPostgresRepository::class);
+                $this->app->bind(ProfileRepositoryInterface::class, ProfilePostgresRepository::class);
                 $this->app->bind(ReviewRepositoryInterface::class, ReviewPostgresRepository::class);
                 $this->app->bind(CommentRepositoryInterface::class, CommentPostgresRepository::class);
                 $this->app->bind(ProductRepositoryInterface::class, ProductPostgresRepository::class);

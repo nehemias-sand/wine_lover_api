@@ -6,6 +6,7 @@ use App\Repositories\CategoryProductRepositoryInterface;
 use App\Repositories\MembershipRepositoryInterface;
 use App\Repositories\PaymentStatusRepositoryInterface;
 use App\Repositories\PlanRepositoryInterface;
+use App\Repositories\ProfileRepositoryInterface;
 use App\Repositories\QualityProductRepositoryInterface;
 use App\Repositories\UnitMeasurementRepositoryInterface;
 
@@ -17,7 +18,8 @@ class CatalogService
         private UnitMeasurementRepositoryInterface $unitMeasurementRepositoryInterface,
         private PaymentStatusRepositoryInterface $paymentStatusRepositoryInterface,
         private MembershipRepositoryInterface $membershipRepositoryInterface,
-        private PlanRepositoryInterface $planRepositoryInterface
+        private PlanRepositoryInterface $planRepositoryInterface,
+        private ProfileRepositoryInterface $profileRepositoryInterface,
     ) {}
 
     public function indexQualityProduct()
@@ -53,5 +55,10 @@ class CatalogService
     public function indexPlan()
     {
         return $this->planRepositoryInterface->index();
+    }
+
+    public function indexProfile()
+    {
+        return $this->profileRepositoryInterface->index();
     }
 }

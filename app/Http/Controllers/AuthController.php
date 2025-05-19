@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Classes\ApiResponseClass;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RegisterMemberRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -48,7 +47,7 @@ class AuthController extends Controller
         $data = [
             'username' => $username,
             'email' => $email,
-            'password' => $password,
+            'password' => $this->authService->generatePassword(),
             'profile_id' => $profile_id,
         ];
 
@@ -88,6 +87,7 @@ class AuthController extends Controller
         $data = $request->only([
             'username',
             'email',
+            'profile_id'
         ]);
 
         $user = $this->authService->update($id, $data);
