@@ -24,7 +24,7 @@ class UpdatePresentationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => 'integer|min:1',
+            'amount' => 'numeric|min:1',
             'unit_measurement_id' => 'integer|exists:unit_measurement,id',
         ];
     }
@@ -32,7 +32,7 @@ class UpdatePresentationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'amount.integer' => 'El campo :attribute debe ser un entero',
+            'amount.numeric' => 'El campo :attribute debe ser un entero',
             'amount.min' => 'El campo :attribute debe ser un entero mayor o igual a uno',
             'unit_measurement_id.integer' => 'El campo :attribute debe ser un entero',
             'unit_measurement_id.exists' => 'El campo :attribute debe ser un id valido',

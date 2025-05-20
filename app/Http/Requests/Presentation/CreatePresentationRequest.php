@@ -24,7 +24,7 @@ class CreatePresentationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => 'required|integer|min:1',
+            'amount' => 'required|numeric|min:1',
             'unit_measurement_id' => 'required|integer|exists:unit_measurement,id',
         ];
     }
@@ -33,7 +33,7 @@ class CreatePresentationRequest extends FormRequest
     {
         return [
             'amount.required' => 'El campo :attribute es obligatorio',
-            'amount.integer' => 'El campo :attribute debe ser un entero',
+            'amount.numeric' => 'El campo :attribute debe ser un entero',
             'amount.min' => 'El campo :attribute debe ser un entero mayor o igual a uno',
             'unit_measurement_id.required' => 'El campo :attribute es obligatorio',
             'unit_measurement_id.integer' => 'El campo :attribute debe ser un entero',

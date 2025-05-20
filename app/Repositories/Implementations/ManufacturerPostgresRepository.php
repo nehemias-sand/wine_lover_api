@@ -11,7 +11,7 @@ class ManufacturerPostgresRepository implements ManufacturerRepositoryInterface
 
         $manufaturers = Manufacturer::query();
         if(isset($filter['name'])){
-            $manufaturers->where('name', '=', $filter['name']);
+            $manufaturers->where('name', 'ilike', "%{$filter['name']}%");
         }
 
         if($pagination['paginate']==='true'){

@@ -24,6 +24,7 @@ class PresentationController extends Controller
         ], $request->only(['paginate', 'per_page']));
 
         $filter = $request->only([
+            'name',
             'unit_measurement_id',
             'stock_less_than',
             'stock_greater_than',

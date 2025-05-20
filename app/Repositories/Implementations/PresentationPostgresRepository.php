@@ -22,6 +22,12 @@ class PresentationPostgresRepository implements PresentationRepositoryInterface
             $presentations->where('unit_measurement_id', '=', $filter['unit_measurement_id']);
         }
 
+        if (isset($filter['name'])) {
+            $presentations->whereHas('unitMeasurement', function($query) use($filter) {
+                $query->where('name', 'ilike', "%{$filter['name']}%");
+            });
+        }
+
         if ($pagination['paginate']  === 'true') {
             return $presentations->paginate($pagination['per_page']);
         }

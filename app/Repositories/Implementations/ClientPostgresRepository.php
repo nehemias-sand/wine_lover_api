@@ -13,16 +13,16 @@ class ClientPostgresRepository implements ClientRepositoryInterface
         $clients = Client::query();
 
         if (isset($filter['identity_number'])) {
-            $clients->where('identity_number', '=', $filter['identity_number']);
+            $clients->where('identity_number', 'ilike', "{$filter['identity_number']}%");
         }
 
         if (isset($filter['names'])) {
             $clients->where(function ($query) use ($filter) {
                 $query->whereRaw(
                     "CONCAT_WS(' ',
-                        COALESCE(NULLIF(names, ''), ''),
-                        COALESCE(NULLIF(surnames, ''), NULL),
-                ) ILIKE ?",
+                COALESCE(NULLIF(names, ''), ''),
+                COALESCE(NULLIF(surnames, ''), '')
+            ) ILIKE ?",
                     ["%{$filter['names']}%"]
                 );
             });
