@@ -26,16 +26,16 @@ class ProductSeeder extends Seeder
             ['name' => 'Catena Zapata Nicolás', 'description' => 'Blend argentino de alta gama.', 'quality_product_id' => 1, 'category_product_id' => 1, 'state' => true, 'manufacturer_id' => 10],
 
             // Licores
-            ['name' => 'Johnnie Walker Blue Label', 'description' => 'Whisky escocés blended premium.', 'quality_product_id' => 3, 'category_product_id' => 1, 'state' => true, 'manufacturer_id' => 11],
-            ['name' => 'Patrón Silver', 'description' => 'Tequila blanco de alta calidad.', 'quality_product_id' => 2, 'category_product_id' => 1, 'state' => true, 'manufacturer_id' => 12],
-            ['name' => 'Baileys Irish Cream', 'description' => 'Licor cremoso irlandés.', 'quality_product_id' => 1, 'category_product_id' => 1, 'state' => true, 'manufacturer_id' => 13],
-            ['name' => 'Don Julio 1942', 'description' => 'Tequila añejo de lujo.', 'quality_product_id' => 3, 'category_product_id' => 1, 'state' => true, 'manufacturer_id' => 14],
-            ['name' => 'Chivas Regal 18', 'description' => 'Whisky escocés suave y complejo.', 'quality_product_id' => 2, 'category_product_id' => 1, 'state' => true, 'manufacturer_id' => 15],
-            ['name' => 'Hennessy XO', 'description' => 'Cognac extra old francés.', 'quality_product_id' => 3, 'category_product_id' => 1, 'state' => true, 'manufacturer_id' => 16],
-            ['name' => 'Grand Marnier', 'description' => 'Licor de naranja con base de coñac.', 'quality_product_id' => 2, 'category_product_id' => 1, 'state' => true, 'manufacturer_id' => 17],
-            ['name' => 'Campari', 'description' => 'Aperitivo amargo italiano.', 'quality_product_id' => 1, 'category_product_id' => 1, 'state' => true, 'manufacturer_id' => 18],
-            ['name' => 'Drambuie', 'description' => 'Licor escocés de whisky con miel.', 'quality_product_id' => 1, 'category_product_id' => 1, 'state' => true, 'manufacturer_id' => 19],
-            ['name' => 'Cointreau', 'description' => 'Triple sec francés de naranja.', 'quality_product_id' => 1, 'category_product_id' => 1, 'state' => true, 'manufacturer_id' => 20],
+            ['name' => 'Johnnie Walker Blue Label', 'description' => 'Whisky escocés blended premium.', 'quality_product_id' => 3, 'category_product_id' => 2, 'state' => true, 'manufacturer_id' => 11],
+            ['name' => 'Patrón Silver', 'description' => 'Tequila blanco de alta calidad.', 'quality_product_id' => 2, 'category_product_id' => 2, 'state' => true, 'manufacturer_id' => 12],
+            ['name' => 'Baileys Irish Cream', 'description' => 'Licor cremoso irlandés.', 'quality_product_id' => 1, 'category_product_id' => 2, 'state' => true, 'manufacturer_id' => 13],
+            ['name' => 'Don Julio 1942', 'description' => 'Tequila añejo de lujo.', 'quality_product_id' => 3, 'category_product_id' => 2, 'state' => true, 'manufacturer_id' => 14],
+            ['name' => 'Chivas Regal 18', 'description' => 'Whisky escocés suave y complejo.', 'quality_product_id' => 2, 'category_product_id' => 2, 'state' => true, 'manufacturer_id' => 15],
+            ['name' => 'Hennessy XO', 'description' => 'Cognac extra old francés.', 'quality_product_id' => 3, 'category_product_id' => 2, 'state' => true, 'manufacturer_id' => 16],
+            ['name' => 'Grand Marnier', 'description' => 'Licor de naranja con base de coñac.', 'quality_product_id' => 2, 'category_product_id' => 2, 'state' => true, 'manufacturer_id' => 17],
+            ['name' => 'Campari', 'description' => 'Aperitivo amargo italiano.', 'quality_product_id' => 1, 'category_product_id' => 2, 'state' => true, 'manufacturer_id' => 18],
+            ['name' => 'Drambuie', 'description' => 'Licor escocés de whisky con miel.', 'quality_product_id' => 1, 'category_product_id' => 2, 'state' => true, 'manufacturer_id' => 19],
+            ['name' => 'Cointreau', 'description' => 'Triple sec francés de naranja.', 'quality_product_id' => 1, 'category_product_id' => 2, 'state' => true, 'manufacturer_id' => 20],
         ]);
 
         DB::statement('ALTER SEQUENCE product_id_seq RESTART WITH 21');

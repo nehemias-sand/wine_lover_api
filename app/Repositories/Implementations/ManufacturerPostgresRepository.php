@@ -7,16 +7,18 @@ use App\Repositories\ManufacturerRepositoryInterface;
 
 class ManufacturerPostgresRepository implements ManufacturerRepositoryInterface
 {
-    public function index(array $pagination, array $filter){
-
+    public function index(array $pagination, array $filter)
+    {
         $manufaturers = Manufacturer::query();
-        if(isset($filter['name'])){
+        if (isset($filter['name'])) {
             $manufaturers->where('name', 'ilike', "%{$filter['name']}%");
         }
 
-        if($pagination['paginate']==='true'){
+        if ($pagination['paginate'] === 'true') {
             return $manufaturers->paginate($pagination['per_page']);
         }
+
+        return $manufaturers->get();
     }
 
 
@@ -32,8 +34,8 @@ class ManufacturerPostgresRepository implements ManufacturerRepositoryInterface
 
     public function update($id, $data)
     {
-        $manufaturers =Manufacturer::find($id);
-        if(!$manufaturers) return null;
+        $manufaturers = Manufacturer::find($id);
+        if (!$manufaturers) return null;
         $manufaturers->update($data);
 
         return $manufaturers;
@@ -42,11 +44,10 @@ class ManufacturerPostgresRepository implements ManufacturerRepositoryInterface
     public function delete($id)
     {
 
-        $manufaturers=Manufacturer::find($id);
-        if(!$manufaturers) return null;
+        $manufaturers = Manufacturer::find($id);
+        if (!$manufaturers) return null;
 
         $manufaturers->delete();
         return $manufaturers;
-
     }
 }
