@@ -42,6 +42,7 @@ Route::prefix('public')->group(function () {
         Route::get('/membership', [CatalogController::class, 'indexMembership']);
         Route::get('/membership/{id}', [CatalogController::class, 'showMembership']);
         Route::get('/profile', [CatalogController::class, 'indexProfile']);
+        Route::get('/order-status', [CatalogController::class, 'indexOrderStatus']);
     });
 
     Route::prefix('product')->group(function () {

@@ -8,6 +8,7 @@ use App\Http\Requests\Order\CreateOrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Services\OrderService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -22,7 +23,7 @@ class OrderController extends Controller
             'per_page' => 10
         ], $request->only(['paginate', 'per_page']));
 
-        $filter = $request->only(['order_status_id']);
+        $filter = $request->only(['order_status_id', 'created_at']);
 
         $data = $this->orderService->index($pagination, $filter);
         return ApiResponseClass::sendResponse(OrderResource::collection($data));

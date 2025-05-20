@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\CategoryProductRepositoryInterface;
 use App\Repositories\MembershipRepositoryInterface;
+use App\Repositories\OrderStatusRepositoryInterface;
 use App\Repositories\PaymentStatusRepositoryInterface;
 use App\Repositories\PlanRepositoryInterface;
 use App\Repositories\ProfileRepositoryInterface;
@@ -20,6 +21,7 @@ class CatalogService
         private MembershipRepositoryInterface $membershipRepositoryInterface,
         private PlanRepositoryInterface $planRepositoryInterface,
         private ProfileRepositoryInterface $profileRepositoryInterface,
+        private OrderStatusRepositoryInterface $orderStatusRepositoryInterface,
     ) {}
 
     public function indexQualityProduct()
@@ -60,5 +62,10 @@ class CatalogService
     public function indexProfile()
     {
         return $this->profileRepositoryInterface->index();
+    }
+
+    public function indexOrderStatus()
+    {
+        return $this->orderStatusRepositoryInterface->index();
     }
 }

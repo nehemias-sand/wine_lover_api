@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes\ApiResponseClass;
 use App\Http\Resources\CategoryProductResource;
 use App\Http\Resources\MembershipResource;
+use App\Http\Resources\OrderStatusResource;
 use App\Http\Resources\PaymentStatusResource;
 use App\Http\Resources\ProfileResource;
 use App\Http\Resources\QualityProductResource;
@@ -63,5 +64,12 @@ class CatalogController extends Controller
         $data = $this->catalogService->indexProfile();
 
         return ApiResponseClass::sendResponse(ProfileResource::collection($data));
+    }
+
+    public function indexOrderStatus()
+    {
+        $data = $this->catalogService->indexOrderStatus();
+
+        return ApiResponseClass::sendResponse(OrderStatusResource::collection($data));
     }
 }

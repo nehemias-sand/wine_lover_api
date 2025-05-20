@@ -266,5 +266,7 @@ class OrderService
         ];
 
         SendOrderStatusMail::dispatch($receiver, $dataOrderStatusEmail);
+
+        return $order;
     }
 }

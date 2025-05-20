@@ -27,6 +27,7 @@ use App\Repositories\QualityProductRepositoryInterface;
 use App\Repositories\UnitMeasurementRepositoryInterface;
 use App\Repositories\ProfileRepositoryInterface;
 use App\Repositories\ManufacturerRepositoryInterface;
+use App\Repositories\OrderStatusRepositoryInterface;
 
 use App\Repositories\Implementations\AuthPostgresRepository;
 use App\Repositories\Implementations\CommentPostgresRepository;
@@ -52,6 +53,7 @@ use App\Repositories\Implementations\ClientMembershipPaymentStatusPostgreReposit
 use App\Repositories\Implementations\ClientPostgresRepository;
 use App\Repositories\Implementations\ManufacturerPostgresRepository;
 use App\Repositories\Implementations\MembershipPlanPostgresRepository;
+use App\Repositories\Implementations\OrderStatusPostgresRepository;
 use App\Repositories\Implementations\ProfilePostgresRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -87,6 +89,7 @@ class RepositoryServiceProvider extends ServiceProvider
                 $this->app->bind(ClientMembershipPaymentStatusRepositoryInterface::class, ClientMembershipPaymentStatusPostgreRepository::class);
                 $this->app->bind(CashbackHistoryRepositoryInterface::class, CashbackHistoryPostgresRepository::class);
                 $this->app->bind(ManufacturerRepositoryInterface::class, ManufacturerPostgresRepository::class);
+                $this->app->bind(OrderStatusRepositoryInterface::class, OrderStatusPostgresRepository::class);
         }
 
         /**
