@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductPresentation extends Pivot
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'product_presentation';
 

@@ -19,8 +19,8 @@ class ProductPostgresRepository implements ProductRepositoryInterface
         }
 
         if (isset($filter['min_price']) && isset($filter['max_price'])) {
-            $products->whereHas('presentations', function($query) {
-                $query->whereBetween('price', [$filter['min_price'], $filter['max_price']]);
+            $products->whereHas('presentations', function($query) use($filter) {
+                $query->whereBetween('unit_price', [$filter['min_price'], $filter['max_price']]);
             });
         }
 

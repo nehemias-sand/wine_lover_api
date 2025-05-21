@@ -18,7 +18,6 @@ return new class extends Migration
             $table->decimal('unit_price', 8, 2);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
-            $table->softDeletes();
 
             $table->primary(['product_id', 'presentation_id']);
         });

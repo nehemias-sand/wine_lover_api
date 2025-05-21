@@ -65,8 +65,8 @@ class ProductImageSeeder extends Seeder
             ['product_id' => 17, 'state' => true, 'url_image' => 'images/products/17/c300e78b-0cdf-4c31-b280-fd0cbf4bbe41.jpg'],
             ['product_id' => 17, 'state' => true, 'url_image' => 'images/products/17/cf60745e-d455-432b-8aa4-9892369c79b3.jpg'],
             // Campari
-            ['product_id' => 18, 'state' => true, 'url_image' => 'images/products/19/b503702b-9ff7-42ec-9fc3-df99f49db6bb.jpg'],
-            ['product_id' => 18, 'state' => true, 'url_image' => 'images/products/19/0993fae3-c5ec-499f-a45e-a0391449cdaf.jpg'],
+            ['product_id' => 18, 'state' => true, 'url_image' => 'images/products/18/b503702b-9ff7-42ec-9fc3-df99f49db6bb.jpg'],
+            ['product_id' => 18, 'state' => true, 'url_image' => 'images/products/18/0993fae3-c5ec-499f-a45e-a0391449cdaf.jpg'],
             // Drambuie
             ['product_id' => 19, 'state' => true, 'url_image' => 'images/products/19/3c6ad763-b3b9-4937-83d6-4ecc53810dab.jpg'],
             ['product_id' => 19, 'state' => true, 'url_image' => 'images/products/19/d4058485-97bb-4988-9530-a0dc9217af95.jpg'],

@@ -16,7 +16,8 @@ class ProductController extends Controller
         private ProductService $productService
     ) {}
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $pagination = array_merge([
             'paginate' => 'true',
             'per_page' => 10
@@ -34,7 +35,8 @@ class ProductController extends Controller
         return ApiResponseClass::sendResponse(ProductResource::collection($data));
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $product = $this->productService->show($id);
         if (!$product) return ApiResponseClass::sendResponse(null, "Producto con ID $id no encontrado", 404);
 
@@ -67,7 +69,8 @@ class ProductController extends Controller
         }
     }
 
-    public function update(UpdateProductRequest $request, $id) {
+    public function update(UpdateProductRequest $request, $id)
+    {
         $data = $request->only([
             'name',
             'description',
@@ -83,7 +86,8 @@ class ProductController extends Controller
         return ApiResponseClass::sendResponse(new ProductResource($product));
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $product = $this->productService->delete($id);
         if (!$product) return ApiResponseClass::sendResponse(null, "Producto con ID $id no encontrado", 404);
 
