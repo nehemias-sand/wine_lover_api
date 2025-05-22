@@ -78,6 +78,9 @@ class AuthController extends Controller
     public function getUser()
     {
         $user = auth()->user();
+        $token = JWTAuth::fromUser($user);
+        $user->token = $token;
+
         return ApiResponseClass::sendResponse(new UserResource($user));
     }
 
