@@ -45,7 +45,7 @@ class ClientController extends Controller
                 'profile_id' => 2,
             ];
 
-            $user = $this->authService->register($dataUser);
+            $user = $this->authService->register($dataUser, true);
 
             $dataClient = [
                 'names' => $request->names,

@@ -48,12 +48,16 @@ class OrderService
         $address = $this->addressRepositoryInterface->show($addressId);
         $cardToken = $this->cardTokenRepository->show($data['card_token_id']);
 
-        if (
-            $address->client_id !== $clientId ||
-            $cardToken->client_id !== $clientId ||
-            $client->currentMembershipPlan() === null
-        ) {
-            throw new HttpException(403);
+        if ($address->client_id !== $clientId) {
+            throw new HttpException(403, 'La direccion no es valida');
+        }
+            
+        if ($cardToken->client_id !== $clientId) {
+            throw new HttpException(403, 'La tarjeta no es valida');
+        }
+
+        if ($client->currentMembershipPlan() === null) {
+            throw new HttpException(403, 'Cliente no posee Membresia activa');
         }
 
         $order = $this->orderRepositoryInterface->store([
@@ -188,7 +192,6 @@ class OrderService
 
             $paymentResponse = $this->paymentService->executePurchaseTransaction($payload);
             $fullOrder->transaction_id = $paymentResponse['transaction_id'];
-
         } else if ($data['payment_method_id'] === 2) { // Cashback
 
             $currentCashback = $client->current_cashback;
@@ -240,7 +243,6 @@ class OrderService
             ];
 
             $this->paymentService->handleCashbackPayment($payload);
-
         } else {
             throw new BadRequestHttpException('Metodo de pago invalido');
         }

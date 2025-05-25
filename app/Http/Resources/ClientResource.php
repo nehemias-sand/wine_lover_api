@@ -19,6 +19,7 @@ class ClientResource extends JsonResource
             'identity_number' => $this->identity_number,
             'birthday_date' => $this->birthday_date,
             'phone' => $this->phone,
+            'addresses' => $this->addresses->map(fn($address) => new AddressResource($address)),
             'membership' => $this->currentMembershipPlan()?->membership->name,
             'current_cashback' => $this->current_cashback,
         ];
@@ -45,6 +46,7 @@ class ClientResource extends JsonResource
             'identity_number' => $this->identity_number,
             'birthday_date' => $this->birthday_date,
             'phone' => $this->phone,
+            'addresses' => $this->addresses->map(fn($address) => new AddressResource($address)),
             'membership' => $this->currentMembershipPlan()?->membership->name,
             'current_cashback' => $this->current_cashback,
         ];

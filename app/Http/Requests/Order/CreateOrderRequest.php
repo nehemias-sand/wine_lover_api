@@ -29,7 +29,7 @@ class CreateOrderRequest extends FormRequest
             'products.*.presentation_id' => 'required|integer',
             'products.*.amount' => 'required|integer|min:1',
             'address_id' => 'required|integer|exists:address,id',
-            'card_token_id' => 'required|boolean|exists:card_token,id',
+            'card_token_id' => 'required|integer|exists:card_token,id',
             'payment_method_id' => 'required|integer|exists:payment_method,id',
         ];
     }

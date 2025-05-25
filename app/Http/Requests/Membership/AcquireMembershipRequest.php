@@ -26,7 +26,7 @@ class AcquireMembershipRequest extends FormRequest
         return [
             'automatic_renewal' => 'required|boolean',
 
-            'card_token_id' => 'required|boolean|exists:card_token,id',
+            'card_token_id' => 'required|integer|exists:card_token,id',
 
             'address_id' => 'required|integer|exists:address,id',
 

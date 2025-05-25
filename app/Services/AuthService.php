@@ -18,7 +18,7 @@ class AuthService
         return $this->authRepositoryInterface->index($pagination, $filter);
     }
 
-    public function register(array $data)
+    public function register(array $data, bool $isClient)
     {
         $email = $data['email'];
         $dataEmail = [
@@ -29,7 +29,7 @@ class AuthService
         $data['password'] = Hash::make($data['password']);
         $user = $this->authRepositoryInterface->register($data);
 
-        SendWelcomeMail::dispatch($email, $dataEmail);
+        if (!$isClient) SendWelcomeMail::dispatch($email, $dataEmail);
 
         return $user;
     }

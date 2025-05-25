@@ -10,6 +10,11 @@ class AddressService
         private AddressRepositoryInterface $addressRepositoryInterface
     ) {}
 
+    public function indexClient($clientId)
+    {
+        return $this->addressRepositoryInterface->indexClient($clientId);
+    }
+
     public function store(array $data)
     {
         return $this->addressRepositoryInterface->store($data);
@@ -18,5 +23,10 @@ class AddressService
     public function update(int $id, array $data)
     {
         return $this->addressRepositoryInterface->update($id, $data);
+    }
+
+    public function delete($id)
+    {
+        return $this->addressRepositoryInterface->delete($id);
     }
 }

@@ -53,7 +53,7 @@ class AuthController extends Controller
         DB::beginTransaction();
 
         try {
-            $user = $this->authService->register($data);
+            $user = $this->authService->register($data, false);
 
             DB::commit();
             return ApiResponseClass::sendResponse(new UserResource($user), null, 201);

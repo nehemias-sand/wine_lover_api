@@ -12,7 +12,6 @@ use App\Repositories\MembershipPlanRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use PhpParser\Node\Expr\Cast\Double;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -66,11 +65,12 @@ class ClientMembershipService
         $address = $this->addressRepositoryInterface->show($data['address_id']);
         $cardToken = $this->cardTokenRepository->show($data['card_token_id']);
 
-        if (
-            $address->client_id !== $data['client_id'] ||
-            $cardToken->client_id !== $data['client_id']
-        ) {
-            throw new HttpException(403);
+        if ($address->client_id !== $data['client_id']) {
+            throw new HttpException(403, 'La direccion no es valida');
+        }
+            
+        if ($cardToken->client_id !== $data['client_id']) {
+            throw new HttpException(403, 'La tarjeta no es valida');
         }
 
         $payload  = [

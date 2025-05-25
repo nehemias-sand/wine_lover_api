@@ -8,7 +8,10 @@ use App\Repositories\AddressRepositoryInterface;
 class AddressPostgresRepository implements AddressRepositoryInterface
 {
 
-    public function index(array $pagination, array $filter) {}
+   public function indexClient($clientId)
+    {
+        return Address::query()->where('client_id', '=', $clientId)->get();
+    }
 
     public function show($id)
     {

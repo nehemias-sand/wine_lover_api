@@ -189,8 +189,10 @@ Route::middleware('jwt')->prefix('client')->group(function () {
 
     Route::prefix('address')->middleware(['check.permission:MANAGE_OWN_ADDRESSES'])
         ->group(function () {
+            Route::get('/', [AddressController::class, 'indexClient']);
             Route::post('/', [AddressController::class, 'store']);
             Route::put('/{id}', [AddressController::class, 'update']);
+            Route::delete('/{id}', [AddressController::class, 'delete']);
         });
 
     Route::prefix('card')->middleware(['check.permission:MANAGE_OWN_CARDS'])

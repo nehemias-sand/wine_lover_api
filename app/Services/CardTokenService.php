@@ -38,7 +38,7 @@ class CardTokenService
 
     public function updateTokenizedCard($id, $data)
     {
-        $cardNumber = $data['casrd']['number'];
+        $cardNumber = $data['card']['number'];
 
         $encrypted = $this->rsa->encrypt($cardNumber);
         $token = 'tok_' . substr(md5($encrypted), 0, 16);

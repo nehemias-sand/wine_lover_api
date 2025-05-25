@@ -32,7 +32,7 @@ class CardTokenPostgresRepository implements CardTokenRepositoryInterface
 
         $cardToken->update($data);
 
-        return $order;
+        return $cardToken;
     }
 
     
