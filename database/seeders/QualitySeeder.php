@@ -18,7 +18,7 @@ class QualitySeeder extends Seeder
                 'description' => 'Vinos accesibles y equilibrados, perfectos para el día a día.'
             ],
             [
-                'name' => 'Premiumn',
+                'name' => 'Premium',
                 'description' => 'Mayor complejidad y elegancia, ideales para paladares exigentes.'
             ],
             [
