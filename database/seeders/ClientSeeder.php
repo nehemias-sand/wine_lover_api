@@ -14,8 +14,8 @@ class ClientSeeder extends Seeder
     {
         DB::table('client')->insert([
             [
-                'names' => 'Jose Edgardo',
-                'surnames' => 'Urquilla Quezada',
+                'names' => 'Misael Antonio',
+                'surnames' => 'Gomez Garcia',
                 'identity_number' => '06043254-2',
                 'birthday_date' => '2000-04-11',
                 'phone' => '7643-1122',

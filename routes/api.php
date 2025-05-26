@@ -18,6 +18,21 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
+Route::post('/task/worker', function () {
+    if (request()->header('X-Task-Token') !== env('CLOUD_TASK_SECRET')) {
+        abort(403, 'Token invalido');
+    }
+
+    try {
+        Artisan::call('queue:work --once');
+        Artisan::call('schedule:run');
+        return response('OK', 200);
+    } catch (\Throwable $e) {
+        Log::error('Error al ejecutar tareas', ['error' => $e->getMessage()]);
+        return response('Error ejecutando tareas', 500);
+    }
+});
+
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::middleware('jwt')->get('/info', [AuthController::class, 'getUser']);
