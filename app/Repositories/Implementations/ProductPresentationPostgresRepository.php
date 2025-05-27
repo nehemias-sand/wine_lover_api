@@ -10,6 +10,7 @@ class ProductPresentationPostgresRepository implements ProductPresentationReposi
     public function index(array $pagination, array $filter)
     {
         $productPresentations = ProductPresentation::query()
+            ->with(['product', 'presentation'])
             ->where('product_id', '=', $filter['product_id']);
 
         if (isset($filter['stock_greater_than_or_equal'])) {
@@ -30,6 +31,7 @@ class ProductPresentationPostgresRepository implements ProductPresentationReposi
     public function show($ids)
     {
         $productPresentation = ProductPresentation::query()
+            ->with(['product', 'presentation'])
             ->where('product_id', '=', $ids['product_id'])
             ->where('presentation_id', '=', $ids['presentation_id'])
             ->first();
@@ -41,7 +43,9 @@ class ProductPresentationPostgresRepository implements ProductPresentationReposi
 
     public function store(array $data)
     {
-        return ProductPresentation::create($data);
+        return ProductPresentation::create($data)->load([
+            'product', 'presentation'
+        ]);
     }
 
     public function update($ids, $data)

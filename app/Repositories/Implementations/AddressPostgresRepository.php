@@ -8,14 +8,17 @@ use App\Repositories\AddressRepositoryInterface;
 class AddressPostgresRepository implements AddressRepositoryInterface
 {
 
-   public function indexClient($clientId)
+    public function indexClient($clientId)
     {
-        return Address::query()->where('client_id', '=', $clientId)->get();
+        return Address::query()
+            ->with('district')
+            ->where('client_id', '=', $clientId)
+            ->get();
     }
 
     public function show($id)
     {
-        $address = Address::find($id);
+        $address = Address::with('district')->find($id);
 
         if (!$address) return null;
 
@@ -24,12 +27,12 @@ class AddressPostgresRepository implements AddressRepositoryInterface
 
     public function store(array $data)
     {
-        return Address::create($data);
+        return Address::create($data)->load('district');
     }
 
     public function update($id, $data)
     {
-        $address = Address::find($id);
+        $address = $this->show($id);
 
         if (!$address) return null;
 

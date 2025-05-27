@@ -10,8 +10,12 @@ class CommentPostgresRepository implements CommentRepositoryInterface
 
     public function index(array $pagination, array $filter)
     {
-        $comments = Comment::query();
-        
+        $comments = Comment::query()->with([
+            'parent',
+            'review',
+            'user',
+        ]);
+
         if (isset($filter['review_id'])) {
             $comments->where('review_id', '=', $filter['review_id']);
         }
@@ -23,17 +27,25 @@ class CommentPostgresRepository implements CommentRepositoryInterface
 
     public function show($id)
     {
-        return Comment::find($id);
+        return Comment::with([
+            'parent',
+            'review',
+            'user',
+        ])->find($id);
     }
 
     public function store(array $data)
     {
-        return Comment::create($data);
+        return Comment::create($data)->load([
+            'parent',
+            'review',
+            'user',
+        ]);
     }
 
     public function update($id, $data)
     {
-        $comment = Comment::find($id);
+        $comment = $this->show($id);
         if (!$comment) return null;
 
         $comment->update($data);
@@ -43,7 +55,7 @@ class CommentPostgresRepository implements CommentRepositoryInterface
 
     public function delete($id)
     {
-        $comment = Comment::find($id);
+        $comment = $this->show($id);
         if (!$comment) return null;
 
         $comment->delete();

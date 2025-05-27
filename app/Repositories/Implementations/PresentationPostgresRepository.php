@@ -7,8 +7,10 @@ use App\Repositories\PresentationRepositoryInterface;
 
 class PresentationPostgresRepository implements PresentationRepositoryInterface
 {
-    public function index(array $pagination, array $filter) {
-        $presentations = Presentation::query();
+    public function index(array $pagination, array $filter)
+    {
+        $presentations = Presentation::query()
+            ->with('unitMeasurement');
 
         if (isset($filter['stock_less_than'])) {
             $presentations->where('stock', '<', $filter['stock_less_than']);
@@ -23,7 +25,7 @@ class PresentationPostgresRepository implements PresentationRepositoryInterface
         }
 
         if (isset($filter['name'])) {
-            $presentations->whereHas('unitMeasurement', function($query) use($filter) {
+            $presentations->whereHas('unitMeasurement', function ($query) use ($filter) {
                 $query->where('name', 'ilike', "%{$filter['name']}%");
             });
         }
@@ -35,18 +37,23 @@ class PresentationPostgresRepository implements PresentationRepositoryInterface
         return $presentations->get();
     }
 
-    public function show($id) {
-        $presentation = Presentation::find($id);
+    public function show($id)
+    {
+        $presentation = Presentation::with('unitMeasurement')
+            ->find($id);
+
         if (!$presentation) return null;
 
         return $presentation;
     }
 
-    public function store(array $data) {
-        return Presentation::create($data);
+    public function store(array $data)
+    {
+        return Presentation::create($data)->load('unitMeasurement');
     }
 
-    public function update($id, $data) {
+    public function update($id, $data)
+    {
         $presentation = $this->show($id);
         if (!$presentation) return null;
 
@@ -54,7 +61,8 @@ class PresentationPostgresRepository implements PresentationRepositoryInterface
         return $presentation;
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $presentation = $this->show($id);
         if (!$presentation) return null;
 

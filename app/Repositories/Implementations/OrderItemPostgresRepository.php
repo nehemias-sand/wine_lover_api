@@ -11,7 +11,10 @@ class OrderItemPostgresRepository implements OrderItemRepositoryInterface
 
     public function show($id)
     {
-        $orderItem = OrderItem::find($id);
+        $orderItem = OrderItem::with([
+            'product',
+            'presentation',
+        ])->find($id);
 
         if (!$orderItem) return null;
 
@@ -20,12 +23,15 @@ class OrderItemPostgresRepository implements OrderItemRepositoryInterface
 
     public function store(array $data)
     {
-        return OrderItem::create($data);
+        return OrderItem::create($data)->load([
+            'product',
+            'presentation',
+        ]);
     }
 
     public function update($id, $data)
     {
-        $orderItem = OrderItem::find($id);
+        $orderItem = $this->show($id);
 
         if (!$orderItem) return null;
 

@@ -12,6 +12,11 @@ class OrderPaymentStatusPostgresRepository implements OrderPaymentStatusReposito
     public function show($ids)
     {
         $orderPayment = OrderPaymentStatus::query()
+            ->with([
+                'paymentMethod',
+                'paymentStatus',
+                'cardToken',
+            ])
             ->where('order_id', '=', $ids['orderId'])
             ->where('payment_method_id', '=', $ids['paymentMethodId'])
             ->where('payment_status_id', '=', $ids['paymentStatusId'])
@@ -24,7 +29,11 @@ class OrderPaymentStatusPostgresRepository implements OrderPaymentStatusReposito
 
     public function store(array $data)
     {
-        return OrderPaymentStatus::create($data);
+        return OrderPaymentStatus::create($data)->load([
+            'paymentMethod',
+            'paymentStatus',
+            'cardToken',
+        ]);
     }
 
     public function update($ids, $data)

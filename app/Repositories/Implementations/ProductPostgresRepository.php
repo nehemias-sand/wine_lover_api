@@ -10,6 +10,14 @@ class ProductPostgresRepository implements ProductRepositoryInterface
     public function index(array $pagination, array $filter)
     {
         $products = Product::query()
+            ->with([
+                'category',
+                'quality',
+                'presentations',
+                'presentations.presentation',
+                'images',
+                'manufacturer',
+            ])
             ->whereHas('presentations', function ($query) {
                 $query->where('stock', '>', 0);
             });
@@ -19,7 +27,7 @@ class ProductPostgresRepository implements ProductRepositoryInterface
         }
 
         if (isset($filter['min_price']) && isset($filter['max_price'])) {
-            $products->whereHas('presentations', function($query) use($filter) {
+            $products->whereHas('presentations', function ($query) use ($filter) {
                 $query->whereBetween('unit_price', [$filter['min_price'], $filter['max_price']]);
             });
         }
@@ -41,7 +49,15 @@ class ProductPostgresRepository implements ProductRepositoryInterface
 
     public function show($id)
     {
-        $product = Product::find($id);
+        $product = Product::with([
+            'category',
+            'quality',
+            'presentations',
+            'presentations.presentation',
+            'images',
+            'manufacturer',
+        ])->find($id);
+
         if (!$product) return null;
 
         return $product;
@@ -49,7 +65,14 @@ class ProductPostgresRepository implements ProductRepositoryInterface
 
     public function store(array $data)
     {
-        return Product::create($data);
+        return Product::create($data)->load([
+            'category',
+            'quality',
+            'presentations',
+            'presentations.presentation',
+            'images',
+            'manufacturer',
+        ]);
     }
 
     public function update($id, $data)

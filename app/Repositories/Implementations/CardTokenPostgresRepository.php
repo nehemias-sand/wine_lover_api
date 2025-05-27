@@ -9,7 +9,9 @@ class CardTokenPostgresRepository implements CardTokenRepositoryInterface
 {
     public function indexClient($clientId)
     {
-        return CardToken::query()->where('client_id', '=', $clientId)->get();
+        return CardToken::query()
+            ->where('client_id', '=', $clientId)
+            ->get();
     }
 
     public function show($id)
@@ -35,7 +37,7 @@ class CardTokenPostgresRepository implements CardTokenRepositoryInterface
         return $cardToken;
     }
 
-    
+
     public function delete($id)
     {
         $cardToken = $this->show($id);

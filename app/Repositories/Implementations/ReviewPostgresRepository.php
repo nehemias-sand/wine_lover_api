@@ -9,7 +9,11 @@ class ReviewPostgresRepository implements ReviewRepositoryInterface
 {
     public function index(array $pagination, array $filter)
     {
-        $reviews = Review::query();
+        $reviews = Review::query()->with([
+            'user',
+            'comments',
+        ]);
+
         if (isset($filter['comments_available'])) {
             $reviews->where('comments_available', '=', $filter['comments_available']);
         }
@@ -21,17 +25,23 @@ class ReviewPostgresRepository implements ReviewRepositoryInterface
 
     public function show($id)
     {
-        return Review::find($id);
+        return Review::with([
+            'user',
+            'comments',
+        ])->find($id);
     }
 
     public function store(array $data)
     {
-        return Review::create($data);
+        return Review::create($data)->load([
+            'user',
+            'comments',
+        ]);
     }
 
     public function update($id, $data)
     {
-        $review = Review::find($id);
+        $review = $this->show($id);
         if (!$review) return null;
 
         $review->update($data);
@@ -41,7 +51,7 @@ class ReviewPostgresRepository implements ReviewRepositoryInterface
 
     public function delete($id)
     {
-        $review = Review::find($id);
+        $review = $this->show($id);
         if (!$review) return null;
 
         $review->delete();

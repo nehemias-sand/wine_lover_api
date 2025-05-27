@@ -9,11 +9,11 @@ class MembershipPostgresRepository implements MembershipRepositoryInterface
 {
     public function index()
     {
-        return Membership::all();
+        return Membership::with('plans')->get();
     }
 
     public function show($id)
     {
-        return Membership::find($id);
+        return Membership::with('plans')->find($id);
     }
 }

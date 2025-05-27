@@ -25,6 +25,10 @@ class MembershipPlanPostgresRepository implements MembershipPlanRepositoryInterf
     public function show($ids)
     {
         $membershipPlan = MembershipPlan::query()
+            ->with([
+                'membership',
+                'plan',
+            ])
             ->where('membership_id', '=', $ids['membership_id'])
             ->where('plan_id', '=', $ids['plan_id'])
             ->first();
@@ -36,7 +40,10 @@ class MembershipPlanPostgresRepository implements MembershipPlanRepositoryInterf
 
     public function store(array $data)
     {
-        return MembershipPlan::create($data);
+        return MembershipPlan::create($data)->load([
+            'membership',
+            'plan',
+        ]);
     }
 
     public function update($ids, $data)

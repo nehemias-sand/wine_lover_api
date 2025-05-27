@@ -9,7 +9,13 @@ class OrderPostgresRepository implements OrderRepositoryInterface
 {
     public function index(array $pagination, array $filter)
     {
-        $orders = Order::query();
+        $orders = Order::query()->with([
+            'address',
+            'orderStatus',
+            'items',
+            'items.product',
+            'items.presentation',
+        ]);
 
         if (isset($filter['order_status_id'])) {
             $orders->where('order_status_id', '=', $filter['order_status_id']);
@@ -28,7 +34,14 @@ class OrderPostgresRepository implements OrderRepositoryInterface
 
     public function show($id)
     {
-        $order = Order::find($id);
+        $order = Order::with([
+            'address',
+            'orderStatus',
+            'items',
+            'items.product',
+            'items.presentation',
+        ])->find($id);
+
         if (!$order) return null;
 
         return $order;
@@ -36,12 +49,18 @@ class OrderPostgresRepository implements OrderRepositoryInterface
 
     public function store(array $data)
     {
-        return Order::create($data);
+        return Order::create($data)->load([
+            'address',
+            'orderStatus',
+            'items',
+            'items.product',
+            'items.presentation',
+        ]);
     }
 
     public function update($id, $data)
     {
-        $order = Order::find($id);
+        $order = $this->show($id);
         if (!$order) return null;
 
         $order->update($data);

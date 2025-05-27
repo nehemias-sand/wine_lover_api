@@ -10,7 +10,12 @@ class ClientPostgresRepository implements ClientRepositoryInterface
 
     public function index(array $pagination, array $filter)
     {
-        $clients = Client::query();
+        $clients = Client::query()
+            ->with([
+                'addresses',
+                'orders',
+                'cashbackHistory',
+            ]);
 
         if (isset($filter['identity_number'])) {
             $clients->where('identity_number', 'ilike', "{$filter['identity_number']}%");
@@ -37,7 +42,11 @@ class ClientPostgresRepository implements ClientRepositoryInterface
 
     public function show($id)
     {
-        $client = Client::find($id);
+        $client = Client::with([
+            'addresses',
+            'orders',
+            'cashbackHistory',
+        ])->find($id);
 
         if (!$client) return null;
 
@@ -46,12 +55,16 @@ class ClientPostgresRepository implements ClientRepositoryInterface
 
     public function store(array $data)
     {
-        return Client::create($data);
+        return Client::create($data)->load([
+            'addresses',
+            'orders',
+            'cashbackHistory',
+        ]);
     }
 
     public function update($id, $data)
     {
-        $client = Client::find($id);
+        $client = $this->show($id);
 
         if (!$client) return null;
 

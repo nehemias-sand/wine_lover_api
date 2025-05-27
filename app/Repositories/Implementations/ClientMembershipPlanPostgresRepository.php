@@ -11,6 +11,13 @@ class ClientMembershipPlanPostgresRepository implements ClientMembershipPlanRepo
     public function index(array $pagination, array $filter)
     {
         $clientMembershipPlans = ClientMembershipPlan::query()
+            ->with([
+                'membership',
+                'plan',
+                'paymentStatuses',
+                'paymentStatuses.paymentMethod',
+                'paymentStatuses.paymentStatus',
+            ])
             ->where('active', '=', true);
 
         if (isset($filter['end_date'])) {
@@ -26,7 +33,13 @@ class ClientMembershipPlanPostgresRepository implements ClientMembershipPlanRepo
 
     public function show($id)
     {
-        $clientMembership = ClientMembershipPlan::find($id);
+        $clientMembership = ClientMembershipPlan::with([
+            'membership',
+            'plan',
+            'paymentStatuses',
+            'paymentStatuses.paymentMethod',
+            'paymentStatuses.paymentStatus',
+        ])->find($id);
 
         if (!$clientMembership) return null;
 
@@ -35,12 +48,18 @@ class ClientMembershipPlanPostgresRepository implements ClientMembershipPlanRepo
 
     public function store(array $data)
     {
-        return ClientMembershipPlan::create($data);
+        return ClientMembershipPlan::create($data)->load([
+            'membership',
+            'plan',
+            'paymentStatuses',
+            'paymentStatuses.paymentMethod',
+            'paymentStatuses.paymentStatus',
+        ]);
     }
 
     public function update($id, $data)
     {
-        $clientMembership = ClientMembershipPlan::find($id);
+        $clientMembership = $this->show($id);
 
         if (!$clientMembership) return null;
 

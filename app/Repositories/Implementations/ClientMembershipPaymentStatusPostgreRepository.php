@@ -9,12 +9,26 @@ class ClientMembershipPaymentStatusPostgreRepository implements ClientMembership
 {
     public function store(array $data)
     {
-        return ClientMembershipPaymentStatus::create($data);
+        return ClientMembershipPaymentStatus::create($data)
+            ->load([
+                'clientPlan',
+                'paymentMethod',
+                'paymentStatus',
+                'cardToken',
+                'billingAddress',
+            ]);
     }
 
     public function show($ids)
     {
         $membershipPaymentStatus = ClientMembershipPaymentStatus::query()
+            ->with([
+                'clientPlan',
+                'paymentMethod',
+                'paymentStatus',
+                'cardToken',
+                'billingAddress',
+            ])
             ->where('client_membership_plan_id', '=', $ids['clientMembershipPlanId'])
             ->where('payment_method_id', '=', $ids['paymentMethodId'])
             ->where('payment_status_id', '=', $ids['paymentStatusId'])
