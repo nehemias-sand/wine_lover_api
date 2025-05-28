@@ -123,6 +123,7 @@ class AppServiceProvider extends ServiceProvider
                 $app->make(PlanRepositoryInterface::class),
                 $app->make(ProfileRepositoryInterface::class),
                 $app->make(OrderStatusRepositoryInterface::class),
+                $app->make(ManufacturerRepositoryInterface::class),
             );
         });
 

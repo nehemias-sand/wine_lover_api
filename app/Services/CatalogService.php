@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\CategoryProductRepositoryInterface;
+use App\Repositories\ManufacturerRepositoryInterface;
 use App\Repositories\MembershipRepositoryInterface;
 use App\Repositories\OrderStatusRepositoryInterface;
 use App\Repositories\PaymentStatusRepositoryInterface;
@@ -22,6 +23,7 @@ class CatalogService
         private PlanRepositoryInterface $planRepositoryInterface,
         private ProfileRepositoryInterface $profileRepositoryInterface,
         private OrderStatusRepositoryInterface $orderStatusRepositoryInterface,
+        private ManufacturerRepositoryInterface $manufacturerRepositoryInterface,
     ) {}
 
     public function indexQualityProduct()
@@ -67,5 +69,10 @@ class CatalogService
     public function indexOrderStatus()
     {
         return $this->orderStatusRepositoryInterface->index();
+    }
+
+    public function indexManufacturer()
+    {
+        return $this->manufacturerRepositoryInterface->index(['paginate' => false], []);
     }
 }
