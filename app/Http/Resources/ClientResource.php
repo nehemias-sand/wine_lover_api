@@ -9,10 +9,7 @@ class ClientResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $user = auth()->user();
-        $profileId = $user?->profile_id ?? null;
-
-        $data = [
+        return [
             'id' => $this->id,
             'names' => $this->names,
             'surnames' => $this->surnames,
@@ -22,19 +19,9 @@ class ClientResource extends JsonResource
             'addresses' => $this->addresses->map(fn($address) => new AddressResource($address)),
             'membership' => $this->currentMembershipPlan()?->membership->name,
             'current_cashback' => $this->current_cashback,
+            'orders' => $this->orders->map(fn($order) => new OrderResource($order)),
+            'cashback_history' => $this->cashbackHistory->map(fn($cashback) => new CashbackHistoryResource($cashback)),
         ];
-
-        if ($profileId !== 2) {
-            $data['orders'] = $this->orders
-                ->map(fn($order) => new OrderResource($order));
-
-            $data['cashback_history'] = $this->cashbackHistory
-                ->map(fn($cashback) => new CashbackHistoryResource($cashback));
-
-            return $data;
-        } else {
-            return $data;
-        }
     }
 
     public function toJson($options = 0)
@@ -49,6 +36,8 @@ class ClientResource extends JsonResource
             'addresses' => $this->addresses->map(fn($address) => new AddressResource($address)),
             'membership' => $this->currentMembershipPlan()?->membership->name,
             'current_cashback' => $this->current_cashback,
+            'orders' => $this->orders->map(fn($order) => new OrderResource($order)),
+            'cashback_history' => $this->cashbackHistory->map(fn($cashback) => new CashbackHistoryResource($cashback)),
         ];
     }
 }

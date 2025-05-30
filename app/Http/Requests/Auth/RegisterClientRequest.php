@@ -26,9 +26,9 @@ class RegisterClientRequest extends FormRequest
         return [
             'names'            => 'required|string|max:255',
             'surnames'         => 'required|string|max:255',
-            'identity_number'  => 'required|numeric',
+            'identity_number'  => 'required|string',
             'birthday_date'    => 'required|date',
-            'phone'            => 'required|numeric',
+            'phone'            => 'required|string',
 
             'username'         => 'required|string|unique:users,username|max:255',
             'email'            => 'required|email|unique:users,email|max:255',
@@ -55,14 +55,14 @@ class RegisterClientRequest extends FormRequest
             'surnames.max' => 'El apellido no debe exceder los 255 caracteres',
 
             'identity_number.required' => 'El número de identidad es obligatorio',
-            'identity_number.numeric' => 'El número de identidad debe ser numérico',
+            'identity_number.string' => 'El número de identidad debe ser una cadena',
             'identity_number.unique' => 'El número de identidad ya está registrado',
 
             'birthday_date.required' => 'La fecha de nacimiento es obligatoria',
             'birthday_date.date' => 'La fecha de nacimiento debe ser una fecha válida',
 
             'phone.required' => 'El teléfono es obligatorio',
-            'phone.numeric' => 'El teléfono debe ser numérico',
+            'phone.string' => 'El teléfono debe ser una cadena',
 
             'username.required' => 'El nombre de usuario es obligatorio',
             'username.string' => 'El nombre de usuario debe ser una cadena de texto',

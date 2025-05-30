@@ -81,8 +81,11 @@ class ClientController extends Controller
         }
     }
 
-    public function update($id, UpdateClientRequest $request)
+    public function update(UpdateClientRequest $request)
     {
+        $client = auth()->user()->client;
+        if (!$client) return ApiResponseClass::sendResponse(null, "Cliente encontrado", 404);
+
         DB::beginTransaction();
 
         try {
@@ -94,7 +97,7 @@ class ClientController extends Controller
                 ['username', 'email']
             );
 
-            $client = $this->clientService->update($id, $dataClient);
+            $this->clientService->update($client->id, $dataClient);
 
             $user = $this->authService->update($client->user_id, $dataUser);
 

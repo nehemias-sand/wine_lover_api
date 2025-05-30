@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Manufacturer;
 use App\Repositories\AddressRepositoryInterface;
 use App\Repositories\AuthRepositoryInterface;
 use App\Repositories\CardTokenRepositoryInterface;
@@ -16,6 +15,7 @@ use App\Repositories\ProductImageRepositoryInterface;
 use App\Repositories\ProductPresentationRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\ClientRepositoryInterface;
+use App\Repositories\DepartmentRepositoryInterface;
 use App\Repositories\ManufacturerRepositoryInterface;
 use App\Repositories\MembershipRepositoryInterface;
 use App\Repositories\PaymentStatusRepositoryInterface;
@@ -28,6 +28,7 @@ use App\Repositories\MembershipPlanRepositoryInterface;
 use App\Repositories\OrderPaymentStatusRepositoryInterface;
 use App\Repositories\OrderStatusRepositoryInterface;
 use App\Repositories\ProfileRepositoryInterface;
+
 use App\Services\AuthService;
 use App\Services\CommentService;
 use App\Services\ReviewService;
@@ -124,6 +125,7 @@ class AppServiceProvider extends ServiceProvider
                 $app->make(ProfileRepositoryInterface::class),
                 $app->make(OrderStatusRepositoryInterface::class),
                 $app->make(ManufacturerRepositoryInterface::class),
+                $app->make(DepartmentRepositoryInterface::class),
             );
         });
 

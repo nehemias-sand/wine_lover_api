@@ -29,6 +29,7 @@ class ProductController extends Controller
             'max_price',
             'category_product_id',
             'quality_product_id',
+            'manufacturer_id',
         ]);
 
         $data = $this->productService->index($pagination, $filter);

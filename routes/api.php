@@ -59,6 +59,7 @@ Route::prefix('public')->group(function () {
         Route::get('/profile', [CatalogController::class, 'indexProfile']);
         Route::get('/order-status', [CatalogController::class, 'indexOrderStatus']);
         Route::get('/manufacturer', [CatalogController::class, 'indexManufacturer']);
+        Route::get('/department', [CatalogController::class, 'indexDepartment']);
     });
 
     Route::prefix('product')->group(function () {
@@ -198,7 +199,7 @@ Route::middleware('jwt')->prefix('social')->group(function () {
 Route::middleware('jwt')->prefix('client')->group(function () {
 
     Route::middleware(['check.permission:MANAGE_OWN_CLIENT_INFO'])
-        ->put('/update/{id}', [ClientController::class, 'update']);
+        ->post('/update', [ClientController::class, 'update']);
 
     Route::middleware(['check.permission:MANAGE_OWN_CLIENT_INFO'])
         ->get('/cashback', [CashbackHistoryController::class, 'indexClient']);

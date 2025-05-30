@@ -25,16 +25,14 @@ class UpdateClientRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->route('id')
-            ? optional(Client::find($this->route('id')))->user_id
-            : null;
+        $userId = auth()->user()->id;
 
         return [
             'names'           => 'sometimes|string|max:255',
             'surnames'        => 'sometimes|string|max:255',
-            'identity_number' => 'sometimes|numeric',
+            'identity_number' => 'sometimes|string',
             'birthday_date'   => 'sometimes|date',
-            'phone'           => 'sometimes|numeric',
+            'phone'           => 'sometimes|string',
 
             'username' => [
                 'sometimes',
@@ -61,11 +59,11 @@ class UpdateClientRequest extends FormRequest
             'surnames.string' => 'El apellido debe ser una cadena de texto',
             'surnames.max' => 'El apellido no debe exceder los 255 caracteres',
 
-            'identity_number.numeric' => 'El número de identidad debe ser numérico',
+            'identity_number.string' => 'El número de identidad debe ser una cadena',
 
             'birthday_date.date' => 'La fecha de nacimiento debe ser una fecha válida',
 
-            'phone.numeric' => 'El teléfono debe ser numérico',
+            'phone.string' => 'El teléfono debe ser una cadena',
 
             'username.string' => 'El nombre de usuario debe ser una cadena de texto',
             'username.unique' => 'El nombre de usuario ya está en uso',

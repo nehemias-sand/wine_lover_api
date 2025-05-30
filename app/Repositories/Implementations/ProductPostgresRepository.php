@@ -40,6 +40,10 @@ class ProductPostgresRepository implements ProductRepositoryInterface
             $products->where('quality_product_id', '=', $filter['quality_product_id']);
         }
 
+        if (isset($filter['manufacturer_id'])) {
+            $products->where('manufacturer_id', '=', $filter['manufacturer_id']);
+        }
+
         if ($pagination['paginate']  === 'true') {
             return $products->paginate($pagination['per_page']);
         }

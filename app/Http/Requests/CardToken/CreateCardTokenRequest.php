@@ -39,8 +39,7 @@ class CreateCardTokenRequest extends FormRequest
 
             'card.expiration_month' => [
                 'required',
-                'integer',
-                'between:1,12'
+                'string',
             ],
 
             'card.expiration_year' => [
@@ -71,8 +70,7 @@ class CreateCardTokenRequest extends FormRequest
 
             // Mes de vencimiento
             'card.*.expiration_month.required' => 'El mes de vencimiento es obligatorio.',
-            'card.*.expiration_month.integer' => 'El mes de vencimiento debe ser un número.',
-            'card.*.expiration_month.between' => 'El mes de vencimiento debe estar entre 1 y 12.',
+            'card.*.expiration_month.string' => 'El mes de vencimiento debe ser una cadena.',
 
             // Año de vencimiento
             'card.*.expiration_year.required' => 'El año de vencimiento es obligatorio.',
