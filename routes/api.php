@@ -78,6 +78,10 @@ Route::prefix('public')->group(function () {
     Route::prefix('membership')->group(function () {
         Route::get('/plans', [PresentationController::class, 'index']);
     });
+
+    Route::prefix('review')->group(function () {
+        Route::get('/', [ReviewController::class, 'index']);
+    });
 });
 
 
@@ -176,6 +180,9 @@ Route::middleware('jwt')->prefix('social')->group(function () {
         Route::middleware(['check.permission:GET_REVIEWS'])
             ->get('/', [ReviewController::class, 'index']);
 
+        Route::middleware(['check.permission:GET_REVIEWS'])
+            ->get('/{id}', [ReviewController::class, 'show']);
+
         Route::middleware(['check.permission:CREATE_REVIEW'])
             ->post('/', [ReviewController::class, 'store']);
 
@@ -236,7 +243,7 @@ Route::middleware('jwt')->prefix('client')->group(function () {
 
     Route::prefix('review')->group(function () {
         Route::middleware(['check.permission:GET_REVIEWS'])
-            ->get('/', [ReviewController::class, 'index']);
+            ->get('/{id}', [ReviewController::class, 'show']);
 
         Route::middleware(['check.permission:MANAGE_OWN_COMMENTS'])
             ->get('/{reviewId}/comment', [CommentController::class, 'index']);

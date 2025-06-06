@@ -14,15 +14,23 @@ class ReviewResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $user = auth()->user();
+
+        $dataToSend = [
             'id' => $this->id,
             'title' => $this->title,
-            'content' => $this->content,
             'cover_image' => $this->cover_image,
-            'comments_available' => $this->comments_available,
-            'username' => $this->user->username,
-            'comments' => $this->comments->map(fn($comment) => new CommentResource($comment))
+            'created_at' => $this->created_at,
         ];
+
+        if ($user && $user->profile_id === 3) {
+            $dataToSend['content'] = $this->content;
+            $dataToSend['comments_available'] = $this->comments_available;
+            $dataToSend['username'] = $this->user->username;
+            $dataToSend['comments'] = $this->comments->map(fn($comment) => new CommentResource($comment));
+        }
+
+        return $dataToSend;
     }
 
     public function toJson($options = 0)
@@ -34,7 +42,8 @@ class ReviewResource extends JsonResource
             'cover_image' => $this->cover_image,
             'comments_available' => $this->comments_available,
             'username' => $this->user->username,
-            'comments' => $this->comments->map(fn($comment) => new CommentResource($comment))
+            'comments' => $this->comments->map(fn($comment) => new CommentResource($comment)),
+            'created_at' => $this->created_at,
         ];
     }
 }

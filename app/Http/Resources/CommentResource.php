@@ -21,6 +21,7 @@ class CommentResource extends JsonResource
             'parent' => $this->parent->content,
             'review' => $this->review->title,
             'by' => $this->user->username,
+            'created_at' => $this->created_at,
         ];
     }
 
@@ -33,6 +34,7 @@ class CommentResource extends JsonResource
             'parent' => $this->parent->content,
             'review' => $this->review->title,
             'by' => $this->user->username,
+            'created_at' => $this->created_at,
         ];
     }
 }

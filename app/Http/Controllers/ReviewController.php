@@ -17,11 +17,6 @@ class ReviewController extends Controller
 
     public function index(Request $request)
     {
-        $user = auth()->user();
-        if ($user->client && $user->client->currentMembershipPlan === null) {
-            throw new HttpException(403);
-        }
-
         $pagination = array_merge([
             'paginate' => 'true',
             'per_page' => 10
@@ -34,10 +29,26 @@ class ReviewController extends Controller
         return ApiResponseClass::sendResponse(ReviewResource::collection($data));
     }
 
+    public function show($id)
+    {
+        $user = auth()->user();
+        if ($user->client && $user->client->currentMembershipPlan() === null) {
+            throw new HttpException(403);
+        }
+
+        $review = $this->reviewService->show($id);
+        if (!$review) return ApiResponseClass::sendResponse(null, "Review con ID $id no encontrada", 404);
+
+        $resource = new ReviewResource($review);
+        $jsonString = $resource->toJson();
+
+        return ApiResponseClass::sendResponse($jsonString);
+    }
+
     public function changeState($id)
     {
         $review = $this->reviewService->show($id);
-        if (!$review) return ApiResponseClass::sendResponse(null, "review con ID: $id no encontrada", 404);
+        if (!$review) return ApiResponseClass::sendResponse(null, "Review con ID: $id no encontrada", 404);
 
         $data = [
             'comments_available' => !$review->comments_available

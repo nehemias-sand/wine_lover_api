@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     public $withinTransaction = false;
-    
+
     /**
      * Run the migrations.
      */
@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('review', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('content');
+            $table->text('content');
             $table->string('cover_image');
             $table->boolean('comments_available')->default(true);
             $table->foreignId('user_id')->constrained('users');
