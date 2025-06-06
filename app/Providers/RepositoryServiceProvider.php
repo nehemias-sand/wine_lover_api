@@ -23,6 +23,7 @@ use App\Repositories\OrderItemRepositoryInterface;
 use App\Repositories\OrderPaymentStatusRepositoryInterface;
 use App\Repositories\MembershipRepositoryInterface;
 use App\Repositories\PaymentStatusRepositoryInterface;
+use App\Repositories\PaymentMethodRepositoryInterface;
 use App\Repositories\PlanRepositoryInterface;
 use App\Repositories\QualityProductRepositoryInterface;
 use App\Repositories\UnitMeasurementRepositoryInterface;
@@ -56,6 +57,7 @@ use App\Repositories\Implementations\DepartmentPostgresRepository;
 use App\Repositories\Implementations\ManufacturerPostgresRepository;
 use App\Repositories\Implementations\MembershipPlanPostgresRepository;
 use App\Repositories\Implementations\OrderStatusPostgresRepository;
+use App\Repositories\Implementations\PaymentMethodPostgresRepository;
 use App\Repositories\Implementations\ProfilePostgresRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -82,6 +84,7 @@ class RepositoryServiceProvider extends ServiceProvider
                 $this->app->bind(CategoryProductRepositoryInterface::class, CategoryProductPostgresRepository::class);
                 $this->app->bind(UnitMeasurementRepositoryInterface::class, UnitMeasurementPostgresRepository::class);
                 $this->app->bind(PaymentStatusRepositoryInterface::class, PaymentStatusPostgresRepository::class);
+                $this->app->bind(PaymentMethodRepositoryInterface::class, PaymentMethodPostgresRepository::class);
                 $this->app->bind(MembershipRepositoryInterface::class, MembershipPostgresRepository::class);
                 $this->app->bind(PlanRepositoryInterface::class, PlanPostgresRepository::class);
                 $this->app->bind(OrderRepositoryInterface::class, OrderPostgresRepository::class);

@@ -27,6 +27,7 @@ use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\MembershipPlanRepositoryInterface;
 use App\Repositories\OrderPaymentStatusRepositoryInterface;
 use App\Repositories\OrderStatusRepositoryInterface;
+use App\Repositories\PaymentMethodRepositoryInterface;
 use App\Repositories\ProfileRepositoryInterface;
 
 use App\Services\AuthService;
@@ -126,6 +127,7 @@ class AppServiceProvider extends ServiceProvider
                 $app->make(OrderStatusRepositoryInterface::class),
                 $app->make(ManufacturerRepositoryInterface::class),
                 $app->make(DepartmentRepositoryInterface::class),
+                $app->make(PaymentMethodRepositoryInterface::class),
             );
         });
 

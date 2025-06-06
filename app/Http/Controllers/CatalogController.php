@@ -46,6 +46,13 @@ class CatalogController extends Controller
         return ApiResponseClass::sendResponse(PaymentStatusResource::collection($data));
     }
 
+    public function indexPaymentMethod()
+    {
+        $data = $this->catalogService->indexPaymentMethod();
+
+        return ApiResponseClass::sendResponse(PaymentStatusResource::collection($data));
+    }
+
     public function indexMembership()
     {
         $data = $this->catalogService->indexMembership();

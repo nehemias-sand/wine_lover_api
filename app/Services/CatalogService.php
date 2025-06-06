@@ -7,6 +7,7 @@ use App\Repositories\DepartmentRepositoryInterface;
 use App\Repositories\ManufacturerRepositoryInterface;
 use App\Repositories\MembershipRepositoryInterface;
 use App\Repositories\OrderStatusRepositoryInterface;
+use App\Repositories\PaymentMethodRepositoryInterface;
 use App\Repositories\PaymentStatusRepositoryInterface;
 use App\Repositories\PlanRepositoryInterface;
 use App\Repositories\ProfileRepositoryInterface;
@@ -26,6 +27,7 @@ class CatalogService
         private OrderStatusRepositoryInterface $orderStatusRepositoryInterface,
         private ManufacturerRepositoryInterface $manufacturerRepositoryInterface,
         private DepartmentRepositoryInterface $departmentRepositoryInterface,
+        private PaymentMethodRepositoryInterface $paymentMethodRepositoryInterface,
     ) {}
 
     public function indexQualityProduct()
@@ -46,6 +48,11 @@ class CatalogService
     public function indexPaymentStatus()
     {
         return $this->paymentStatusRepositoryInterface->index();
+    }
+
+    public function indexPaymentMethod()
+    {
+        return $this->paymentMethodRepositoryInterface->index();
     }
 
     public function indexMembership()

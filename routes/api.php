@@ -54,6 +54,7 @@ Route::prefix('public')->group(function () {
         Route::get('/category-product', [CatalogController::class, 'indexCategoryProduct']);
         Route::get('/unit-measurement', [CatalogController::class, 'indexUnitMeasurement']);
         Route::get('/payment-status', [CatalogController::class, 'indexPayentStatus']);
+        Route::get('/payment-method', [CatalogController::class, 'indexPaymentMethod']);
         Route::get('/membership', [CatalogController::class, 'indexMembership']);
         Route::get('/membership/{id}', [CatalogController::class, 'showMembership']);
         Route::get('/profile', [CatalogController::class, 'indexProfile']);
