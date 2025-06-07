@@ -52,7 +52,7 @@ class OrderService
             throw new HttpException(403, 'La direccion no es valida');
         }
             
-        if ($cardToken->client_id !== $clientId) {
+        if ($cardToken && $cardToken->client_id !== $clientId) {
             throw new HttpException(403, 'La tarjeta no es valida');
         }
 

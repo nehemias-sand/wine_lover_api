@@ -18,7 +18,7 @@ class CommentController extends Controller
     public function index(Request $request, int $reviewId)
     {
         $user = auth()->user();
-        if ($user->client && $user->client->currentMembershipPlan === null) {
+        if ($user->client && $user->client->currentMembershipPlan() === null) {
             throw new HttpException(403);
         }
 
@@ -37,7 +37,7 @@ class CommentController extends Controller
     public function store(int $reviewId, CreateCommentRequest $request)
     {
         $user = auth()->user();
-        if ($user->client && $user->client->currentMembershipPlan === null) {
+        if ($user->client && $user->client->currentMembershipPlan() === null) {
             throw new HttpException(403);
         }
 
@@ -82,7 +82,7 @@ class CommentController extends Controller
     public function update($id, UpdateCommentRequest $request)
     {
         $user = auth()->user();
-        if ($user->client && $user->client->currentMembershipPlan === null) {
+        if ($user->client && $user->client->currentMembershipPlan() === null) {
             throw new HttpException(403);
         }
 
@@ -101,7 +101,7 @@ class CommentController extends Controller
     public function delete($id)
     {
         $user = auth()->user();
-        if ($user->client && $user->client->currentMembershipPlan === null) {
+        if ($user->client && $user->client->currentMembershipPlan() === null) {
             throw new HttpException(403);
         }
 

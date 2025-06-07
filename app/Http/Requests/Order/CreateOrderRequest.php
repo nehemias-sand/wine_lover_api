@@ -23,15 +23,22 @@ class CreateOrderRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'products' => 'required|array|min:1',
             'products.*.product_id' => 'required|integer',
             'products.*.presentation_id' => 'required|integer',
             'products.*.amount' => 'required|integer|min:1',
             'address_id' => 'required|integer|exists:address,id',
-            'card_token_id' => 'required|integer|exists:card_token,id',
             'payment_method_id' => 'required|integer|exists:payment_method,id',
         ];
+
+        if ($this->input('payment_method_id') != 2) {
+            $rules['card_token_id'] = 'required|integer|exists:card_token,id';
+        } else {
+            $rules['card_token_id'] = 'nullable';
+        }
+
+        return $rules;
     }
 
     public function messages(): array
