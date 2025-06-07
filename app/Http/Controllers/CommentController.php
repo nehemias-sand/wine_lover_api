@@ -9,7 +9,6 @@ use App\Http\Resources\CommentResource;
 use App\Services\CommentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CommentController extends Controller
 {
@@ -19,7 +18,7 @@ class CommentController extends Controller
     {
         $user = auth()->user();
         if ($user->client && $user->client->currentMembershipPlan() === null) {
-            throw new HttpException(403);
+            return ApiResponseClass::sendResponse(null, 'Cliente no posee membresia activa', 403);
         }
 
         $pagination = array_merge([
@@ -38,7 +37,7 @@ class CommentController extends Controller
     {
         $user = auth()->user();
         if ($user->client && $user->client->currentMembershipPlan() === null) {
-            throw new HttpException(403);
+            return ApiResponseClass::sendResponse(null, 'Cliente no posee membresia activa', 403);
         }
 
         $content = $request->content;
@@ -83,7 +82,7 @@ class CommentController extends Controller
     {
         $user = auth()->user();
         if ($user->client && $user->client->currentMembershipPlan() === null) {
-            throw new HttpException(403);
+            return ApiResponseClass::sendResponse(null, 'Cliente no posee membresia activa', 403);
         }
 
         $data = $request->only([
@@ -102,7 +101,7 @@ class CommentController extends Controller
     {
         $user = auth()->user();
         if ($user->client && $user->client->currentMembershipPlan() === null) {
-            throw new HttpException(403);
+            return ApiResponseClass::sendResponse(null, 'Cliente no posee membresia activa', 403);
         }
 
         $comment = $this->commentService->delete($id);
