@@ -25,6 +25,8 @@ class OrderPostgresRepository implements OrderRepositoryInterface
             $orders->whereDate('created_at', $filter['created_at']);
         }
 
+        $orders->orderBy('created_at', 'desc');
+
         if ($pagination['paginate']  === 'true') {
             return $orders->paginate($pagination['per_page']);
         }

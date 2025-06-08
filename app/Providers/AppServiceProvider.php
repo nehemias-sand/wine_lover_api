@@ -38,6 +38,7 @@ use App\Services\ProductPresentationService;
 use App\Services\ProductService;
 use App\Services\AddressService;
 use App\Services\CardTokenService;
+use App\Services\CashbackHistoryService;
 use App\Services\ClientMembershipService;
 use App\Services\ClientService;
 use App\Services\CatalogService;
@@ -166,6 +167,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(ManufacturerService::class, function($app){
             return new ManufacturerService($app->make(ManufacturerRepositoryInterface::class));
+        });
+
+        $this->app->bind(CashbackHistoryService::class, function($app){
+            return new CashbackHistoryService($app->make(CashbackHistoryRepositoryInterface::class));
         });
     }
 

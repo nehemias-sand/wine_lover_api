@@ -31,7 +31,8 @@ class OrderResource extends JsonResource
                 'unit_price' => $item->unit_price,
                 'discount' => $item->discount,
                 'subtotal_item' => $item->subtotal_item,
-            ])
+            ]),
+            'created_at' => $this->created_at,
         ];
     }
 
@@ -53,7 +54,8 @@ class OrderResource extends JsonResource
                 'unit_price' => $item->unit_price,
                 'discount' => $item->discount,
                 'subtotal_item' => $item->subtotal_item,
-            ])
+            ]),
+            'created_at' => $this->created_at,
         ];
     }
 }

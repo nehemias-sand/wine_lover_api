@@ -39,7 +39,8 @@ class OrderController extends Controller
             'per_page' => 10
         ], $request->only(['paginate', 'per_page']));
 
-        $filter = ['client_id' => $client->id];
+        $filter = $request->only(['order_status_id']);
+        $filter['client_id'] = $client->id;
 
         $data = $this->orderService->index($pagination, $filter);
         return ApiResponseClass::sendResponse(OrderResource::collection($data));

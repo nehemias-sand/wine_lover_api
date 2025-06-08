@@ -18,7 +18,10 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'content' => $this->content,
             'banned' => $this->banned,
-            'parent' => $this->parent?->content,
+            'parent' => [
+                'id' => $this->parent?->id,
+                'content' => $this->parent?->content,
+            ],
             'review' => $this->review->title,
             'by' => $this->user->username,
             'created_at' => $this->created_at,
@@ -31,7 +34,10 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'content' => $this->content,
             'banned' => $this->comments_available,
-            'parent' => $this->parent->content,
+            'parent' => [
+                'id' => $this->parent?->id,
+                'content' => $this->parent?->content,
+            ],
             'review' => $this->review->title,
             'by' => $this->user->username,
             'created_at' => $this->created_at,

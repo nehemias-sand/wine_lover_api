@@ -23,8 +23,8 @@ class ProductImageSeeder extends Seeder
             ['product_id' => 3, 'state' => true, 'url_image' => 'images/products/3/13df16d8-a452-4265-a6cd-a4241441fb89.jpg'],
             ['product_id' => 3, 'state' => true, 'url_image' => 'images/products/3/4996f90d-91d5-4b77-b63c-534e358e29d7.jpg'],
             // Sassicaia
-            ['product_id' => 4, 'state' => true, 'url_image' => 'images/products/4/aad26a92-c4d8-4d49-a591-b54da92ad5cc.jpg'],
             ['product_id' => 4, 'state' => true, 'url_image' => 'images/products/4/7d56e7ab-761f-460b-88b9-dba7a118ed15.jpg'],
+            ['product_id' => 4, 'state' => true, 'url_image' => 'images/products/4/aad26a92-c4d8-4d49-a591-b54da92ad5cc.jpg'],
             // Penfolds Grange
             ['product_id' => 5, 'state' => true, 'url_image' => 'images/products/5/0ed1ffc0-7828-42b4-be8b-aa00fdbe8fcf.jpg'],
             ['product_id' => 5, 'state' => true, 'url_image' => 'images/products/5/cfb4c0ff-433c-436f-8bb3-f0c8a2f49d42.jpg'],
@@ -38,8 +38,8 @@ class ProductImageSeeder extends Seeder
             ['product_id' => 8, 'state' => true, 'url_image' => 'images/products/8/dc2a10a3-87cb-4add-974a-9d9a1cc26b32.jpg'],
             ['product_id' => 8, 'state' => true, 'url_image' => 'images/products/8/6308eed9-7b5a-4f69-b76a-3213158083b6.jpg'],
             // Clos Apalta
-            ['product_id' => 9, 'state' => true, 'url_image' => 'images/products/9/fc0e2e7b-b0d2-4340-bcad-89b524fcdd1e.jpg'],
             ['product_id' => 9, 'state' => true, 'url_image' => 'images/products/9/e8ec3896-eeab-4e33-bc76-08e7f922c1c6.jpg'],
+            ['product_id' => 9, 'state' => true, 'url_image' => 'images/products/9/fc0e2e7b-b0d2-4340-bcad-89b524fcdd1e.jpg'],
             // Catena Zapata Nicolás
             ['product_id' => 10, 'state' => true, 'url_image' => 'images/products/10/138bdc59-b20d-44d9-a61d-f73d2b387447.jpg'],
             ['product_id' => 10, 'state' => true, 'url_image' => 'images/products/10/e7a9c892-46f1-4d38-8955-7fb74b432e94.jpg'],

@@ -44,6 +44,8 @@ class ProductPostgresRepository implements ProductRepositoryInterface
             $products->where('manufacturer_id', '=', $filter['manufacturer_id']);
         }
 
+        $products->orderBy('created_at', 'desc');
+
         if ($pagination['paginate']  === 'true') {
             return $products->paginate($pagination['per_page']);
         }
