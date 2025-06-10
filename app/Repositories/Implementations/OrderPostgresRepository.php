@@ -67,7 +67,7 @@ class OrderPostgresRepository implements OrderRepositoryInterface
 
         $order->update($data);
 
-        return $order;
+        return $order->load('orderStatus');
     }
 
     public function delete($id)
